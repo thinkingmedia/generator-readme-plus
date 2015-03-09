@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('./../src/package.js');
+require('./../src/readme.js');

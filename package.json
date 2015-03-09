@@ -37,8 +37,8 @@
     "bin": "./bin"
   },
   "dependencies": {
-    "nomnom": "~1.8.1",
     "lodash": "~3.0.0",
-    "dustjs-linkedin": "~2.6.0"
+    "dustjs-linkedin": "~2.6.0",
+    "string": "~3.0.0"
   }
 }
