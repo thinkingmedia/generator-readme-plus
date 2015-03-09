@@ -3,26 +3,48 @@ var $_ = require('lodash');
 var $S = require('string');
 var $path = require('path');
 
-function getDirectories(path)
+/**
+ * @type {Readers}
+ */
+var $readers = require('./readers/package.js');
+
+/**
+ * Recursively finds all files.
+ *
+ * @param {string} path
+ * @param {function(string,Object)} callback
+ */
+function findFiles(path, callback)
 {
-	var files = $fs.readdirSync(path);
-	return $_.chain(files)
-		.filter(function(file)
+	$fs.readdir(path, function(err, files)
+	{
+		$_.each(files, function(file)
+		{
+			var $file = $S(file);
+			if($file.startsWith("."))
+			{
+				return;
+			}
+			var fullPath = path + $path.sep + file;
+			$fs.stat(fullPath, function(err, stats)
+			{
+				if(stats.isDirectory())
 				{
-					if($S(file).startsWith("."))
-					{
-						return false;
-					}
-					return $fs.statSync(file).isDirectory();
-				})
-		.map(function(file)
-			 {
-				 return path + $path.sep + file;
-			 })
-		.sort()
-		.value();
+					findFiles(fullPath, callback);
+					return;
+				}
+				if($readers.hasReader(fullPath))
+				{
+					var reader = $readers.getReader(fullPath);
+					callback(fullPath, reader);
+				}
+			});
+		});
+	});
 }
 
-var dirs = getDirectories(process.cwd());
-
-console.log(dirs);
+findFiles(process.cwd() + $path.sep + "src", function(file, reader)
+{
+	console.log(reader);
+	console.log(file);
+});
