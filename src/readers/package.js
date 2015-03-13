@@ -1,6 +1,7 @@
 var $S = require('string');
 var $_ = require('lodash');
 var $path = require('path');
+var $fs = require('fs');
 
 /**
  * @readme Readers
@@ -15,54 +16,53 @@ var Readers = function()
 };
 
 /**
- * A list of readers that exist in the module.
+ * Recursively finds all files and their associated readers.
  *
- * @type {{ext: string, module: string}[]}
+ * @param {string} path
+ * @param {function(string,Object)} callback
  */
-Readers.prototype.$readers = [
-	{
-		'ext':    '.js',
-		'module': __dirname + $path.sep + 'jsdoc.js'
-	},
-	{
-		'ext':    '.php',
-		'module': __dirname + $path.sep + 'phpdoc.js'
-	},
-	{
-		'ext':    '.cs',
-		'module': __dirname + $path.sep + 'csdoc.js'
-	}
-];
-
-/**
- * Checks if a file has an associated reader.
- * @param {string} file
- */
-Readers.prototype.hasReader = function(file)
+Readers.prototype.crawl_files = function(path, callback)
 {
-	return $_.any(this.$readers, function(reader)
+	$_.each($fs.readdirSync(path), function(file)
 	{
-		return $S(file).endsWith(reader.ext);
-	});
+		if($S(file).startsWith("."))
+		{
+			return;
+		}
+		var fullPath = path + $path.sep + file;
+		var stats = $fs.statSync(fullPath);
+		if(stats.isDirectory())
+		{
+			this.crawl_files(fullPath, callback);
+			return;
+		}
+		var reader = this.getReader(fullPath);
+		if(reader)
+		{
+			callback(fullPath, reader);
+		}
+	}.bind(this));
 };
 
 /**
- * Provides a reader for a file.
+ * Loads a reader dynamically based upon the file extension.
  *
- * @param file
+ * @param {string} file
+ * @returns {Object|undefined}
  */
 Readers.prototype.getReader = function(file)
 {
-	var reader = $_.find(this.$readers,function(reader)
+	var ext = $S($path.extname(file).toLowerCase()).chompLeft('.');
+	var reader_file = __dirname + $path.sep + ext + '_reader.js';
+	try
 	{
-		if(!$S(file).endsWith(reader.ext))
-		{
-			return false;
-		}
-		return reader;
-	});
-	var constructor = require(reader.module);
-	return new constructor(file);
+		var $reader = require(reader_file);
+		return new $reader(file);
+	}
+	catch(error)
+	{
+		return undefined;
+	}
 };
 
 module.exports = new Readers();
