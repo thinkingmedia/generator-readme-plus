@@ -25,12 +25,20 @@ Format.trim = function(lines)
 
 	if(lines.length == 1)
 	{
+		var line = lines[0];
+
 		// empty comment on one line /**** *****/
-		if(/\/[\*\s]+\//.test(lines[0]))
+		if(/\/[\*\s]+\//.test(line))
 		{
 			return [];
 		}
+
+		// extract text from between comment indicators /** example **/
+		return [line.replace(/^\/\*+/, "").replace(/\*+\/$/, "").trim()];
 	}
+
+	// assume the first and last lines are start/end markers for a block comment
+	lines = _.dropRight(_.drop(lines));
 
 	return _.map(lines, function(line)
 	{
@@ -38,10 +46,6 @@ Format.trim = function(lines)
 		if($S(line).startsWith('*'))
 		{
 			line = line.substr(1).trim();
-		}
-		else if($S(line).startsWith('//'))
-		{
-			line = line.substr(2).trim();
 		}
 		return line;
 	});

@@ -7,6 +7,7 @@ var $reader = require(__src + '/readers/js_reader.js');
 
 describe('/readers/js_reader', function()
 {
+	return;
 	it('contains no sections', function()
 	{
 		var reader = new $reader(__data + "long_comment.txt");
