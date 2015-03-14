@@ -6,6 +6,7 @@ var $path = require('path');
 var $readers = require('./readers/package.js');
 $readers.crawl_files(process.cwd() + $path.sep + "src", function(file, reader)
 {
-	console.log(reader.getSections());
-	console.log(file);
+	var sections = reader.getSections();
+	console.log(sections);
+	//console.log(file);
 });

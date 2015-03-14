@@ -15,12 +15,13 @@ var Reader = function(file)
  */
 Reader.prototype.getSections = function()
 {
-	var text = $fs.readFileSync(this._file,{'encoding': 'UTF-8'});
-	this._process(text);
+	var text = $fs.readFileSync(this._file, {'encoding': 'UTF-8'});
+	return this._process(text);
 };
 
 /**
  * @param {string} text
+ * @returns {Section}
  * @abstract
  * @protected
  */

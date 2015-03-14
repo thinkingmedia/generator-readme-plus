@@ -5,7 +5,7 @@
  *
  * @param {string} name
  *
- * @property {Array.<Block>} _blocks
+ * @property {Array.<string>} _blocks
  *
  * @constructor
  */
