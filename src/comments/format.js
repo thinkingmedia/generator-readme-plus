@@ -13,6 +13,25 @@ var Format = {};
  */
 Format.trim = function(lines)
 {
+	if(!_.isArray(lines))
+	{
+		throw new Error('Expecting an error');
+	}
+
+	if(lines.length == 0)
+	{
+		return [];
+	}
+
+	if(lines.length == 1)
+	{
+		// empty comment on one line /**** *****/
+		if(/\/[\*\s]+\//.test(lines[0]))
+		{
+			return [];
+		}
+	}
+
 	return _.map(lines, function(line)
 	{
 		line = line.trim();

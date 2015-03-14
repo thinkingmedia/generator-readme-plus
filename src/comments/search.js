@@ -6,7 +6,7 @@ var _ = require('lodash');
 var Search = {};
 
 /**
- * Finds comments from source files that use the common comment blocks format.
+ * Finds comments from source files that use the common comment blocks format. These things
  *
  * @param {string} text
  * @returns {Array.<Array.<string>>}
