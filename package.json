@@ -27,7 +27,7 @@
   "preferGlobal": "true",
   "homepage": "https://github.com/thinkingmedia/readme",
   "scripts": {
-    "test": "node_modules/.bin/mocha ./test/ --recursive"
+    "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive ./test/"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "q": "~1.2.0"
   },
   "devDependencies": {
+    "expect.js": "^0.3.1",
     "mocha": "^2.2.1"
   }
 }

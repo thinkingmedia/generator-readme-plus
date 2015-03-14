@@ -11,7 +11,7 @@ var Reader = function(file)
 };
 
 /**
- * @returns {Section}
+ * @returns {Array.<Section>}
  */
 Reader.prototype.getSections = function()
 {
@@ -21,7 +21,7 @@ Reader.prototype.getSections = function()
 
 /**
  * @param {string} text
- * @returns {Section}
+ * @returns {Array.<Section>}
  * @abstract
  * @protected
  */
