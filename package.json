@@ -27,7 +27,7 @@
   "preferGlobal": "true",
   "homepage": "https://github.com/thinkingmedia/readme",
   "scripts": {
-    "test": "make test"
+    "test": "node_modules/.bin/mocha ./test/ --recursive"
   },
   "repository": {
     "type": "git",
