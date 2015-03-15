@@ -27,7 +27,8 @@
   "preferGlobal": "true",
   "homepage": "https://github.com/thinkingmedia/readme",
   "scripts": {
-    "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive ./test/"
+    "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive ./test/",
+    "coverage": "node_modules/.bin/mocha --require test/bootstrap.js -R html-cov --recursive ./test/ > coverage.html && coverage.html"
   },
   "repository": {
     "type": "git",
@@ -47,9 +48,10 @@
     "expect.js": "^0.3.1",
     "mocha": "^2.2.1"
   },
-  "config": {
+  "config" : {
     "blanket": {
-      "pattern": "src"
+      "pattern": "src",
+      "data-cover-never": "node_modules"
     }
   }
 }
