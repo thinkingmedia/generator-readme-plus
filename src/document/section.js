@@ -1,3 +1,5 @@
+var $S = require('string');
+
 /**
  * @readme
  *
@@ -13,7 +15,12 @@
  */
 var Section = function(name, lines)
 {
-	this.name = name;
+	if($S(name).startsWith('@readme'))
+	{
+		name = name.replace(/^@readme/,"");
+	}
+
+	this.name = name.trim();
 	this.lines = lines;
 };
 

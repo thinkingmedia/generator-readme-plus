@@ -41,10 +41,14 @@ JsDocReader.prototype._process = function(text)
 
 		var name = _.first(readme);
 		var markdown = _.drop(readme);
-		return new $section(name,markdown);
+
+		return new $section(name, markdown);
 	}, this);
 
-	return _.filter(sections,function(section) { return !!section; });
+	return _.filter(sections, function(section)
+	{
+		return !!section;
+	});
 };
 
 module.exports = JsDocReader;

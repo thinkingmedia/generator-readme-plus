@@ -2,6 +2,7 @@ var $S = require('string');
 var $_ = require('lodash');
 var $path = require('path');
 var $fs = require('fs');
+var $Q = require('q');
 
 /**
  * @readme Readers
@@ -41,7 +42,7 @@ Readers.prototype.crawl_files = function(path, callback)
 		{
 			callback(fullPath, reader);
 		}
-	}.bind(this));
+	}, this);
 };
 
 /**
