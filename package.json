@@ -43,7 +43,13 @@
     "q": "~1.2.0"
   },
   "devDependencies": {
+    "blanket": "^1.1.6",
     "expect.js": "^0.3.1",
     "mocha": "^2.2.1"
+  },
+  "config": {
+    "blanket": {
+      "pattern": "src"
+    }
   }
 }

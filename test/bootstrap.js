@@ -7,6 +7,11 @@ assert = require('assert');
 expect = require('expect.js');
 
 /**
+ * Code coverage
+ */
+require("blanket")({});
+
+/**
  * Base directory of where to find the source code.
  *
  * @type {string}
