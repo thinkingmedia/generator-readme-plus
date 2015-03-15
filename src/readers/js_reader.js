@@ -45,10 +45,7 @@ JsDocReader.prototype._process = function(text)
 		return new $section(name, markdown);
 	}, this);
 
-	return _.filter(sections, function(section)
-	{
-		return !!section;
-	});
+	return _.compact(sections);
 };
 
 module.exports = JsDocReader;

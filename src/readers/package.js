@@ -24,7 +24,7 @@ var Readers = function()
  */
 Readers.prototype.crawl_files = function(path, callback)
 {
-	$_.each($fs.readdirSync(path), function(file)
+	$_.each($fs.readdirSync(path).sort(), function(file)
 	{
 		if($S(file).startsWith("."))
 		{

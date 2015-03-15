@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 /**
  * @type {Section}
  */
@@ -14,6 +16,31 @@ var $section = require('./section.js');
 var Document = function()
 {
 	this._sections = {};
+};
+
+/**
+ * Generates the final markdown for the readme.
+ *
+ * @returns {string}
+ */
+Document.prototype.toString = function()
+{
+	var sections = _.map(Object.keys(this._sections), function(name)
+	{
+		return this._sections[name];
+	}, this);
+
+	var text = '';
+	_.each(_.sortBy(sections, 'name'), function(/** Section */section)
+	{
+		text += "#" + section.name + "\n";
+		text += "\n";
+		text += section.getLines().join("\n");
+		text += "\n";
+		text += "\n";
+	});
+
+	return text;
 };
 
 /**

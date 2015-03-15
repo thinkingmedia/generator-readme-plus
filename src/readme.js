@@ -8,29 +8,19 @@ var _ = require('lodash');
 var $readers = require('./readers/package.js');
 
 /**
- * @type {Array.<Section>}
+ * @type {Document}
  */
-var sections = [];
+var doc = require('./document/document.js');
 
 // @todo configure were to look for source code.
 $readers.crawl_files(process.cwd() + $path.sep + "src", function(file, reader)
 {
-	_.each(reader.getSections(),function(section)
+	_.each(reader.getSections(),function(/** Section */section)
 	{
-		sections.push(section);
+		var doc_section = doc.getSection(section.name);
+		doc_section.append(section);
 	});
 });
 
-
-var text = '';
-
-_.each(sections,function(/** Section */section)
-{
-	text += "#"+section.name+"\n";
-	text += "\n";
-	text += section.lines.join("\n");
-	text += "\n";
-});
-
-$fs.writeFileSync("README.md", text);
+$fs.writeFileSync("README.md", doc.toString());
 

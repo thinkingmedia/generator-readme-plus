@@ -1,4 +1,5 @@
 var $S = require('string');
+var _ = require('lodash');
 
 /**
  * @readme
@@ -9,7 +10,7 @@ var $S = require('string');
  * @param {Array.<string>} lines
  *
  * @property {string} name
- * @property {Array.<string>} lines
+ * @property {Array.<string>} _lines
  *
  * @constructor
  */
@@ -17,11 +18,43 @@ var Section = function(name, lines)
 {
 	if($S(name).startsWith('@readme'))
 	{
-		name = name.replace(/^@readme/,"");
+		name = name.replace(/^@readme/, "");
 	}
 
 	this.name = name.trim();
-	this.lines = lines;
+	this._lines = lines || [];
+};
+
+/**
+ * Gets the lines of text for this section.
+ *
+ * @returns {Array.<string>}
+ */
+Section.prototype.getLines = function()
+{
+	var lines = _.map(this._lines, function(line)
+	{
+		return line.trim();
+	});
+	lines = _.dropWhile(lines, function(line)
+	{
+		return line == '';
+	});
+	return _.dropRightWhile(lines, function(line)
+	{
+		return line == '';
+	});
+};
+
+/**
+ * Appends a sections lines of text to this section.
+ *
+ * @param {Section} section
+ */
+Section.prototype.append = function(section)
+{
+	this._lines.push("\n");
+	this._lines = this._lines.concat(section.getLines());
 };
 
 module.exports = Section;

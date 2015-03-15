@@ -12,4 +12,10 @@ describe('/document/section', function()
 		var section = new $section('@readme House', ["This is a test"]);
 		assert.equal(section.name, "House");
 	});
+
+	it('trim the lines',function()
+	{
+		var section = new $section('@readme',["","","This is a test","",""]);
+		assert.deepEqual(section.lines,["This is a test"]);
+	});
 });
