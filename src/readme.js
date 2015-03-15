@@ -3,24 +3,45 @@ var $fs = require('fs');
 var _ = require('lodash');
 
 /**
- * @type {Readers}
+ * @type {dust}
  */
-var $readers = require('./readers/package.js');
+var $dust = require('dustjs-linkedin');
+
+/**
+ * @type {Crawler}
+ */
+var $crawler = require('./files/crawler.js');
+
+/**
+ * @type {Reader}
+ */
+var $reader = require('./comments/reader.js');
 
 /**
  * @type {Document}
  */
 var doc = require('./document/document.js');
 
-// @todo configure were to look for source code.
-$readers.crawl_files(process.cwd() + $path.sep + "src", function(file, reader)
-{
-	_.each(reader.getSections(),function(/** Section */section)
-	{
-		var doc_section = doc.getSection(section.name);
-		doc_section.append(section);
-	});
-});
+var crawl = new $crawler(process.cwd() + $path.sep + "src");
+crawl.walk(function(file)
+		   {
+			   if(_.endsWith(file,".js"))
+			   {
+				   var reader = new $reader(file);
+				   _.each(reader.getSections(), function(/** Section */section)
+				   {
+					   var doc_section = doc.getSection(section.name);
+					   doc_section.append(section);
+				   });
+			   }
+		   });
 
-$fs.writeFileSync("README.md", doc.toString());
+var template = $fs.readFileSync('template/readme.dust', {'encoding': 'UTF-8'});
+template = template.replace(/\n/g, "{~n}");
+
+$dust.renderSource(template, {}, function(err, out)
+{
+	//$fs.writeFileSync("README.md", doc.toString());
+	$fs.writeFileSync("README.md", out, {'encoding': 'UTF-8'});
+});
 

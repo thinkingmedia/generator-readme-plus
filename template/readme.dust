@@ -1,0 +1,40 @@
+{title}{travis-ci}
+=====
+{code-climate}{license}
+
+{description}
+
+{#sections}
+##{name}
+
+{markdown}
+{/sections}
+
+## Installation [composer-stable]
+
+Install using composer:
+
+    $ composer require {composer-package}
+    
+[composer-downloads]
+[composer-unstable]
+
+## Unit Tests [test-coverage]
+
+For running unit tests you need phpunit. After installing, you can run the unit test suite by running:
+
+    $ phpunit
+
+## Submitting bugs and feature requests
+
+Bugs and feature requests are tracked on [GitHub]({github-url}/issues)
+
+## Author
+
+{author-name} - <{author-email}> - <{author-website}>
+
+See also the list of [contributors]({github-url}/contributors) which participated in this project.
+
+## License
+
+{title} is licensed under the {license} License - see the `LICENSE` file for details.

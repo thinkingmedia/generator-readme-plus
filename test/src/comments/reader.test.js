@@ -1,13 +1,12 @@
 var $fs = require('fs');
 
 /**
- * @type {JsDocReader}
+ * @type {Reader}
  */
-var $reader = require(__src + '/readers/js_reader.js');
+var $reader = require(__src + '/comments/reader.js');
 
-describe('/readers/js_reader', function()
+describe('/comments/reader', function()
 {
-	return;
 	it('contains no sections', function()
 	{
 		var reader = new $reader(__data + "long_comment.txt");
@@ -20,8 +19,8 @@ describe('/readers/js_reader', function()
 		var reader = new $reader(__data + "readme_1.txt");
 		var sections = reader.getSections();
 		assert.equal(sections.length,1);
-		assert.equal(sections[0].name,"@readme");
-		assert.deepEqual(sections[0].lines,['','A simple message to be extracted for the readme file.']);
+		assert.equal(sections[0].name,"House");
+		assert.deepEqual(sections[0].getLines(),['A simple message to be extracted for the readme file.']);
 	});
 
 	it('contains multiple sections', function()

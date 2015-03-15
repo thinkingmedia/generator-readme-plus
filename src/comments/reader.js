@@ -1,33 +1,37 @@
-var $util = require('util');
+var $fs = require('fs');
 var _ = require('lodash');
-
 var $section = require('../document/section.js');
 var $format = require('../comments/format.js');
 var $search = require('../comments/search.js');
 var $annotations = require('../comments/annotations.js');
 
-var $reader = require('./reader.js');
-
 /**
- * @constructor
- * @extends Reader
- *
- * @readme Readers
- *
- * Readme will extract text from JavaScript source code files.
- *
  * @param {string} file
+ *
+ * @constructor
  */
-var JsDocReader = function(file)
+var Reader = function(file)
 {
-	JsDocReader.super_.call(this, file);
+	this._file = file;
 };
-$util.inherits(JsDocReader, $reader);
 
 /**
- * @see Reader._process
+ * @returns {Array.<Section>}
  */
-JsDocReader.prototype._process = function(text)
+Reader.prototype.getSections = function()
+{
+	var text = $fs.readFileSync(this._file, {'encoding': 'UTF-8'});
+	return this.findSections(text);
+};
+
+
+/**
+ * @param {string} text
+ * @returns {Array.<Section>}
+ * @abstract
+ * @protected
+ */
+Reader.prototype.findSections = function(text)
 {
 	var comments = $search.findComments(text);
 	var sections = _.map(comments, function(comment)
@@ -48,4 +52,4 @@ JsDocReader.prototype._process = function(text)
 	return _.compact(sections);
 };
 
-module.exports = JsDocReader;
+module.exports = Reader;

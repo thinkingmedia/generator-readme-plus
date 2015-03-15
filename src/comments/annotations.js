@@ -3,11 +3,6 @@ var _ = require('lodash');
 var $util = require('util');
 
 /**
- * @type {Format}
- */
-var $format = require('./format.js');
-
-/**
  * @module Annotations
  */
 var Annotations = {};

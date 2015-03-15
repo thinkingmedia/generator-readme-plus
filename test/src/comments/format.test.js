@@ -42,6 +42,6 @@ describe('/comments/format', function()
 		assert.equal(comments.length, 1);
 
 		var arr = $format.trim(comments[0]);
-		assert.deepEqual(arr, ['@readme', '', 'A simple message to be extracted for the readme file.'])
+		assert.deepEqual(arr, ['@readme House', '', 'A simple message to be extracted for the readme file.'])
 	});
 });
