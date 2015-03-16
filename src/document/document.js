@@ -1,17 +1,14 @@
 var _ = require('lodash');
 var $reader = require('../files/reader.js');
-var $package = require('./package.js');
 var $section = require('./section.js');
+var $package = require('./package.js');
+var $git = require('./git.js');
 
 /**
- * @name Document
- *
  * @readme
  *
  * Readme generates an internal document before the template is rendered. This document contains data and text extracted
  * from different files in the current project directory.
- *
- * @constructor
  */
 var Document = function()
 {
@@ -27,7 +24,9 @@ var Document = function()
 	 */
 	this.description = undefined;
 
-	this.badges = {};
+	this.badges = {
+		'travis': ''
+	};
 	this.sections = [];
 	this.install = false;
 	this.tests = false;
@@ -45,12 +44,32 @@ var Document = function()
 	var json = $reader.readJson('package.json');
 	if(json)
 	{
-		var _package = new $package(json);
-		this.title = _package.data.title || this.title;
-		this.description = _package.data.description || this.description;
-		this.authors = _package.data.authors;
-		this.license = _package.data.license || this.license;
+		var data = $package.format(json);
+		this.title = data.title || this.title;
+		this.description = data.description || this.description;
+		this.authors = data.authors;
+		this.license = data.license || this.license;
 	}
+
+	var info = $git.info();
+	if(info)
+	{
+		var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
+		this.badges.travis = this.badge('Build Status',url+'.svg',url);
+	}
+};
+
+/**
+ * Creates a badge image in markdown.
+ *
+ * @param {string} title
+ * @param {string} img
+ * @param {string} url
+ * @returns {string}
+ */
+Document.prototype.badge = function(title,img,url)
+{
+	return _.template("[![${title}](${img})](${url})")({title:title,img:img,url:url});
 };
 
 /**

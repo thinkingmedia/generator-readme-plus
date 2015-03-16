@@ -1,8 +1,4 @@
 var assert = require('assert');
-
-/**
- * @type {Section}
- */
 var $section = require(__src + "document/section.js");
 
 describe('/document/section', function()

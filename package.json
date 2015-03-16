@@ -33,7 +33,7 @@
   "homepage": "https://github.com/thinkingmedia/readme",
   "scripts": {
     "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive ./test/",
-    "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive ./test/ -R spec"
+    "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive ./test/ -R spec && \"coverage/lcov-report/index.html\""
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "dustjs-linkedin": "~2.6.0",
     "lodash": "~3.0.0",
     "q": "~1.2.0",
+    "shelljs": "^0.3.0",
     "string": "~3.0.0"
   },
   "devDependencies": {

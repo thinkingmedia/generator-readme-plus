@@ -1,4 +1,4 @@
-readme
+readme[![Build Status](https://travis-ci.org/thinkingmedia/readme.svg)](https://travis-ci.org/thinkingmedia/readme)
 =====
 
 A readme file generator
