@@ -22,10 +22,14 @@ var $reader = require('./comments/reader.js');
  */
 var doc = require('./document/document.js');
 
-var crawl = new $crawler(process.cwd() + $path.sep + "src");
+var source = $fs.existsSync(process.cwd() + $path.sep + "src")
+	? process.cwd() + $path.sep + "src"
+	: process.cwd();
+
+var crawl = new $crawler(source);
 crawl.walk(function(file)
 		   {
-			   if(_.endsWith(file,".js"))
+			   if(_.endsWith(file, ".js"))
 			   {
 				   var reader = new $reader(file);
 				   _.each(reader.getSections(), function(/** Section */section)
@@ -36,12 +40,11 @@ crawl.walk(function(file)
 			   }
 		   });
 
-var template = $fs.readFileSync('template/readme.dust', {'encoding': 'UTF-8'});
-template = template.replace(/\n/g, "{~n}");
+var template = $fs.readFileSync('template/README.dust', {'encoding': 'UTF-8'});
+//template = template.replace(/\n/g, "{~n}");
 
-$dust.renderSource(template, {}, function(err, out)
+$dust.renderSource(template, doc, function(err, out)
 {
-	//$fs.writeFileSync("README.md", doc.toString());
 	$fs.writeFileSync("README.md", out, {'encoding': 'UTF-8'});
 });
 

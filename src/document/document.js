@@ -1,11 +1,11 @@
 var _ = require('lodash');
-
-/**
- * @type {Section}
- */
+var $reader = require('../files/reader.js');
+var $package = require('./package.js');
 var $section = require('./section.js');
 
 /**
+ * @name Document
+ *
  * @readme
  *
  * Readme generates an internal document before the template is rendered. This document contains data and text extracted
@@ -16,6 +16,25 @@ var $section = require('./section.js');
 var Document = function()
 {
 	this._sections = {};
+
+	this.title = 'No Name';
+	this.description = false;
+	this.badges = {};
+	this.sections = [];
+	this.install = false;
+	this.tests = false;
+	this.authors = [];
+	this.license = false;
+
+	var json = $reader.readJson('package.json');
+	if(json)
+	{
+		var _package = new $package(json);
+		this.title = _package.data.title || this.title;
+		this.description = _package.data.description || this.description;
+		this.authors = _package.data.authors;
+		this.license = _package.data.license || this.license;
+	}
 };
 
 /**

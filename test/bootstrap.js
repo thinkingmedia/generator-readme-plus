@@ -6,8 +6,6 @@ $path = require('path');
 assert = require('assert');
 expect = require('expect.js');
 
-require('blanket')({});
-
 /**
  * Base directory of where to find the source code.
  *
