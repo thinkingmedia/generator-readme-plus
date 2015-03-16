@@ -44,7 +44,7 @@ module.exports = {
 	{
 		$dust.renderSource($fs.readFileSync("./template/README.dust", "utf8"), doc, function(err, out)
 		{
-			$fs.writeFileSync(readme, out, {'encoding': 'UTF-8'});
+			$fs.writeFileSync(readme, out.trim(), {'encoding': 'UTF-8'});
 
 			console.log('');
 			console.log('done.');

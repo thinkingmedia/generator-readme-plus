@@ -1,4 +1,5 @@
 #{title} {badges.build}{badges.coverage}{~n}
 {~n}
-{?description}{description}{~n}{/description}
+{?desc}{desc}{~n}{/desc}
+{^desc}This is the GitHub repository for {title}.{~n}{/desc}
 {~n}

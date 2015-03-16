@@ -16,7 +16,7 @@ var $path = require('path');
  * @param {string} work The user's git working folder.
  * @param {string} src The path to the source code.
  */
-var Document = function(work, src)
+var ReadmeDocument = function(work, src)
 {
 	this.work = $path.join(work, '/');
 	this.src = $path.join(src, '/');
@@ -24,14 +24,14 @@ var Document = function(work, src)
 	this._sections = {};
 
 	/**
-	 * @type {string}
-	 */
-	this.title = 'No Name';
-
-	/**
 	 * @type {string|undefined}
 	 */
-	this.description = undefined;
+	this.title = undefined;
+
+	/**
+	 * @type {string|boolean}
+	 */
+	this.desc = false;
 
 	this.badges = {
 		'build':     '',
@@ -43,6 +43,7 @@ var Document = function(work, src)
 	this.sections = [];
 	this.install = false;
 	this.tests = false;
+	this.github = false;
 
 	/**
 	 * @type {Array.<{name:string,email:string,url:string}>}
@@ -59,7 +60,7 @@ var Document = function(work, src)
 	{
 		var data = $package.format(json);
 		this.title = data.title || this.title;
-		this.description = data.description || this.description;
+		this.desc = data.description || this.desc;
 		this.authors = data.authors;
 		this.license = data.license || this.license;
 	}
@@ -73,7 +74,11 @@ var Document = function(work, src)
 			this.badges.build = this.badge('Build Status', url + '.svg', url);
 			console.log('Travis: ' + url);
 		}
+		this.title = this.title || info.repo;
+		this.github = _.template('https://github.com/${user}/${repo}')(info);
 	}
+
+	this.title = this.title || 'No Name';
 };
 
 /**
@@ -84,7 +89,7 @@ var Document = function(work, src)
  * @param {string} url
  * @returns {string}
  */
-Document.prototype.badge = function(title, img, url)
+ReadmeDocument.prototype.badge = function(title, img, url)
 {
 	return _.template("[![${title}](${img})](${url})")({title: title, img: img, url: url});
 };
@@ -95,7 +100,7 @@ Document.prototype.badge = function(title, img, url)
  * @param {string} name
  * @returns {Section}
  */
-Document.prototype.getSection = function(name)
+ReadmeDocument.prototype.getSection = function(name)
 {
 	if(!this._sections.hasOwnProperty(name))
 	{
@@ -104,4 +109,4 @@ Document.prototype.getSection = function(name)
 	return this._sections[name];
 };
 
-module.exports = Document;
+module.exports = ReadmeDocument;
