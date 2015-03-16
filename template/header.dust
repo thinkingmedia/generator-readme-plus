@@ -1,0 +1,5 @@
+{title}{badges.travis}{~n}
+====={~n}
+{badges.coverage}{badges.license}{~n}
+{#description}{description}{~n}{/description}
+{~n}

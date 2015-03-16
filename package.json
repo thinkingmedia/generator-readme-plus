@@ -43,10 +43,10 @@
     "bin": "./bin"
   },
   "dependencies": {
-    "lodash": "~3.0.0",
     "dustjs-linkedin": "~2.6.0",
-    "string": "~3.0.0",
-    "q": "~1.2.0"
+    "lodash": "~3.0.0",
+    "q": "~1.2.0",
+    "string": "~3.0.0"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

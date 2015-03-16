@@ -40,10 +40,20 @@ crawl.walk(function(file)
 			   }
 		   });
 
-var template = $fs.readFileSync('template/README.dust', {'encoding': 'UTF-8'});
-//template = template.replace(/\n/g, "{~n}");
+$dust.debugLevel = 'DEBUG';
 
-$dust.renderSource(template, doc, function(err, out)
+$dust.onLoad = function(name, callback)
+{
+	var path = "./template/" + name + ".dust";
+	if($fs.existsSync(path))
+	{
+		callback(undefined, $fs.readFileSync(path, 'utf8'));
+		return;
+	}
+	callback(new Error("Template not found: " + path), undefined);
+};
+
+$dust.renderSource($fs.readFileSync("./template/README.dust", "utf8"), doc, function(err, out)
 {
 	$fs.writeFileSync("README.md", out, {'encoding': 'UTF-8'});
 });

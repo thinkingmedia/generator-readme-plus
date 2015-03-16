@@ -1,0 +1,7 @@
+{#tests}
+## Unit Tests [badges.test]{~n}
+{~n}
+Unit tests are managed using {name}. After installing, you can run the unit test suite by running:{~n}
+{~n}
+    $ {command}{~n}
+{/tests}
