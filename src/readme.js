@@ -1,60 +1,58 @@
 var $path = require('path');
 var $fs = require('fs');
 var _ = require('lodash');
+var $optJs = require("optjs")();
+var $document = require('./document/document.js');
+var $process = require('./process.js');
 
 /**
- * @type {dust}
+ * Gets the target folder from the command line.
+ *
+ * @returns {string|undefined}
  */
-var $dust = require('dustjs-linkedin');
-
-/**
- * @type {Crawler}
- */
-var $crawler = require('./files/crawler.js');
-
-/**
- * @type {Reader}
- */
-var $reader = require('./comments/reader.js');
-
-/**
- * @type {Document}
- */
-var doc = require('./document/document.js');
-
-var source = $fs.existsSync(process.cwd() + $path.sep + "src")
-	? process.cwd() + $path.sep + "src"
-	: process.cwd();
-
-var crawl = new $crawler(source);
-crawl.walk(function(file)
-		   {
-			   if(_.endsWith(file, ".js"))
-			   {
-				   var reader = new $reader(file);
-				   _.each(reader.getSections(), function(/** Section */section)
-				   {
-					   var doc_section = doc.getSection(section.name);
-					   doc_section.append(section);
-				   });
-			   }
-		   });
-
-$dust.debugLevel = 'DEBUG';
-
-$dust.onLoad = function(name, callback)
+function getWorkDirectory()
 {
-	var path = "./template/" + name + ".dust";
-	if($fs.existsSync(path))
+	if(!$optJs.opt.work)
 	{
-		callback(undefined, $fs.readFileSync(path, 'utf8'));
-		return;
+		console.error('Usage: readme --work=<path_to_work_folder>');
+		return undefined;
 	}
-	callback(new Error("Template not found: " + path), undefined);
-};
+	// force linux path
+	var path = $optJs.opt.work.replace(/\\/g, '/');
+	if(!$fs.existsSync(path))
+	{
+		console.error('Directory: ' + path);
+		console.error('Does not exist.');
+		return undefined;
+	}
+	console.log('Work: ' + path);
+	return path;
+}
 
-$dust.renderSource($fs.readFileSync("./template/README.dust", "utf8"), doc, function(err, out)
+/**
+ * Gets the source code folder.
+ *
+ * @param {string} work
+ */
+function getSourceDirectory(work)
 {
-	$fs.writeFileSync("README.md", out, {'encoding': 'UTF-8'});
-});
+	return $fs.existsSync($path.join(work, '/src'))
+		? $path.join(work, '/src')
+		: work;
+}
 
+var work = getWorkDirectory();
+if(!work)
+{
+	return;
+}
+var source = getSourceDirectory(work);
+console.log('Source: ' + source);
+
+/**
+ * @type {ReadmeDocument}
+ */
+var doc = new $document(work, source);
+
+$process.process(doc);
+$process.render(doc,$path.join(work,"/README.md"));

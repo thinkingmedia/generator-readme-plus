@@ -4,15 +4,23 @@ var $section = require('./section.js');
 var $package = require('./package.js');
 var $git = require('./git.js');
 var $fs = require('fs');
+var $path = require('path');
 
 /**
+ * @name ReadmeDocument
  * @readme
  *
  * Readme generates an internal document before the template is rendered. This document contains data and text extracted
  * from different files in the current project directory.
+ *
+ * @param {string} work The user's git working folder.
+ * @param {string} src The path to the source code.
  */
-var Document = function()
+var Document = function(work, src)
 {
+	this.work = $path.join(work, '/');
+	this.src = $path.join(src, '/');
+
 	this._sections = {};
 
 	/**
@@ -46,7 +54,7 @@ var Document = function()
 	 */
 	this.license = undefined;
 
-	var json = $reader.readJson('package.json');
+	var json = $reader.readJson(this.work + 'package.json');
 	if(json)
 	{
 		var data = $package.format(json);
@@ -59,10 +67,11 @@ var Document = function()
 	var info = $git.info();
 	if(info)
 	{
-		if($fs.existsSync('.travis.yml'))
+		if($fs.existsSync(this.work + '.travis.yml'))
 		{
 			var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
 			this.badges.build = this.badge('Build Status', url + '.svg', url);
+			console.log('Travis: ' + url);
 		}
 	}
 };
@@ -95,4 +104,4 @@ Document.prototype.getSection = function(name)
 	return this._sections[name];
 };
 
-module.exports = new Document();
+module.exports = Document;
