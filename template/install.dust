@@ -1,9 +1,9 @@
 {#install}
-## Installation [badges.install]{~n}
+## Installation {badges.install}{badges.downloads}{~n}
 {~n}
 Install using {name}:{~n}
 {~n}
     $ {command}{~n}
 {~n}
-[badges.downloads]{~n}
+{~n}
 {/install}

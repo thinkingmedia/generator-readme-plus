@@ -3,6 +3,7 @@ var $reader = require('../files/reader.js');
 var $section = require('./section.js');
 var $package = require('./package.js');
 var $git = require('./git.js');
+var $fs = require('fs');
 
 /**
  * @readme
@@ -25,7 +26,11 @@ var Document = function()
 	this.description = undefined;
 
 	this.badges = {
-		'travis': ''
+		'build':     '',
+		'coverage':  '',
+		'license':   '',
+		'install':   '',
+		'downloads': ''
 	};
 	this.sections = [];
 	this.install = false;
@@ -54,8 +59,11 @@ var Document = function()
 	var info = $git.info();
 	if(info)
 	{
-		var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
-		this.badges.travis = this.badge('Build Status',url+'.svg',url);
+		if($fs.existsSync('.travis.yml'))
+		{
+			var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
+			this.badges.build = this.badge('Build Status', url + '.svg', url);
+		}
 	}
 };
 
@@ -67,9 +75,9 @@ var Document = function()
  * @param {string} url
  * @returns {string}
  */
-Document.prototype.badge = function(title,img,url)
+Document.prototype.badge = function(title, img, url)
 {
-	return _.template("[![${title}](${img})](${url})")({title:title,img:img,url:url});
+	return _.template("[![${title}](${img})](${url})")({title: title, img: img, url: url});
 };
 
 /**
