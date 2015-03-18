@@ -1,8 +1,9 @@
 var $fs = require('fs');
 var _ = require('lodash');
 var $dust = require('dustjs-linkedin');
-var $crawler = require('./files/crawler.js');
-var $reader = require('./comments/reader.js');
+
+var $crawler = appRequire('files/crawler.js');
+var $reader = appRequire('comments/reader.js');
 
 $dust.debugLevel = 'DEBUG';
 $dust.onLoad = function(name, callback)

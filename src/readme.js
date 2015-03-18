@@ -2,8 +2,20 @@ var $path = require('path');
 var $fs = require('fs');
 var _ = require('lodash');
 var $optJs = require("optjs")();
-var $document = require('./document/document.js');
-var $process = require('./process.js');
+
+/**
+ * @name appRequire
+ * @param {string} name
+ * @returns {*}
+ */
+global.appRequire = function(name)
+{
+	return require(__dirname + $path.sep + name);
+};
+
+var $document = appRequire('document/document.js');
+var $process = appRequire('process.js');
+
 
 /**
  * Gets the target folder from the command line.

@@ -1,10 +1,11 @@
 var _ = require('lodash');
-var $reader = require('../files/reader.js');
-var $section = require('./section.js');
-var $package = require('./package.js');
-var $git = require('./git.js');
 var $fs = require('fs');
 var $path = require('path');
+
+var $git = appRequire('document/git.js');
+var $reader = appRequire('files/reader.js');
+var $section = appRequire('document/section.js');
+var $package = appRequire('document/package.js');
 
 /**
  * @name ReadmeDocument

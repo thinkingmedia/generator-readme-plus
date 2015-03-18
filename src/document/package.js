@@ -1,5 +1,6 @@
-var $arrays = require('../primitives/arrays.js');
 var _ = require('lodash');
+
+var $arrays = appRequire('primitives/arrays.js');
 
 module.exports = {
 	/**

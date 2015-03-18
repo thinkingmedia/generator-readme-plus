@@ -1,9 +1,10 @@
 var $fs = require('fs');
 var _ = require('lodash');
-var $section = require('../document/section.js');
-var $format = require('../comments/format.js');
-var $search = require('../comments/search.js');
-var $annotations = require('../comments/annotations.js');
+
+var $section = appRequire('document/section.js');
+var $format = appRequire('comments/format.js');
+var $search = appRequire('comments/search.js');
+var $annotations = appRequire('comments/annotations.js');
 
 /**
  * @param {string} file
