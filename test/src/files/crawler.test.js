@@ -3,7 +3,7 @@ var $path = require('path');
 /**
  * @type {Crawler}
  */
-var $crawler = require(__src + '/files/crawler.js');
+var $crawler = require(__src + 'files/crawler.js');
 
 describe('/files/crawler', function()
 {
