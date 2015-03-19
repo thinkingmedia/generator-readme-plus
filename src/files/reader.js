@@ -1,16 +1,11 @@
 var $fs = require('fs');
 
 /**
- * @name Reader
- */
-var Reader = {};
-
-/**
  * Reads a file as a string.
  *
  * @param {string} file
  */
-Reader.read = function(file)
+exports.read = function(file)
 {
 	if(!$fs.existsSync(file))
 	{
@@ -25,7 +20,7 @@ Reader.read = function(file)
  * @param {string} file
  * @returns {Object|Array|undefined}
  */
-Reader.readJson = function(file)
+exports.readJson = function(file)
 {
 	var json = this.read(file);
 	try
@@ -41,5 +36,3 @@ Reader.readJson = function(file)
 	}
 	return undefined;
 };
-
-module.exports = Reader;

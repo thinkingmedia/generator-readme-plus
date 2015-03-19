@@ -1,6 +1,4 @@
-var $git = require(__src + "document/git.js");
-
-describe('/document/git', function()
+test('document/git', function($git)
 {
 	it('ignores these types of urls',function()
 	{

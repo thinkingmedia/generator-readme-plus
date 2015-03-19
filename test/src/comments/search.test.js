@@ -1,9 +1,4 @@
-/**
- * @type {Search}
- */
-var $search = require(__src + '/comments/search.js');
-
-describe('/comments/search', function()
+test('comments/search', function($search)
 {
 	it('a simple comment', function()
 	{

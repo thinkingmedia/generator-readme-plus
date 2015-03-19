@@ -1,23 +1,16 @@
-var $path = require('path');
-
-/**
- * @type {Crawler}
- */
-var $crawler = require(__src + 'files/crawler.js');
-
-describe('/files/crawler', function()
+test('files/crawler', function($crawler)
 {
 	it('should check that the directory exists', function()
 	{
 		expect(function()
 			   {
-				   new $crawler('/foo/bar/smack');
+				   new $crawler.Task('/foo/bar/smack');
 			   }).to.throwError('Directory does not exist');
 	});
 
 	it('should execute the callback for each file', function()
 	{
-		var crawler = new $crawler(__data + 'files');
+		var crawler = new $crawler.Task(__data + 'files');
 		var indx = 0;
 		var files = [
 			__data + 'files' + $path.sep + 'crawler' + $path.sep + 'empty',

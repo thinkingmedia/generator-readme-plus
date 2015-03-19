@@ -1,12 +1,4 @@
-var $fs = require('fs');
-var $search = require(__src + "comments/search.js");
-
-/**
- * @type {Format}
- */
-var $format = require(__src + '/comments/format.js');
-
-describe('/comments/format', function()
+test(['comments/format', 'comments/search'], function($format, $search)
 {
 	it("these single lines yield empty array", function()
 	{
@@ -17,7 +9,7 @@ describe('/comments/format', function()
 
 	it("these multi lines yield empty array", function()
 	{
-		assert.deepEqual($format.trim(["/**","*/"]), []);
+		assert.deepEqual($format.trim(["/**", "*/"]), []);
 	});
 
 	it("these should yield a single line", function()

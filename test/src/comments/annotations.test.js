@@ -1,9 +1,4 @@
-/**
- * @type {Annotations}
- */
-var $annotations = require(__src + '/comments/annotations.js');
-
-describe('/comments/annotations', function()
+test('comments/annotations', function($annotations)
 {
 	it('empty array yields undefined', function()
 	{

@@ -1,11 +1,5 @@
-var $S = require('string');
 var _ = require('lodash');
 var $util = require('util');
-
-/**
- * @module Annotations
- */
-var Annotations = {};
 
 /**
  * Extracts the lines between `@readme` and next annotation or end of comment.
@@ -15,7 +9,7 @@ var Annotations = {};
  * @param {Array.<string>} lines
  * @returns {Array.<string>|undefined}
  */
-Annotations.getReadme = function(lines)
+exports.getReadme = function(lines)
 {
 	if(!$util.isArray(lines))
 	{
@@ -25,7 +19,7 @@ Annotations.getReadme = function(lines)
 	// drop lines until we find a @readme
 	lines = _.dropWhile(lines, function(line)
 	{
-		return !$S(line).startsWith('@readme');
+		return !_.startsWith(line, '@readme');
 	});
 
 	if(lines.length == 0)
@@ -37,12 +31,10 @@ Annotations.getReadme = function(lines)
 	var readme = _.first(lines);
 	var markdown = _.takeWhile(_.drop(lines), function(line)
 	{
-		return !$S(line).startsWith('@');
+		return !_.startsWith(line, '@');
 	});
 
 	markdown.unshift(readme);
 
 	return markdown;
 };
-
-module.exports = Annotations;

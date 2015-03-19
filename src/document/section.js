@@ -1,4 +1,3 @@
-var $S = require('string');
 var _ = require('lodash');
 
 /**
@@ -7,16 +6,16 @@ var _ = require('lodash');
  * Sections are chunks of text that appear in the table of contents. Each section has a name, title, blocks and sub-sections.
  *
  * @param {string} name
- * @param {Array.<string>} lines
+ * @param {Array.<string>=} lines
  *
  * @property {string} name
  * @property {Array.<string>} _lines
  *
  * @constructor
  */
-var Section = function(name, lines)
+exports.Detail = function(name, lines)
 {
-	if($S(name).startsWith('@readme'))
+	if(_.startsWith(name, '@readme'))
 	{
 		name = name.replace(/^@readme/, "");
 	}
@@ -30,7 +29,7 @@ var Section = function(name, lines)
  *
  * @returns {Array.<string>}
  */
-Section.prototype.getLines = function()
+exports.Detail.prototype.getLines = function()
 {
 	var lines = _.map(this._lines, function(line)
 	{
@@ -49,12 +48,10 @@ Section.prototype.getLines = function()
 /**
  * Appends a sections lines of text to this section.
  *
- * @param {Section} section
+ * @param {exports.Detail} section
  */
-Section.prototype.append = function(section)
+exports.Detail.prototype.append = function(section)
 {
 	this._lines.push("\n");
 	this._lines = this._lines.concat(section.getLines());
 };
-
-module.exports = Section;

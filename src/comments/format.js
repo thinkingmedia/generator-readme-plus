@@ -1,17 +1,11 @@
-var $S = require('string');
 var _ = require('lodash');
-
-/**
- * @module Format
- */
-var Format = {};
 
 /**
  * Trims extra characters from lines of text that block out comments.
  *
  * @param {Array.<string>} lines
  */
-Format.trim = function(lines)
+exports.trim = function(lines)
 {
 	if(!_.isArray(lines))
 	{
@@ -43,13 +37,10 @@ Format.trim = function(lines)
 	return _.map(lines, function(line)
 	{
 		line = line.trim();
-		if($S(line).startsWith('*'))
+		if(_.startsWith(line, '*'))
 		{
 			line = line.substr(1).trim();
 		}
 		return line;
 	});
 };
-
-module.exports = Format;
-

@@ -2,13 +2,12 @@ var _ = require('lodash');
 var $fs = require('fs');
 var $path = require('path');
 
-var $git = appRequire('document/git.js');
-var $reader = appRequire('files/reader.js');
-var $section = appRequire('document/section.js');
-var $package = appRequire('document/package.js');
+var $git = require('../document/git.js');
+var $reader = require('../files/reader.js');
+var $section = require('../document/section.js');
+var $package = require('../document/package.js');
 
 /**
- * @name ReadmeDocument
  * @readme
  *
  * Readme generates an internal document before the template is rendered. This document contains data and text extracted
@@ -17,7 +16,7 @@ var $package = appRequire('document/package.js');
  * @param {string} work The user's git working folder.
  * @param {string} src The path to the source code.
  */
-var ReadmeDocument = function(work, src)
+exports.Doc = function(work, src)
 {
 	this.work = $path.join(work, '/');
 	this.src = $path.join(src, '/');
@@ -90,7 +89,7 @@ var ReadmeDocument = function(work, src)
  * @param {string} url
  * @returns {string}
  */
-ReadmeDocument.prototype.badge = function(title, img, url)
+exports.Doc.prototype.badge = function(title, img, url)
 {
 	return _.template("[![${title}](${img})](${url})")({title: title, img: img, url: url});
 };
@@ -99,15 +98,13 @@ ReadmeDocument.prototype.badge = function(title, img, url)
  * Finds a section by it's name. If the section does not exist a new section is added to the document.
  *
  * @param {string} name
- * @returns {Section}
+ * @returns {exports.Detail}
  */
-ReadmeDocument.prototype.getSection = function(name)
+exports.Doc.prototype.getSection = function(name)
 {
 	if(!this._sections.hasOwnProperty(name))
 	{
-		this._sections[name] = new $section(name);
+		this._sections[name] = new $section.Detail(name);
 	}
 	return this._sections[name];
 };
-
-module.exports = ReadmeDocument;

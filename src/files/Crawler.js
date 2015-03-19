@@ -1,5 +1,4 @@
-var $S = require('string');
-var $_ = require('lodash');
+var _ = require('lodash');
 var $path = require('path');
 var $fs = require('fs');
 
@@ -9,9 +8,9 @@ var $fs = require('fs');
  */
 var _work = function(path, callback)
 {
-	$_.each($fs.readdirSync(path).sort(), function(file)
+	_.each($fs.readdirSync(path).sort(), function(file)
 	{
-		if($S(file).startsWith("."))
+		if(_.startsWith(file, "."))
 		{
 			return;
 		}
@@ -33,7 +32,7 @@ var _work = function(path, callback)
  *
  * @constructor
  */
-var Crawler = function(path)
+exports.Task = function(path)
 {
 	path = $fs.realpathSync(path);
 
@@ -50,9 +49,7 @@ var Crawler = function(path)
  *
  * @param {function(string)} callback
  */
-Crawler.prototype.walk = function(callback)
+exports.Task.prototype.walk = function(callback)
 {
 	_work(this._path, callback);
 };
-
-module.exports = Crawler;

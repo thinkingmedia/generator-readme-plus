@@ -1,26 +1,15 @@
 var $path = require('path');
 var $fs = require('fs');
-var _ = require('lodash');
 var $optJs = require("optjs")();
 
-/**
- * @name appRequire
- * @param {string} name
- * @returns {*}
- */
-global.appRequire = function(name)
-{
-	return require(__dirname + $path.sep + name);
-};
-
-var $document = appRequire('document/document.js');
-var $process = appRequire('process.js');
-
+var $document = require('./document/document.js');
+var $process = require('./process.js');
 
 /**
  * Gets the target folder from the command line.
  *
  * @returns {string|undefined}
+ * @private
  */
 function getWorkDirectory()
 {
@@ -45,6 +34,7 @@ function getWorkDirectory()
  * Gets the source code folder.
  *
  * @param {string} work
+ * @private
  */
 function getSourceDirectory(work)
 {
@@ -53,18 +43,21 @@ function getSourceDirectory(work)
 		: work;
 }
 
-var work = getWorkDirectory();
-if(!work)
-{
-	return;
-}
-var source = getSourceDirectory(work);
-console.log('Source: ' + source);
-
 /**
- * @type {ReadmeDocument}
+ *
  */
-var doc = new $document(work, source);
+exports.run = function()
+{
+	var work = getWorkDirectory();
+	if(!work)
+	{
+		return;
+	}
+	var source = getSourceDirectory(work);
+	console.log('Source: ' + source);
 
-$process.process(doc);
-$process.render(doc,$path.join(work,"/README.md"));
+	var doc = new $document.Doc(work, source);
+
+	$process.process(doc);
+	$process.render(doc, $path.join(work, "/README.md"));
+};

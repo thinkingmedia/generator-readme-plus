@@ -1,17 +1,12 @@
 var _ = require('lodash');
 
 /**
- * @module Search
- */
-var Search = {};
-
-/**
  * Finds comments from source files that use the common comment blocks format. These things
  *
  * @param {string} text
  * @returns {Array.<Array.<string>>}
  */
-Search.findComments = function(text)
+exports.findComments = function(text)
 {
 	if(typeof text !== 'string')
 	{
@@ -40,5 +35,3 @@ Search.findComments = function(text)
 
 	return comments;
 };
-
-module.exports = Search;
