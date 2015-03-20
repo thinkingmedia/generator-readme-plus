@@ -11,6 +11,8 @@ var $arrays = require('../primitives/arrays.js');
  * "Mathew Foscarini <support@thinkingmedia.ca> (http://www.thinkingmedia.ca/)"
  * ```
  *
+ * @todo This is a file processor for the package.json type.
+ *
  * @param {string} str
  * @returns {{name:string,email:string,url:string}}
  */

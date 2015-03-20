@@ -3,6 +3,8 @@ var _ = require('lodash');
 /**
  * Finds comments from source files that use the common comment blocks format. These things
  *
+ * @todo maybe move this to be part of a comments plugin processor?
+ *
  * @param {string} text
  * @returns {Array.<Array.<string>>}
  */

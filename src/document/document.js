@@ -13,6 +13,8 @@ var $package = require('../document/package.js');
  * Readme generates an internal document before the template is rendered. This document contains data and text extracted
  * from different files in the current project directory.
  *
+ * @todo Should just be a container for sections.
+ *
  * @param {string} work The user's git working folder.
  * @param {string} src The path to the source code.
  */

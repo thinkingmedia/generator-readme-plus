@@ -5,6 +5,8 @@ var _ = require('lodash');
  *
  * Sections are chunks of text that appear in the table of contents. Each section has a name, title, blocks and sub-sections.
  *
+ * @todo sections should define more including title, widgets and child sections.
+ *
  * @param {string} name
  * @param {Array.<string>=} lines
  *

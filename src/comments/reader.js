@@ -7,6 +7,8 @@ var $search = require('../comments/search.js');
 var $annotations = require('../comments/annotations.js');
 
 /**
+ * @todo rename to comments
+ *
  * @param {string} file
  *
  * @constructor
@@ -17,6 +19,7 @@ exports.File = function(file)
 };
 
 /**
+ * @todo Rename to get comments
  * @returns {Array.<exports.Detail>}
  */
 exports.File.prototype.getSections = function()
@@ -27,6 +30,7 @@ exports.File.prototype.getSections = function()
 
 
 /**
+ * @todo rename to find comments or just find
  * @param {string} text
  * @returns {Array.<exports.Detail>}
  */

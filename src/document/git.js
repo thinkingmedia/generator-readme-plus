@@ -7,6 +7,9 @@ var _ = require('lodash');
 var cache = null;
 
 /**
+ * @todo This is a kind of resource, and I'll need more of them. These don't create sections but they provide metadata for things in the sections (maybe widgets?)
+ * @todo This is a processor that isn't associated with a file type (maybe the file type can be '*'?)
+ *
  * Reads the git config for the repo in the current folder.
  * @returns {Object.<string,string>}
  */
