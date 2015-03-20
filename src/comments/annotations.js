@@ -22,7 +22,7 @@ exports.getReadme = function(lines)
 		return !_.startsWith(line, '@readme');
 	});
 
-	if(lines.length == 0)
+	if(lines.length === 0)
 	{
 		return undefined;
 	}

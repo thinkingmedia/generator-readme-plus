@@ -38,9 +38,7 @@ function getWorkDirectory()
  */
 function getSourceDirectory(work)
 {
-	return $fs.existsSync($path.join(work, '/src'))
-		? $path.join(work, '/src')
-		: work;
+	return $fs.existsSync($path.join(work, '/src')) ? $path.join(work, '/src') : work;
 }
 
 /**

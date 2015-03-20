@@ -7,7 +7,7 @@ var _ = require('lodash');
  */
 exports.get = function(value, _default)
 {
-	if(_.isString(value) && value.trim() == '')
+	if(_.isString(value) && value.trim() === '')
 	{
 		return _default;
 	}

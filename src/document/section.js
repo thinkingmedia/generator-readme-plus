@@ -37,11 +37,11 @@ exports.Detail.prototype.getLines = function()
 	});
 	lines = _.dropWhile(lines, function(line)
 	{
-		return line == '';
+		return line === '';
 	});
 	return _.dropRightWhile(lines, function(line)
 	{
-		return line == '';
+		return line === '';
 	});
 };
 

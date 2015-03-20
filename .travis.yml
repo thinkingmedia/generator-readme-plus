@@ -5,3 +5,4 @@ node_js:
 
 script:
   - npm test
+  - CODECLIMATE_REPO_TOKEN=195b3284f7b4e56388e274ff045e805daa5d16e4af1e588509d7069bc2aa68e1 codeclimate < coverage/lcov.info

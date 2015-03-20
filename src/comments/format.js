@@ -12,12 +12,12 @@ exports.trim = function(lines)
 		throw new Error('Expecting an error');
 	}
 
-	if(lines.length == 0)
+	if(lines.length === 0)
 	{
 		return [];
 	}
 
-	if(lines.length == 1)
+	if(lines.length === 1)
 	{
 		var line = lines[0];
 

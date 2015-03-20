@@ -56,12 +56,10 @@ exports.getUserRepo = function(url)
 	// just get the first 2 levels
 	var parts = _.take(_.map(path.split('/'), function(part)
 	{
-		return _.endsWith(part, ".git")
-			? part.substr(0, part.indexOf('.git'))
-			: part;
+		return _.endsWith(part, ".git") ? part.substr(0, part.indexOf('.git')) : part;
 	}), 2);
 
-	if(parts.length != 2)
+	if(parts.length !== 2)
 	{
 		// this isn't a valid url
 		return undefined;
