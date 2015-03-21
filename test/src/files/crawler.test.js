@@ -13,8 +13,8 @@ test('files/crawler', function($crawler)
 		var crawler = new $crawler.Task(__data + 'files');
 		var indx = 0;
 		var files = [
-			__data + 'files' + $path.sep + 'crawler' + $path.sep + 'empty',
-			__data + 'files' + $path.sep + 'empty'
+			__data + 'files' + path.sep + 'crawler' + path.sep + 'empty',
+			__data + 'files' + path.sep + 'empty'
 		];
 		crawler.walk(function(file)
 					 {

@@ -8,6 +8,8 @@ var $annotations = require('../comments/annotations.js');
 
 /**
  * @todo rename to comments
+ * @todo this is a processor of giles. it should publish what type of files it processes.
+ * @todo should this know how to find those files? or should a different plugin handle the searching?
  *
  * @param {string} file
  *

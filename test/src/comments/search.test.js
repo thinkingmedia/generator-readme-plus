@@ -14,7 +14,7 @@ test('comments/search', function($search)
 
 	it('a long comment', function()
 	{
-		var comments = $search.findComments($fs.readFileSync(__data + "long_comment.txt", {'encoding': 'UTF-8'}));
+		var comments = $search.findComments(fs.readFileSync(__data + "long_comment.txt", {'encoding': 'UTF-8'}));
 		assert.deepEqual(comments, [
 			[
 				"/**", "* This is a very long comment.", "*", "* It has many lines and long text and such.", "*/"

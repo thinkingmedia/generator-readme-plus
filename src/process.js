@@ -9,7 +9,7 @@ var $reader = require('./comments/reader.js');
  * @todo this will only generate sections from comments. We need things like install, contributors, license, etc.
  * @todo extracting sections from comments should be done as one of the possible plugins.
  * @todo this isn't a processor, it's a plugin loader and runner.
- * @todo one type of plugin handles find files, and the other is a processor of files (by type or name/location).
+ * @todo one type of plugin handles finding files, and the other is a processor of files (by type or name/location).
  *
  * @param {exports.Doc} doc
  */

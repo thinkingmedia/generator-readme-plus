@@ -1,59 +1,70 @@
-var _ = require('lodash');
-
 /**
- * @readme
- *
- * Sections are chunks of text that appear in the table of contents. Each section has a name, title, blocks and sub-sections.
- *
- * @todo sections should define more including title, widgets and child sections.
- *
- * @param {string} name
- * @param {Array.<string>=} lines
- *
- * @property {string} name
- * @property {Array.<string>} _lines
- *
- * @constructor
+ * Defines a section in the document.
  */
-exports.Detail = function(name, lines)
-{
-	if(_.startsWith(name, '@readme'))
-	{
-		name = name.replace(/^@readme/, "");
-	}
+exports.Section = {
 
-	this.name = name.trim();
-	this._lines = lines || [];
+	/**
+	 * ID of this section
+	 *
+	 * @type {string|null}
+	 */
+	id: null,
+
+	/**
+	 * The title of the section.
+	 *
+	 * @type {string|null}
+	 */
+	title: null,
+
+	/**
+	 * URL associated with the title.
+	 *
+	 * @type {string|null}
+	 */
+	url: null,
+
+	/**
+	 * Different widget locations.
+	 */
+	widgets: {
+		title:  [],
+		top:    [],
+		bottom: []
+	},
+
+	/**
+	 * The contents of this section.
+	 *
+	 * @type {Array.<string>}
+	 */
+	content: [],
+
+	/**
+	 * The child sections.
+	 *
+	 * @type {Array}
+	 */
+	children: []
 };
 
 /**
- * Gets the lines of text for this section.
+ * Factory method.
  *
- * @returns {Array.<string>}
+ * @param {string} id
+ *
+ * @returns {exports.Section}
  */
-exports.Detail.prototype.getLines = function()
+exports.create = function(id)
 {
-	var lines = _.map(this._lines, function(line)
-	{
-		return line.trim();
-	});
-	lines = _.dropWhile(lines, function(line)
-	{
-		return line === '';
-	});
-	return _.dropRightWhile(lines, function(line)
-	{
-		return line === '';
-	});
+	var section = new exports.Section;
+	section.id = id;
+	return section;
 };
 
 /**
- * Appends a sections lines of text to this section.
+ * The top most section
  *
- * @param {exports.Detail} section
+ * @type {exports.Section}
  */
-exports.Detail.prototype.append = function(section)
-{
-	this._lines.push("\n");
-	this._lines = this._lines.concat(section.getLines());
-};
+exports.root = exports.create('root');

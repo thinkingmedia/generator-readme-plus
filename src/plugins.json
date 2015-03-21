@@ -1,0 +1,13 @@
+{
+  "files": {
+    "**.js": "./plugins/doc_reader.js",
+    "**.php": "./plugins/doc_reader.js",
+    "**.sass": "./plugins/doc_reader.js",
+    "**.scss": "./plugins/doc_reader.js",
+    "**.css": "./plugins/doc_reader.js",
+    "/package.json": "./plugins/package.js"
+  },
+  "global": [
+    "./plugins/git.js"
+  ]
+}

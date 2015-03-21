@@ -29,7 +29,7 @@ test(['comments/format', 'comments/search'], function($format, $search)
 
 	it("removes all comment markers", function()
 	{
-		var text = $fs.readFileSync(__data + "readme_1.txt", {'encoding': 'UTF-8'});
+		var text = fs.readFileSync(__data + "readme_1.txt", {'encoding': 'UTF-8'});
 		var comments = $search.findComments(text);
 		assert.equal(comments.length, 1);
 
