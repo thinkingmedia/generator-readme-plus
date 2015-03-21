@@ -1,13 +1,48 @@
-{
-  "files": {
-    "**.js": "./plugins/doc_reader.js",
-    "**.php": "./plugins/doc_reader.js",
-    "**.sass": "./plugins/doc_reader.js",
-    "**.scss": "./plugins/doc_reader.js",
-    "**.css": "./plugins/doc_reader.js",
-    "/package.json": "./plugins/package.js"
+[
+  {
+    "path": "./plugins/reader.js",
+    "include": "**/*.js",
+    "name": "JavaScript"
   },
-  "global": [
-    "./plugins/git.js"
-  ]
-}
+  {
+    "path": "./plugins/reader.js",
+    "include": "**.php",
+    "name": "JavaScript",
+    "disable": true
+  },
+  {
+    "path": "./plugins/reader.js",
+    "include": "**.sass **.scss",
+    "name": "SASS",
+    "disable": true
+  },
+  {
+    "path": "./plugins/reader.js",
+    "include": "**.less",
+    "name": "LESS",
+    "disable": true
+  },
+  {
+    "path": "./plugins/reader.js",
+    "include": "**.css",
+    "name": "CSS",
+    "disable": true
+  },
+  {
+    "path": "./plugins/reader.js",
+    "include": "**.php",
+    "name": "PHP",
+    "disable": true
+  },
+  {
+    "path": "./plugins/package.js",
+    "include": "package.json",
+    "name": "NPM",
+    "disable": true
+  },
+  {
+    "path": "./plugins/git.js",
+    "name": "Git",
+    "disable": true
+  }
+]

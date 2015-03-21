@@ -28,6 +28,17 @@ exports.load = function()
 		return false;
 	}
 
+	exports.options = _.filter(exports.options, function(option)
+	{
+		return option.disable !== true;
+	});
+
+	if(exports.options.length === 0)
+	{
+		logger.error('No plugins available.');
+		return false;
+	}
+
 	exports.plugins = _.map(exports.options, function(option)
 	{
 		if(!_.isString(option.path))
@@ -38,33 +49,43 @@ exports.load = function()
 
 		try
 		{
+			logger.debug('Load: '+option.path);
+
 			var module = require(option.path);
-
-			logger.debug('Plugin: %s', module.name);
-
-			if(_.isFunction(module.start) && module.start(option) !== true)
+			if(!_.isFunction(module.create))
 			{
-				logger.debug('Plugin failed to start');
+				logger.error('Module[%s]: Does not have factory create method.', option.path);
 				return false;
 			}
 
-			if(!_.isString(module.include))
+			var plugin = module.create(option);
+			if(_.isUndefined(plugin) || !_.isObject(plugin))
 			{
-				logger.error('Plugin must define an include pattern for fileset.');
+				logger.error('Module[%s]: Failed to create plugin object.', option.path);
 				return false;
 			}
 
-			module.exclude = _.isString(module.exclude) ? module.exclude : '';
-			module.useSource = _.isBoolean(module.useSource) ? module.useSource : false;
+			logger.debug('Plugin[%s]: %s', plugin.name, option.path);
 
-			logger.debug('Include: %s', module.include);
-			logger.debug('Exclude: %s', module.exclude);
+			if(_.isFunction(plugin.start) && plugin.start() !== true)
+			{
+				logger.debug('Plugin[%s]: Failed to start', option.path);
+				return false;
+			}
 
-			return module;
+			plugin.include = _.isString(plugin.include) ? plugin.include : '';
+			plugin.exclude = _.isString(plugin.exclude) ? plugin.exclude : '';
+			plugin.useSource = _.isBoolean(plugin.useSource) ? plugin.useSource : false;
+
+			plugin.include && logger.debug('Include[%s]: %s', option.path, plugin.include);
+			plugin.exclude && logger.debug('Exclude[%s]: %s', option.path, plugin.exclude);
+
+			return plugin;
 		}
 		catch(ex)
 		{
 			logger.error(ex.message);
+			logger.debug(ex.stack);
 		}
 
 		return false;
@@ -78,11 +99,16 @@ exports.load = function()
 
 	return _.all(exports.plugins, function(plugin)
 	{
+		if(!_.isBoolean(plugin.valid))
+		{
+			logger.error('Plugin[%s]: Does not export valid property.', plugin.name);
+			return false;
+		}
 		if(plugin.valid !== true && _.isFunction(plugin.usage))
 		{
 			plugin.usage();
 		}
-		return !!plugin.valid;
+		return plugin.valid;
 	});
 };
 
@@ -108,6 +134,7 @@ exports.stop = function()
 			catch(ex)
 			{
 				logger.error(ex.message);
+				logger.debug(ex.stack);
 			}
 			finally
 			{

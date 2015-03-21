@@ -1,6 +1,22 @@
 var $shell = require('shelljs');
 var _ = require('lodash');
 
+exports.create = function(options)
+{
+	var plugin = function(options)
+	{
+		this.name = 'git';
+		this.valid = false;
+
+		this.start = function()
+		{
+			this.valid = true;
+			return true;
+		}
+	};
+	return new plugin(options);
+};
+
 /**
  * @type {Object.<string,string>|null}
  */

@@ -5,7 +5,6 @@ var fileset = require('fileset');
 var logger = require('winston');
 var params = require('./params.js');
 var manager = require("./manager.js");
-var context = require('./context.js');
 
 if(params.invalid())
 {
@@ -26,38 +25,43 @@ if(!params.silent)
 
 if(!manager.load())
 {
-	return;
+	process.exit(-1);
 }
 
-var includes = _.filter(manager.plugins, 'include');
-_.each(includes, function(plugin)
+var reads_files = _.filter(manager.plugins, 'include');
+_.each(reads_files, function(plugin)
 {
-	_.isFunction(plugin.beforeRead) && plugin.beforeRead(context);
-
-	fileset(plugin.include, plugin.exclude, {
+	var conf = {
 		cwd: plugin.useSource === true ? params.source : params.work
-	}).on('error', function(err)
+	};
+
+	logger.debug('');
+	logger.debug('Plugin[%s]: Searching %s', plugin.name, conf.cwd);
+
+	_.isFunction(plugin.beforeRead) && plugin.beforeRead();
+
+	fileset(plugin.include, plugin.exclude, conf).on('error', function(err)
 	{
 		logger.error(err);
 	}).on('match', function(file)
 	{
-		logger.debug('Match: %s', file);
-		_.isFunction(plugin.read) && plugin.read(context, file);
+		logger.debug('Found: %s', conf.cwd + file);
+		_.isFunction(plugin.read) && plugin.read(conf.cwd + file);
 	}).on('end', function(files)
 	{
 		logger.debug('End');
-		_.isFunction(plugin.done) && plugin.done(context, files);
+		_.isFunction(plugin.done) && plugin.done(conf.cwd, files);
 	});
 });
 
 _.each(manager.plugins, function(plugin)
 {
-	_.isFunction(plugin.beforeWrite) && plugin.beforeWrite(context);
+	_.isFunction(plugin.beforeWrite) && plugin.beforeWrite();
 });
 
 _.each(manager.plugins, function(plugin)
 {
-	_.isFunction(plugin.write) && plugin.write(context);
+	_.isFunction(plugin.write) && plugin.write();
 });
 
-render.draw(context);
+//render.draw();

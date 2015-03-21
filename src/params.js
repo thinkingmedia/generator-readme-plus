@@ -2,11 +2,12 @@ var fs = require('fs');
 var path = require('path');
 var args = require('optjs')();
 var _ = require('lodash');
+var logger = require('winston');
 
 /**
  * @type {boolean}
  */
-exports.silent = false;
+exports.silent = args.opt.s || args.opt.silent;
 
 /**
  * @type {boolean}
@@ -16,28 +17,31 @@ exports.version = false;
 /**
  * @type {string|null}
  */
-exports.work = null;
+exports.work = args.argv[0] || null;
 
 /**
  * @type {string|null}
  */
 exports.source = null;
 
-/**
- * Initialize the parameters.
- *
- * @todo this can be part of the module startup.
- */
-exports.init = function()
+if(_.isString(exports.work))
 {
-	exports.silent = args.opt.s || args.opt.silent;
-	exports.work = args.argv[0] || null;
-	if(_.isString(exports.work))
-	{
-		exports.work = path.normalize(exports.work) + path.sep;
-		exports.source = path.normalize(exports.work + (args.opt.source || 'src'));
-	}
-};
+	exports.work = path.normalize(exports.work.replace(/\\/g, '/')) + path.sep;
+	exports.source = path.normalize(exports.work) + (args.opt.source || 'src');
+	exports.source = path.normalize(exports.source.replace(/\\/g, '/')) + path.sep;
+
+	exports.work = exports.work.replace(/\\/g,'/');
+	exports.source = exports.source.replace(/\\/g,'/');
+}
+
+/**
+ * @type {boolean}
+ */
+exports.debug = !!args.opt.debug;
+if(exports.debug)
+{
+	logger.level = 'debug';
+}
 
 /**
  * Reads the version number from VERSION.txt

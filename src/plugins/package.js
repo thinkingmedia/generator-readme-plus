@@ -2,6 +2,23 @@ var _ = require('lodash');
 
 var $arrays = require('../primitives/arrays.js');
 
+exports.create = function(options)
+{
+	var plugin = function(options)
+	{
+		this.name = 'package';
+		this.valid = false;
+
+		this.start = function()
+		{
+			this.valid = true;
+			return true;
+		}
+	};
+
+	return new plugin(options);
+};
+
 /**
  * Converts a string description of a person into an object.
  *
