@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var $util = require('util');
+var util = require('util');
 
 /**
  * Extracts the lines between `@readme` and next annotation or end of comment.
@@ -11,7 +11,7 @@ var $util = require('util');
  */
 exports.getReadme = function(lines)
 {
-	if(!$util.isArray(lines))
+	if(!util.isArray(lines))
 	{
 		throw new Error('Expected an array.');
 	}

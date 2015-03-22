@@ -1,6 +1,7 @@
 var _ = require('lodash');
 
-var $arrays = require('../primitives/arrays.js');
+var arrays = require('../primitives/arrays.js');
+var reader = require('../files/reader.js');
 
 exports.create = function(options)
 {
@@ -13,6 +14,20 @@ exports.create = function(options)
 		{
 			this.valid = true;
 			return true;
+		};
+
+		this.read = function(file)
+		{
+			var json = reader.readJson(file);
+			return;
+			if(json)
+			{
+				var data = exports.format(json);
+				this.title = data.title || this.title;
+				this.desc = data.description || this.desc;
+				this.authors = data.authors;
+				this.license = data.license || this.license;
+			}
 		}
 	};
 
@@ -75,7 +90,7 @@ exports.people = function(json)
  */
 exports.license = function(json)
 {
-	json = $arrays.firstIfArray(json);
+	json = arrays.firstIfArray(json);
 	if(_.isString(json))
 	{
 		return {'type': json};

@@ -1,18 +1,21 @@
 /**
- * Pre-load these modules for testing.
+ * These variables are global for all unit tests.
  */
-$fs = require('fs');
-$path = require('path');
 _ = require('lodash');
+fs = require('fs');
+path = require('path');
 assert = require('assert');
 expect = require('expect.js');
+
+require('winston').cli();
+require('winston').level = 'DEBUG';
 
 /**
  * Path to test data
  *
  * @type {string}
  */
-__data = __dirname + $path.sep + "data" + $path.sep;
+__data = __dirname + path.sep + "data" + path.sep;
 
 /**
  * Requires the module from the app and starts a test for it. Passing
@@ -40,13 +43,13 @@ test = function(modules, callback)
 			throw new Error("Do not start module path with / character: " + module);
 		}
 
-		var path = __dirname + $path.sep + ".." + $path.sep + "src" + $path.sep + module + ".js";
-		if(!$fs.existsSync(path))
+		var file = __dirname + path.sep + ".." + path.sep + "src" + path.sep + module + ".js";
+		if(!fs.existsSync(file))
 		{
-			throw new Error("Required module not found: " + path);
+			throw new Error("Required module not found: " + file);
 		}
 		prefix = 'Use: ';
-		return require(path);
+		return require(file);
 	});
 
 	describe(_.first(modules), function()

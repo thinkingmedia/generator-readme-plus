@@ -1,17 +1,19 @@
-var $fs = require('fs');
+var fs = require('fs');
+var logger = require('winston');
 
 /**
- * Reads a file as a string.
+ * Reads a file as a string. Returns undefined if the file does not exist.
  *
  * @param {string} file
+ * @returns {string|undefined}
  */
 exports.read = function(file)
 {
-	if(!$fs.existsSync(file))
+	if(fs.existsSync(file))
 	{
-		return undefined;
+		return fs.readFileSync(file, 'utf8');
 	}
-	return $fs.readFileSync(file, {'encoding': 'UTF-8'});
+	return undefined;
 };
 
 /**
@@ -30,9 +32,10 @@ exports.readJson = function(file)
 			return JSON.parse(json);
 		}
 	}
-	catch(e)
+	catch(ex)
 	{
-		console.error("Unable to read JSON: " + file);
+		logger.error(ex.message);
+		logger.debug(ex.stack);
 	}
 	return undefined;
 };

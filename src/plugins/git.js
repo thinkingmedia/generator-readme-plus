@@ -1,5 +1,6 @@
-var $shell = require('shelljs');
 var _ = require('lodash');
+var shell = require('shelljs');
+var logger = require('winston');
 
 exports.create = function(options)
 {
@@ -10,44 +11,51 @@ exports.create = function(options)
 
 		this.start = function()
 		{
-			this.valid = true;
-			return true;
-		}
+			if(!shell.which('git'))
+			{
+				logger.error('git command line tool was not found.');
+				return false;
+			}
+			var output = shell.exec('git config --local --list', {silent: true}).output.trim();
+			this.cache = _.zipObject(_.map(_.compact(output.split("\n")), function(line)
+			{
+				return line.split("=");
+			}));
+			return this.valid = true;
+		};
+
+		/**
+		 * Gets the username and repo name for the current working folder. Assumes it's a GitHub repo.
+		 *
+		 * @returns {{name:string,repo:string}|undefined}
+		 */
+		exports.info = function()
+		{
+			var url = (this.cache && this.cache['remote.origin.url']) || undefined;
+			if(!url)
+			{
+				return undefined;
+			}
+			return exports.getUserRepo(url);
+		};
 	};
 	return new plugin(options);
 };
 
-/**
- * @type {Object.<string,string>|null}
- */
-var cache = null;
-
-/**
- * @todo This is a kind of resource, and I'll need more of them. These don't create sections but they provide metadata for things in the sections (maybe widgets?)
- * @todo This is a processor that isn't associated with a file type (maybe the file type can be '*'?)
- *
- * Reads the git config for the repo in the current folder.
- * @returns {Object.<string,string>}
- */
-exports.config = function()
+/*
+var info = $git.info();
+if(info)
 {
-	if(cache)
+	if($fs.existsSync(this.work + '.travis.yml'))
 	{
-		return cache;
+		var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
+		this.badges.build = this.badge('Build Status', url + '.svg', url);
+		console.log('Travis: ' + url);
 	}
-	// git is not installed
-	if(!$shell.which('git'))
-	{
-		console.error('WARNING: git command line tool was not found.');
-		return null;
-	}
-	var output = $shell.exec('git config --local --list', {silent: true}).output.trim();
-	cache = _.zipObject(_.map(_.compact(output.split("\n")), function(line)
-	{
-		return line.split("=");
-	}));
-	return cache;
-};
+	this.title = this.title || info.repo;
+	this.github = _.template('https://github.com/${user}/${repo}')(info);
+}
+*/
 
 /**
  * Extracts the username/organization and repo name from a GitHub URL address.
@@ -94,19 +102,4 @@ exports.getUserRepo = function(url)
 		'user': parts[0],
 		'repo': parts[1]
 	};
-};
-
-/**
- * Gets the username and repo name for the current working folder. Assumes it's a GitHub repo.
- *
- * @returns {{name:string,repo:string}|undefined}
- */
-exports.info = function()
-{
-	var url = (this.config() && this.config()['remote.origin.url']) || undefined;
-	if(!url)
-	{
-		return undefined;
-	}
-	return this.getUserRepo(url);
 };

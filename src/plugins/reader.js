@@ -1,11 +1,12 @@
-var fs = require('fs');
 var _ = require('lodash');
+var fs = require('fs');
+var logger = require('winston');
 
 var section = require('../document/section.js');
-
 var format = require('../comments/format.js');
 var search = require('../comments/search.js');
 var annotations = require('../comments/annotations.js');
+var reader = require('../files/reader.js');
 
 exports.create = function(options)
 {
@@ -23,84 +24,31 @@ exports.create = function(options)
 			return true;
 		};
 
-		this.read = function(file)
+		this.getSections = function(file)
 		{
-			var text = fs.readFileSync(file, 'utf8');
+			var text = reader.read(file) || '';
 			var comments = search.findComments(text);
-			_.each(comments, function(comment)
+
+			logger.debug('Comments: %d', comments.length);
+
+			return _.compact(_.map(comments, function(comment)
 			{
 				var trimmed = format.trim(comment);
-				var readme = annotations.getReadme(trimmed);
-				if(_.isUndefined(readme))
-				{
-					return null;
-				}
+				return annotations.getReadme(trimmed);
+			}));
+		};
 
-				var name = _.first(readme);
-				var markdown = _.drop(readme);
-
+		this.read = function(file)
+		{
+			var comments = this.getSections(file);
+			_.each(comments,function(comment)
+			{
+				var name = _.first(comment);
+				var markdown = _.drop(comment);
 				section.root.child(name).append(markdown);
 			});
-		};
-
-		this.stop = function()
-		{
-		};
-
-		this.usage = function()
-		{
 		};
 	};
 
 	return new plugin(options);
-};
-
-/**
- * @todo rename to comments
- * @todo this is a processor of giles. it should publish what type of files it processes.
- * @todo should this know how to find those files? or should a different plugin handle the searching?
- *
- * @param {string} file
- *
- * @constructor
- */
-exports.File = function(file)
-{
-	this._file = file;
-};
-
-/**
- * @todo Rename to get comments
- * @returns {Array.<exports.Detail>}
- */
-exports.File.prototype.getSections = function()
-{
-	var text = fs.readFileSync(this._file, {'encoding': 'UTF-8'});
-	return this.findSections(text);
-};
-
-/**
- * @todo rename to find comments or just find
- * @param {string} text
- * @returns {Array.<exports.Detail>}
- */
-exports.File.prototype.findSections = function(text)
-{
-	var comments = search.findComments(text);
-	var sections = _.map(comments, function(comment)
-	{
-		var trimmed = format.trim(comment);
-		var readme = annotations.getReadme(trimmed);
-		if(typeof readme === 'undefined')
-		{
-			return null;
-		}
-
-		var name = _.first(readme);
-		var markdown = _.drop(readme);
-
-		return new section.Detail(name, markdown);
-	}, this);
-
-	return _.compact(sections);
 };

@@ -38,30 +38,71 @@ _.each(reads_files, function(plugin)
 	logger.debug('');
 	logger.debug('Plugin[%s]: Searching %s', plugin.name, conf.cwd);
 
-	_.isFunction(plugin.beforeRead) && plugin.beforeRead();
+	try
+	{
+		_.isFunction(plugin.beforeRead) && plugin.beforeRead();
+	}
+	catch(ex)
+	{
+		logger.error(ex.message);
+		logger.debug(ex.stack);
+		return;
+	}
 
 	fileset(plugin.include, plugin.exclude, conf).on('error', function(err)
 	{
 		logger.error(err);
 	}).on('match', function(file)
 	{
-		logger.debug('Found: %s', conf.cwd + file);
-		_.isFunction(plugin.read) && plugin.read(conf.cwd + file);
+		try
+		{
+			logger.debug('Found: %s', conf.cwd + file);
+			_.isFunction(plugin.read) && plugin.read(conf.cwd + file);
+		}
+		catch(ex)
+		{
+			logger.error(ex.message);
+			logger.debug(ex.stack);
+		}
 	}).on('end', function(files)
 	{
-		logger.debug('End');
-		_.isFunction(plugin.done) && plugin.done(conf.cwd, files);
+		try
+		{
+			logger.debug('End');
+			_.isFunction(plugin.done) && plugin.done(conf.cwd, files);
+		}
+		catch(ex)
+		{
+			logger.error(ex.message);
+			logger.debug(ex.stack);
+		}
 	});
 });
 
 _.each(manager.plugins, function(plugin)
 {
-	_.isFunction(plugin.beforeWrite) && plugin.beforeWrite();
+	try
+	{
+		_.isFunction(plugin.beforeWrite) && plugin.beforeWrite();
+	}
+	catch(ex)
+	{
+		logger.error(ex.message);
+		logger.debug(ex.stack);
+	}
 });
 
 _.each(manager.plugins, function(plugin)
 {
-	_.isFunction(plugin.write) && plugin.write();
+	try
+	{
+		_.isFunction(plugin.write) && plugin.write();
+	}
+	catch(ex)
+	{
+		logger.error(ex.message);
+		logger.debug(ex.stack);
+	}
 });
 
 //render.draw();
