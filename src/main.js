@@ -5,7 +5,7 @@ var fileset = require('fileset');
 var logger = require('winston');
 var params = require('./params.js');
 var manager = require("./manager.js");
-var q = require('q');
+var Q = require('q');
 var async = require('./async.js');
 
 if(params.invalid())
@@ -31,27 +31,31 @@ if(!manager.load())
 }
 
 /**
+ * Calls beforeRead on each plugin.
  *
  * @param {Object} plugin
- * @param {Q.defer} defer
+ * @returns {Q.promise}
  */
-function beforeRead(plugin, defer)
+function beforeRead(plugin)
 {
 	if(_.isFunction(plugin.beforeRead))
 	{
 		logger.debug('Plugin[%s]: beforeRead', plugin.name);
 		plugin.beforeRead();
 	}
-	defer.resolve(read);
+	return Q.thenResolve();
 }
 
 /**
+ * Calls read on each plugin.
  *
  * @param {Object} plugin
- * @param {Q.defer} defer
+ * @returns {Q.promise}
  */
-function read(plugin, defer)
+function read(plugin)
 {
+	var defer = Q.defer();
+
 	var conf = {
 		cwd: plugin.useSource === true ? params.source : params.work
 	};
@@ -62,7 +66,7 @@ function read(plugin, defer)
 		.on('error', function(err)
 			{
 				logger.error(err);
-				defer.resolve(beforeWrite);
+				defer.resolve();
 			})
 		.on('match', function(file)
 			{
@@ -83,45 +87,61 @@ function read(plugin, defer)
 				{
 					logger.debug('End');
 					_.isFunction(plugin.done) && plugin.done(conf.cwd, files);
-					defer.resolve(beforeWrite);
+					defer.resolve();
 				}
 				catch(ex)
 				{
 					logger.error(ex.message);
 					logger.debug(ex.stack);
-					defer.resolve(beforeWrite);
+					defer.resolve();
 				}
 			});
+
+	return defer.promise;
 }
 
 /**
+ * Calls beforeWrite on each plugin.
  *
  * @param {Object} plugin
- * @param {Q.defer} defer
+ * @returns {Q.promise}
  */
-function beforeWrite(plugin, defer)
+function beforeWrite(plugin)
 {
 	if(_.isFunction(plugin.beforeWrite))
 	{
 		logger.debug('BeforeWrite: %s', plugin.name);
 		plugin.beforeWrite();
 	}
-	defer.resolve(write);
+	return Q.thenResolve();
 }
 
 /**
+ * Calls write on each plugin.
  *
  * @param {Object} plugin
- * @param {Q.defer} defer
+ * @returns {Q.promise}
  */
-function write(plugin, defer)
+function write(plugin)
 {
 	if(_.isFunction(plugin.write))
 	{
 		logger.debug('Write: %s', plugin.name);
 		plugin.write();
 	}
-	defer.resolve();
+	return Q.thenResolve();
 }
 
-async.callThese(manager.plugins, [beforeRead, read, beforeWrite, write]);
+/**
+ * Calls each function above in order, but waits for the return promise to resolve before it calls the next function.
+ * After all the functions are called the returned promise is resolved.
+ */
+async.callThese(manager.plugins, [beforeRead, read, beforeWrite, write])
+	.then(function()
+		  {
+			  logger.debug('All done.');
+		  })
+	.catch(function(err)
+		   {
+			   logger.error(err);
+		   });
