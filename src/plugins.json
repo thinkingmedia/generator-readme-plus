@@ -8,7 +8,7 @@
     "path": "./plugins/reader.js",
     "include": "**.php",
     "name": "JavaScript",
-    "disable": true
+    "disable": false
   },
   {
     "path": "./plugins/reader.js",
@@ -32,17 +32,6 @@
     "path": "./plugins/reader.js",
     "include": "**.php",
     "name": "PHP",
-    "disable": true
-  },
-  {
-    "path": "./plugins/package.js",
-    "include": "package.json",
-    "name": "NPM",
-    "disable": true
-  },
-  {
-    "path": "./plugins/git.js",
-    "name": "Git",
     "disable": true
   }
 ]

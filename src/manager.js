@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var Q = require('q');
 var logger = require('winston');
 
 /**
@@ -49,7 +50,7 @@ exports.load = function()
 
 		try
 		{
-			logger.debug('Load: '+option.path);
+			logger.debug('Load: ' + option.path);
 
 			var module = require(option.path);
 			if(!_.isFunction(module.create))
@@ -73,7 +74,12 @@ exports.load = function()
 				return false;
 			}
 
-			plugin.include = _.isString(plugin.include) ? plugin.include : '';
+			if(!_.isString(plugin.include))
+			{
+				logger.error('Plugin[%s]: Does not define an include.', plugin.include);
+				return false
+			}
+
 			plugin.exclude = _.isString(plugin.exclude) ? plugin.exclude : '';
 			plugin.useSource = _.isBoolean(plugin.useSource) ? plugin.useSource : false;
 
