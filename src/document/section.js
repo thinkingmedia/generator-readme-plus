@@ -1,3 +1,7 @@
+var _ = require('lodash');
+var logger = require('winston');
+var sprintf = sprintf = require("sprintf-js").sprintf;
+
 /**
  * Defines a section in the document.
  *
@@ -82,6 +86,52 @@ exports.Section = function(id, parent)
 	{
 		this.content = this.content.concat(lines);
 	};
+
+	/**
+	 * The depth of this node in the tree.
+	 *
+	 * @returns {int}
+	 */
+	this.depth = function()
+	{
+		return this.parent
+			? this.parent.depth() + 1
+			: 1;
+	};
+
+	/**
+	 * Renders this section and children.
+	 *
+	 * @param {string[]=} lines
+	 * @returns {string[]}
+	 */
+	this.render = function(lines)
+	{
+		lines = lines || [];
+		lines.push(sprintf('%s %s', _.repeat('#', this.depth()), this.title));
+		lines = lines.concat(this.content);
+
+		_.each(this.children, function(child)
+		{
+			lines = child.render(lines);
+		});
+
+		return lines;
+	};
+};
+
+/**
+ * Finds a section by it's ID.
+ *
+ * @param {string} id
+ */
+exports.find = function(id)
+{
+	if(!!id || id.trim().toUpperCase() === 'ROOT')
+	{
+		return exports.root;
+	}
+	return exports.root.child(id);
 };
 
 /**
@@ -142,7 +192,7 @@ exports.find = function(path)
  *
  * @type {exports.Section}
  */
-exports.root = exports.create('root', null);
+exports.root = exports.create('ROOT', null);
 
 /**
  * Creates a badge image in markdown.

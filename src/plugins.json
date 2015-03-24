@@ -8,7 +8,7 @@
     "path": "./plugins/reader.js",
     "include": "**.php",
     "name": "JavaScript",
-    "disable": false
+    "disable": true
   },
   {
     "path": "./plugins/reader.js",

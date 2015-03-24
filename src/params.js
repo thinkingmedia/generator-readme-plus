@@ -12,6 +12,11 @@ exports.silent = args.opt.s || args.opt.silent;
 /**
  * @type {boolean}
  */
+exports.verbose = !!args.opt.verbose;
+
+/**
+ * @type {boolean}
+ */
 exports.version = false;
 
 /**
@@ -103,12 +108,38 @@ exports.copyright = function()
 
 /**
  * Displays the program usage.
+ *
+ * @readme Usage
+ *
+ * Run readme on the command line in the working folder where you want to generate a README.md file.
+ *
+ * ```shell
+ * $ cd /home/user/work
+ * $ readme
+ * ```
+ *
+ * The default options assume your working folder contains a sub-folder named `src` that contains the source code for your project.
+ *
+ * ```
+ * Usage: readme [options] <path>
+ *
+ * Example: readme --source=./www/js /home/mathew/thinkingmedia/readme
+ *
+ * Options:
+ *   -v, --version    print version number
+ *   -s, --silent     hides copyright message
+ *   -d, --debug      send README.md output to console
+ *   --verbose        show debug message
+ *   --source         path to source folder (default: ./src)
+ *   --file           name of output file (default: README.md)
+ * ```
+ *
  */
 exports.usage = function()
 {
 	console.log('Usage: readme [options] <path>');
 	console.log('');
-	console.log('Example: readme --source=./www/js /home/travis/user/repo');
+	console.log('Example: readme --source=./www/js /home/mathew/thinkingmedia/readme');
 	console.log('');
 	console.log('Options:');
 	console.log('  -v, --version    print version number');

@@ -8,6 +8,13 @@ var search = require('../comments/search.js');
 var annotations = require('../comments/annotations.js');
 var reader = require('../files/reader.js');
 
+/**
+ * @readme
+ *
+ * This is a test.
+ *
+ * @param options
+ */
 exports.create = function(options)
 {
 	var plugin = function(options)
@@ -41,12 +48,28 @@ exports.create = function(options)
 		this.read = function(file)
 		{
 			var comments = this.getSections(file);
-			_.each(comments,function(comment)
+
+			if(comments.length !== 0)
 			{
-				var name = _.first(comment);
-				var markdown = _.drop(comment);
-				section.root.child(name).append(markdown);
+				logger.info(file);
+				logger.debug('Sections: %d', comments.length);
+			}
+
+			_.each(comments, function(comment)
+			{
+				logger.info(comment.title ? "%s \"%s\"" : "%s", comment.name || 'ROOT', comment.title);
+
+				var child = section.root.child(comment.name || 'ROOT');
+				child.title = comment.title || comment.name;
+				child.append(comment.lines);
 			});
+		};
+
+		/**
+		 * @param {exports.Section} root
+		 */
+		this.write = function(root)
+		{
 		};
 	};
 

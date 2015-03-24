@@ -1,12 +1,14 @@
 require('./bootstrap.js');
 
 var _ = require('lodash');
+var fs = require('fs');
 var fileset = require('fileset');
 var logger = require('winston');
 var params = require('./params.js');
 var manager = require("./manager.js");
 var Q = require('q');
 var async = require('./async.js');
+var section = require('./document/section.js');
 
 if(params.invalid())
 {
@@ -41,7 +43,7 @@ function beforeRead(plugin)
 	if(_.isFunction(plugin.beforeRead))
 	{
 		logger.debug('Plugin[%s]: beforeRead', plugin.name);
-		plugin.beforeRead();
+		plugin.beforeRead(section.root);
 	}
 	return Q.thenResolve();
 }
@@ -73,7 +75,7 @@ function read(plugin)
 				try
 				{
 					logger.debug('Found: %s', conf.cwd + file);
-					_.isFunction(plugin.read) && plugin.read(conf.cwd + file);
+					_.isFunction(plugin.read) && plugin.read(conf.cwd + file, section.root);
 				}
 				catch(ex)
 				{
@@ -86,7 +88,7 @@ function read(plugin)
 				try
 				{
 					logger.debug('End');
-					_.isFunction(plugin.done) && plugin.done(conf.cwd, files);
+					_.isFunction(plugin.done) && plugin.done(conf.cwd, files, section.root);
 					defer.resolve();
 				}
 				catch(ex)
@@ -111,7 +113,7 @@ function beforeWrite(plugin)
 	if(_.isFunction(plugin.beforeWrite))
 	{
 		logger.debug('BeforeWrite: %s', plugin.name);
-		plugin.beforeWrite();
+		plugin.beforeWrite(section.root);
 	}
 	return Q.thenResolve();
 }
@@ -127,7 +129,7 @@ function write(plugin)
 	if(_.isFunction(plugin.write))
 	{
 		logger.debug('Write: %s', plugin.name);
-		plugin.write();
+		plugin.write(section.root);
 	}
 	return Q.thenResolve();
 }
@@ -140,6 +142,22 @@ async.callThese(manager.plugins, [beforeRead, read, beforeWrite, write])
 	.then(function()
 		  {
 			  logger.debug('All done.');
+
+			  var lines = section.root.render();
+
+			  if(params.verbose)
+			  {
+				  logger.info('');
+				  _.each(lines, function(line)
+				  {
+					  logger.info(line);
+				  });
+			  }
+			  else
+			  {
+				  var outfile = params.work + 'README.md';
+				  fs.writeFileSync(outfile, lines.join("\n"), 'utf8');
+			  }
 		  })
 	.catch(function(err)
 		   {
