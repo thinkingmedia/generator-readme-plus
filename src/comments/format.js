@@ -28,13 +28,13 @@ exports.trim = function(lines)
 		}
 
 		// extract text from between comment indicators /** example **/
-		return [line.replace(/^\/\*+/, "").replace(/\*+\/$/, "").trim()];
+		return exports.unescape([line.replace(/^\/\*+/, "").replace(/\*+\/$/, "").trim()]);
 	}
 
 	// assume the first and last lines are start/end markers for a block comment
 	lines = _.dropRight(_.drop(lines));
 
-	return _.map(lines, function(line)
+	return exports.unescape(_.map(lines, function(line)
 	{
 		line = line.trim();
 		if(_.startsWith(line, '*'))
@@ -42,5 +42,19 @@ exports.trim = function(lines)
 			line = line.substr(1).trim();
 		}
 		return line;
+	}));
+};
+
+/**
+ * Removes escape slashes from text, and reduces double slashes to a single slash.
+ *
+ * @param {Array.<string>} lines
+ * @returns {Array.<string>}
+ */
+exports.unescape = function(lines)
+{
+	return _.map(lines, function(line)
+	{
+		return line.replace(/\\(?!\\)/g, '').replace(/\\\\/g, '\\');
 	});
 };

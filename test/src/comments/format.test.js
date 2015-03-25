@@ -36,4 +36,14 @@ test(['comments/format', 'comments/search'], function(format, search)
 		var arr = format.trim(comments[0]);
 		assert.deepEqual(arr, ['@readme House', '', 'A simple message to be extracted for the readme file.'])
 	});
+
+	it('removes escape slashes', function()
+	{
+		assert.deepEqual(format.unescape(['']), ['']);
+		assert.deepEqual(format.unescape(['\\']), ['']);
+		assert.deepEqual(format.unescape(['\\\\']), ['\\']);
+		assert.deepEqual(format.unescape(['something else']), ['something else']);
+		assert.deepEqual(format.unescape(['\\something \\else']), ['something else']);
+		assert.deepEqual(format.unescape(['\\@readme']), ['@readme']);
+	});
 });

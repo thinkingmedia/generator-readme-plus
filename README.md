@@ -31,14 +31,14 @@ first word after the `@readme` indicator is the name and default title of the se
 
 ```
 /**
-* \@readme Install
+* @readme Install
 *
 *  Use `npm` to install the `foobar` module.
 *
 *  ```shell
 *  $ npm install foobar
 *  ```
-*\/
+*/
 ```
 
 In the above example a heading labelled `Installations` will be added under the root section with the markdown text
@@ -50,14 +50,14 @@ You can customize the heading used for each section by providing title text afte
 
 ```
 /**
-* \@readme Install Installation Instructions
+* @readme Install Installation Instructions
 *
 *  Use `npm` to install the `foobar` module.
 *
 *  ```shell
 *  $ npm install foobar
 *  ```
-*\/
+*/
 ```
 In the above example the default heading `Install` is replaced with `Installation Instructions`.
 
