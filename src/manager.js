@@ -3,48 +3,34 @@ var Q = require('q');
 var logger = require('winston');
 
 /**
- * The options for each plugin.
- *
- * @type {Array}
- */
-exports.options = require('./plugins.json');
-
-/**
- * The loaded plugins.
- *
- * @type {Array|null}
- */
-exports.plugins = null;
-
-/**
  * Loads all the plugins for the app.
  *
+ * @param {string} type
+ * @param {string} json_file
+ *
  * @returns {boolean}
+ * @returns {Array|null}
  */
-exports.load = function()
+exports.load = function(type, json_file)
 {
-	if(exports.plugins !== null)
-	{
-		logger.error('Plugins already loaded');
-		return false;
-	}
+	var options = require(json_file);
 
-	exports.options = _.filter(exports.options, function(option)
+	options = _.filter(options, function(option)
 	{
 		return option.disable !== true;
 	});
 
-	if(exports.options.length === 0)
+	if(options.length === 0)
 	{
-		logger.error('No plugins available.');
-		return false;
+		logger.error('No %s options available.', type);
+		return null;
 	}
 
-	exports.plugins = _.map(exports.options, function(option)
+	var modules = _.map(options, function(option)
 	{
 		if(!_.isString(option.path))
 		{
-			logger.error('Plugin path not defined.');
+			logger.error('%s path not defined.', type);
 			return false;
 		}
 
@@ -55,38 +41,47 @@ exports.load = function()
 			var module = require(option.path);
 			if(!_.isFunction(module.create))
 			{
-				logger.error('Module[%s]: Does not have factory create method.', option.path);
+				logger.error('%s[%s]: Does not have factory create method.', type, option.path);
 				return false;
 			}
 
-			var plugin = module.create(option);
-			if(_.isUndefined(plugin) || !_.isObject(plugin))
+			var obj = module.create(option);
+			if(_.isUndefined(obj) || !_.isObject(obj))
 			{
-				logger.error('Module[%s]: Failed to create plugin object.', option.path);
+				logger.error('%s[%s]: Failed to create %s object.', type, option.path, type);
 				return false;
 			}
 
-			logger.debug('Plugin[%s]: %s', plugin.name, option.path);
-
-			if(_.isFunction(plugin.start) && plugin.start() !== true)
+			if(!obj.name || !_.isString(obj.name))
 			{
-				logger.debug('Plugin[%s]: Failed to start', option.path);
+				logger.error('%s[%s]: Must define a name property.', type, option.path);
 				return false;
 			}
 
-			if(!_.isString(plugin.include))
+			logger.debug('%s[%s]: %s', obj.name, type, option.path);
+
+			if(_.isFunction(obj.start) && obj.start() !== true)
 			{
-				logger.error('Plugin[%s]: Does not define an include.', plugin.include);
-				return false
+				logger.debug('%s[%s]: Failed to start', type, option.path);
+				return false;
 			}
 
-			plugin.exclude = _.isString(plugin.exclude) ? plugin.exclude : '';
-			plugin.useSource = _.isBoolean(plugin.useSource) ? plugin.useSource : false;
+			if(type === 'plugin')
+			{
+				if(!_.isString(obj.include))
+				{
+					logger.error('%s[%s]: Does not define an include.', type, obj.include);
+					return false
+				}
 
-			plugin.include && logger.debug('Include[%s]: %s', option.path, plugin.include);
-			plugin.exclude && logger.debug('Exclude[%s]: %s', option.path, plugin.exclude);
+				obj.exclude = _.isString(obj.exclude) ? obj.exclude : '';
+				obj.useSource = _.isBoolean(obj.useSource) ? obj.useSource : false;
 
-			return plugin;
+				obj.include && logger.debug('Include[%s]: %s', option.path, obj.include);
+				obj.exclude && logger.debug('Exclude[%s]: %s', option.path, obj.exclude);
+			}
+
+			return obj;
 		}
 		catch(ex)
 		{
@@ -97,17 +92,18 @@ exports.load = function()
 		return false;
 	});
 
-	if(_.compact(exports.plugins).length !== exports.plugins.length)
+	if(_.compact(modules).length !== modules.length)
 	{
-		exports.stop();
-		return false;
+		logger.error('One or more %s failed to load.', type);
+		exports.stop(modules);
+		return null;
 	}
 
-	return _.all(exports.plugins, function(plugin)
+	var valid = _.all(modules, function(plugin)
 	{
 		if(!_.isBoolean(plugin.valid))
 		{
-			logger.error('Plugin[%s]: Does not export valid property.', plugin.name);
+			logger.error('%s[%s]: Does not export valid property.', type, plugin.name);
 			return false;
 		}
 		if(plugin.valid !== true && _.isFunction(plugin.usage))
@@ -116,14 +112,24 @@ exports.load = function()
 		}
 		return plugin.valid;
 	});
+
+	if(!valid)
+	{
+		return null;
+	}
+
+	var names = _.map(modules,function(module) { return module.name; });
+	return _.zipObject(names, modules);
 };
 
 /**
  * Tells each plugin that the app is about to exit.
+ *
+ * @param {Array} modules
  */
-exports.stop = function()
+exports.stop = function(modules)
 {
-	_.each(exports.plugins || [], function(module)
+	_.each(modules || [], function(module)
 	{
 		if(!!module || module.stopped === true)
 		{
@@ -148,6 +154,4 @@ exports.stop = function()
 			}
 		}
 	});
-
-	exports.plugins = null;
 };

@@ -1,4 +1,4 @@
-test('plugins/git', function(git)
+test('services/git', function(git)
 {
 	it('ignores these types of urls',function()
 	{

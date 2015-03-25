@@ -29,33 +29,31 @@ exports.create = function(options)
 		 *
 		 * @returns {{name:string,repo:string}|undefined}
 		 */
-		exports.info = function()
+		this.info = function()
 		{
 			var url = (this.cache && this.cache['remote.origin.url']) || undefined;
-			if(!url)
-			{
-				return undefined;
-			}
-			return exports.getUserRepo(url);
+			return url
+				? exports.getUserRepo(url)
+				: undefined;
 		};
 	};
 	return new plugin(options);
 };
 
 /*
-var info = $git.info();
-if(info)
-{
-	if($fs.existsSync(this.work + '.travis.yml'))
-	{
-		var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
-		this.badges.build = this.badge('Build Status', url + '.svg', url);
-		console.log('Travis: ' + url);
-	}
-	this.title = this.title || info.repo;
-	this.github = _.template('https://github.com/${user}/${repo}')(info);
-}
-*/
+ var info = $git.info();
+ if(info)
+ {
+ if($fs.existsSync(this.work + '.travis.yml'))
+ {
+ var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
+ this.badges.build = this.badge('Build Status', url + '.svg', url);
+ console.log('Travis: ' + url);
+ }
+ this.title = this.title || info.repo;
+ this.github = _.template('https://github.com/${user}/${repo}')(info);
+ }
+ */
 
 /**
  * Extracts the username/organization and repo name from a GitHub URL address.

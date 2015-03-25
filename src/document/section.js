@@ -33,6 +33,16 @@ exports.Section = function(id, parent)
 	this.title = null;
 
 	/**
+	 * Changes the title
+	 *
+	 * @param {string|undefined|null} str
+	 */
+	this.setTitle = function(str)
+	{
+		this.title = this.title || str || null;
+	};
+
+	/**
 	 * URL associated with the title.
 	 *
 	 * @type {string|null}
@@ -80,10 +90,19 @@ exports.Section = function(id, parent)
 	/**
 	 * Appends text to the contents.
 	 *
-	 * @param {string[]} lines
+	 * @param {string[]|undefined} lines
 	 */
 	this.append = function(lines)
 	{
+		if(_.isString(lines))
+		{
+			this.append([lines]);
+			return;
+		}
+		if(!_.isArray(lines))
+		{
+			return;
+		}
 		this.content = this.content.concat(lines);
 	};
 
@@ -108,8 +127,10 @@ exports.Section = function(id, parent)
 	this.render = function(lines)
 	{
 		lines = lines || [];
-		lines.push(sprintf('%s %s', _.repeat('#', this.depth()), this.title));
+		lines.push(sprintf('%s %s %s', _.repeat('#', this.depth()), this.title, this.widgets.title.join('')));
+		lines.push(this.widgets.top.join(''));
 		lines = lines.concat(this.content);
+		lines.push(this.widgets.bottom.join(''));
 
 		_.each(this.children, function(child)
 		{
@@ -117,6 +138,23 @@ exports.Section = function(id, parent)
 		});
 
 		return lines;
+	};
+
+	/**
+	 * Adds a badge to a widget location.
+	 *
+	 * @param {string} widget
+	 * @param {string} title
+	 * @param {string} img
+	 * @param {string} url
+	 */
+	this.addBadge = function(widget, title, img, url)
+	{
+		if(_.isArray(this.widgets[widget]))
+		{
+			var str = exports.badge(title, img, url);
+			this.widgets[widget].push(str);
+		}
 	};
 };
 

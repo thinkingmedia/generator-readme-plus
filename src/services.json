@@ -1,0 +1,18 @@
+[
+  {
+    "path": "./services/package.js",
+    "name": "node"
+  },
+  {
+    "path": "./services/git.js",
+    "name": "git"
+  },
+  {
+    "path": "./services/travis.js",
+    "name": "travis"
+  },
+  {
+    "path": "./services/code-climate",
+    "name": "codeclimate"
+  }
+]

@@ -27,25 +27,36 @@ if(!params.silent)
 	params.copyright();
 }
 
-if(!manager.load())
+var plugins = manager.load('plugin', './plugins.json');
+if(plugins === null)
 {
 	process.exit(-1);
 }
 
-/**
- * Calls beforeRead on each plugin.
- *
- * @param {Object} plugin
- * @returns {Q.promise}
- */
-function beforeRead(plugin)
+var services = manager.load('service', './services.json');
+if(services === null)
 {
-	if(_.isFunction(plugin.beforeRead))
+	manager.stop(plugins);
+	process.exit(-1);
+}
+
+/**
+ * Creates a function that calls a method on a module (only if it exists).
+ *
+ * @param {string} name
+ * @returns {function(string):Q.promise}
+ */
+function callMethod(name)
+{
+	return function(module)
 	{
-		logger.debug('Plugin[%s]: beforeRead', plugin.name);
-		plugin.beforeRead(section.root);
+		if(_.isFunction(module[name]))
+		{
+			logger.debug('Module[%s]: %s', module.name, name);
+			module[name](section.root, services);
+		}
+		return Q.thenResolve();
 	}
-	return Q.thenResolve();
 }
 
 /**
@@ -75,7 +86,7 @@ function read(plugin)
 				try
 				{
 					logger.debug('Found: %s', conf.cwd + file);
-					_.isFunction(plugin.read) && plugin.read(conf.cwd + file, section.root);
+					_.isFunction(plugin.read) && plugin.read(conf.cwd + file, section.root, services);
 				}
 				catch(ex)
 				{
@@ -88,7 +99,7 @@ function read(plugin)
 				try
 				{
 					logger.debug('End');
-					_.isFunction(plugin.done) && plugin.done(conf.cwd, files, section.root);
+					_.isFunction(plugin.done) && plugin.done(conf.cwd, files, section.root, services);
 					defer.resolve();
 				}
 				catch(ex)
@@ -103,61 +114,54 @@ function read(plugin)
 }
 
 /**
- * Calls beforeWrite on each plugin.
- *
- * @param {Object} plugin
- * @returns {Q.promise}
+ * Renders the README.md file
  */
-function beforeWrite(plugin)
+function render()
 {
-	if(_.isFunction(plugin.beforeWrite))
+	logger.debug('Render');
+
+	var lines = section.root.render();
+	if(params.verbose)
 	{
-		logger.debug('BeforeWrite: %s', plugin.name);
-		plugin.beforeWrite(section.root);
+		logger.info('');
+		_.each(lines, function(line)
+		{
+			logger.info(line);
+		});
 	}
-	return Q.thenResolve();
+	else
+	{
+		var outfile = params.work + 'README.md';
+		fs.writeFileSync(outfile, lines.join("\n"), 'utf8');
+	}
 }
 
-/**
- * Calls write on each plugin.
- *
- * @param {Object} plugin
- * @returns {Q.promise}
- */
-function write(plugin)
-{
-	if(_.isFunction(plugin.write))
-	{
-		logger.debug('Write: %s', plugin.name);
-		plugin.write(section.root);
-	}
-	return Q.thenResolve();
-}
+var beforeRead = callMethod('beforeRead');
+var beforeWrite = callMethod('beforeWrite');
+var write = callMethod('write');
 
 /**
  * Calls each function above in order, but waits for the return promise to resolve before it calls the next function.
  * After all the functions are called the returned promise is resolved.
  */
-async.callThese(manager.plugins, [beforeRead, read, beforeWrite, write])
+async.callThese(plugins, [beforeRead, read, beforeWrite, write])
 	.then(function()
 		  {
-			  logger.debug('All done.');
+			  /**
+			   * The plugins are done. Now the services can write.
+			   */
+			  async.callThese(services, [beforeWrite, write])
+				  .then(function()
+						{
+							render();
 
-			  var lines = section.root.render();
-
-			  if(params.verbose)
-			  {
-				  logger.info('');
-				  _.each(lines, function(line)
-				  {
-					  logger.info(line);
-				  });
-			  }
-			  else
-			  {
-				  var outfile = params.work + 'README.md';
-				  fs.writeFileSync(outfile, lines.join("\n"), 'utf8');
-			  }
+							manager.stop(plugins);
+							manager.stop(services);
+						})
+				  .catch(function(err)
+						 {
+							 logger.error(err);
+						 });
 		  })
 	.catch(function(err)
 		   {

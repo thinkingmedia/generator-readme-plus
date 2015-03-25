@@ -1,5 +1,9 @@
-# null
-## Usage
+# readme [![Build Status](https://travis-ci.org/thinkingmedia/readme.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme)[![Core Climate](https://codeclimate.com/github/thinkingmedia/readme/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme)
+
+A readme file generator
+
+## Usage 
+
 
 Run readme on the command line in the working folder where you want to generate a README.md file.
 
@@ -24,7 +28,9 @@ Options:
 --file           name of output file (default: README.md)
 ```
 
-## Naming The Sections
+
+## Naming The Sections 
+
 
 Each heading in a readme file is defined by a section of source code comments that use the `@readme` indicator. The
 first word after the `@readme` indicator is the name and default title of the section.
@@ -44,7 +50,9 @@ first word after the `@readme` indicator is the name and default title of the se
 In the above example a heading labelled `Installations` will be added under the root section with the markdown text
 found in the comment.
 
-## Changing The Section Title
+
+## Changing The Section Title 
+
 
 You can customize the heading used for each section by providing title text after declaring the section.
 
@@ -61,6 +69,9 @@ You can customize the heading used for each section by providing title text afte
 ```
 In the above example the default heading `Install` is replaced with `Installation Instructions`.
 
-## null
+
+## null 
+
 
 This is a test.
+

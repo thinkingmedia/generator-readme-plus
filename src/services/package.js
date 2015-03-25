@@ -1,5 +1,7 @@
 var _ = require('lodash');
+var fs = require('fs');
 
+var params = require('../params.js');
 var arrays = require('../primitives/arrays.js');
 var reader = require('../files/reader.js');
 
@@ -12,23 +14,22 @@ exports.create = function(options)
 
 		this.start = function()
 		{
+			this.json = reader.readJson(params.work + "package.json");
 			this.valid = true;
 			return true;
 		};
 
-		this.read = function(file)
+		/**
+		 * Updates the root section.
+		 *
+		 * @param {exports.Section} root
+		 */
+		this.write = function(root)
 		{
-			var json = reader.readJson(file);
-			return;
-			if(json)
-			{
-				var data = exports.format(json);
-				this.title = data.title || this.title;
-				this.desc = data.description || this.desc;
-				this.authors = data.authors;
-				this.license = data.license || this.license;
-			}
-		}
+			var json = exports.format(this.json);
+			root.setTitle(json && json.title);
+			root.append(json && json.description);
+		};
 	};
 
 	return new plugin(options);
@@ -105,14 +106,23 @@ exports.license = function(json)
 	return undefined;
 };
 
+/**
+ * Formats the package.json into readable properties.
+ *
+ * @param {Object|undefined} json
+ * @returns {Object|undefined}
+ */
 exports.format = function(json)
 {
-	var self = this;
+	if(!_.isObject(json))
+	{
+		return undefined;
+	}
 	return {
 		title:        json.name || undefined,
 		description:  json.description || undefined,
-		authors:      self.people(json.author),
-		contributors: self.people(json.contributors),
-		license:      self.license(json.license)
+		authors:      exports.people(json.author),
+		contributors: exports.people(json.contributors),
+		license:      exports.license(json.license)
 	};
 };
