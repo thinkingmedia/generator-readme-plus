@@ -27,7 +27,7 @@ var util = require('util');
  */
 exports.getName = function(text)
 {
-	var parts = text.toUpperCase().trim().split(' ');
+	var parts = text.replace(/\s+/g, ' ').toUpperCase().split(' ');
 	if(_.first(parts) != '@README')
 	{
 		return null;
@@ -58,8 +58,13 @@ exports.getName = function(text)
  */
 exports.getTitle = function(text)
 {
-	var parts = text.trim().split(' ');
-	return _.drop(parts,2).join(' ') || _.first(_.rest(parts)) || null;
+	var parts = text.replace(/\s+/g, ' ').trim().split(' ');
+	var title = _.drop(parts, 2).join(' ') || _.first(_.rest(parts)) || null;
+	var quotes = ((_.startsWith(title, '"') && _.endsWith(title, '"'))
+				  || (_.startsWith(title, '\'') && _.endsWith(title, '\'')));
+	return quotes
+		? title.slice(1, -1)
+		: title;
 };
 
 /**
