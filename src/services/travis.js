@@ -13,15 +13,15 @@ exports.create = function(options)
 
 		this.start = function()
 		{
-			this.file = reader.read(params.work + ".travis.yml");
-			this.file && logger.debug('Found .travis.yml file');
+			this._file = reader.read(params.work + ".travis.yml");
+			this._file && logger.debug('Found .travis.yml file');
 			return this.valid = true;
 		};
 
 		this.write = function(root, services)
 		{
 			var info = services.git.info();
-			if(!this.file || !info)
+			if(!this._file || !info)
 			{
 				return;
 			}

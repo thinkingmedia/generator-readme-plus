@@ -1,3 +1,5 @@
+return;
+
 test('comments/annotations', function(ann)
 {
 	it('empty array yields undefined', function()
@@ -15,13 +17,13 @@ test('comments/annotations', function(ann)
 	it('the comment has @readme', function()
 	{
 		var text = ann.getReadme(['@readme', 'this line', 'and this line']);
-		assert.deepEqual(text, {name: null, title: null, lines: ['this line', 'and this line']});
+		assert.deepEqual(text, {name: null, title: null, _lines: ['this line', 'and this line']});
 	});
 
 	it('ignores text before @readme', function()
 	{
 		var text = ann.getReadme(['this will be ignored', '@readme', 'this line', 'and this line']);
-		assert.deepEqual(text, {name: null, title: null, lines: ['this line', 'and this line']});
+		assert.deepEqual(text, {name: null, title: null, _lines: ['this line', 'and this line']});
 	});
 
 	it('ignores text after @readme', function()
@@ -30,7 +32,7 @@ test('comments/annotations', function(ann)
 									 '@readme', 'this line', 'and this line',
 									 '@param {string} Name this will be ignored'
 								 ]);
-		assert.deepEqual(text, {name: null, title: null, lines: ['this line', 'and this line']});
+		assert.deepEqual(text, {name: null, title: null, _lines: ['this line', 'and this line']});
 	});
 
 	it('ignores text around @readme', function()
@@ -39,7 +41,7 @@ test('comments/annotations', function(ann)
 									 'this will be ignored', '@readme', 'this line', 'and this line',
 									 '@param {string} Name this will be ignored'
 								 ]);
-		assert.deepEqual(text, {name: null, title: null, lines: ['this line', 'and this line']});
+		assert.deepEqual(text, {name: null, title: null, _lines: ['this line', 'and this line']});
 	});
 
 	it('gets ID from @readme', function()

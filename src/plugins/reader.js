@@ -2,10 +2,10 @@ var _ = require('lodash');
 var fs = require('fs');
 var logger = require('winston');
 
+var coreSource = require('../core/source_code.js');
+var coreTag = require('../core/tag.js');
+
 var section = require('../document/section.js');
-var format = require('../comments/format.js');
-var search = require('../comments/search.js');
-var annotations = require('../comments/annotations.js');
 var reader = require('../files/reader.js');
 
 /**
@@ -31,45 +31,37 @@ exports.create = function(options)
 			return true;
 		};
 
-		this.getSections = function(file)
+		this.read = function(path, root, services)
 		{
-			var text = reader.read(file) || '';
-			var comments = search.findComments(text);
-
-			logger.debug('Comments: %d', comments.length);
-
-			return _.compact(_.map(comments, function(comment)
+			var file = coreSource.create(path);
+			if(!file)
 			{
-				var trimmed = format.trim(comment);
-				return annotations.getReadme(trimmed);
-			}));
-		};
-
-		this.read = function(file)
-		{
-			var comments = this.getSections(file);
-
+				return;
+			}
+			var comments = file.getComments();
 			if(comments.length !== 0)
 			{
-				logger.info(file);
-				logger.debug('Sections: %d', comments.length);
+				logger.info(path);
+				logger.debug('Comments: %d', comments.length);
 			}
 
-			_.each(comments, function(comment)
+			_.each(comments, function(/** exports.Comment */comment)
 			{
-				logger.info(comment.title ? "%s \"%s\"" : "%s", comment.name || 'ROOT', comment.title);
+				_.each(coreTag.create(comment, 'readme'),function(/** exports.Tag */tag)
+				{
+					logger.info(tag.getTitle() ? "%s \"%s\"" : "%s", tag.getName() || 'ROOT', tag.getTitle());
 
-				var child = section.root.child(comment.name || 'ROOT');
-				child.title = comment.title || comment.name;
-				child.append(comment.lines);
+					var child = root.child(tag.getName() || 'ROOT');
+					child.title = tag.getTitle() || tag.getName();
+
+					var lines = tag.getLines();
+					if(lines.length > 0)
+					{
+						child.append(lines);
+						child.trace(tag.getFile(), lines[0].getNum());
+					}
+				});
 			});
-		};
-
-		/**
-		 * @param {exports.Section} root
-		 */
-		this.write = function(root)
-		{
 		};
 	};
 

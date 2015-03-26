@@ -1,6 +1,17 @@
-# readme [![Build Status](https://travis-ci.org/thinkingmedia/readme.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme)[![Core Climate](https://codeclimate.com/github/thinkingmedia/readme/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme)
+# readme [![Build Status](https://travis-ci.org/thinkingmedia/readme.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme) [![Core Climate](https://codeclimate.com/github/thinkingmedia/readme/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme)
 
 A readme file generator
+
+## null 
+
+
+Readme+ uses the contents of the current work folder to generate a `README.md` file for the project. Most of your
+time is spent in the source code and this is where you can add notes to be included in the output `README.md`.
+
+Readme+ searches for `@readme` markers in the source code comments.
+
+This is a test.
+
 
 ## Usage 
 
@@ -68,10 +79,4 @@ You can customize the heading used for each section by providing title text afte
 */
 ```
 In the above example the default heading `Install` is replaced with `Installation Instructions`.
-
-
-## null 
-
-
-This is a test.
 

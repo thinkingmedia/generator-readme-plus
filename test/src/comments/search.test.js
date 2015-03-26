@@ -1,3 +1,5 @@
+return;
+
 test('comments/search', function($search)
 {
 	it('a simple comment', function()

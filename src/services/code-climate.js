@@ -13,7 +13,7 @@ exports.create = function(options)
 		this.write = function(root, services)
 		{
 			// check if the token exists in the travis file
-			var travis = (services.travis.file || '').trim().toUpperCase().indexOf('CODECLIMATE_REPO_TOKEN') !== -1;
+			var travis = (services.travis._file || '').trim().toUpperCase().indexOf('CODECLIMATE_REPO_TOKEN') !== -1;
 
 			// check if the dependency exists in the package.json file
 			var depend = services.package.json && services.package.json['dependencies'] && services.package.json['dependencies']['codeclimate-test-reporter'];

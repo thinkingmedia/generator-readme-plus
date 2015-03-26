@@ -1,3 +1,5 @@
+return;
+
 test(['comments/format', 'comments/search'], function(format, search)
 {
 	it("these single lines yield empty array", function()

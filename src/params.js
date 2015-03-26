@@ -7,7 +7,7 @@ var logger = require('winston');
 /**
  * @type {boolean}
  */
-exports.silent = args.opt.s || args.opt.silent;
+exports.silent = !!args.opt.s || !!args.opt.silent;
 
 /**
  * @type {boolean}
@@ -28,6 +28,18 @@ exports.work = args.argv[0] || null;
  * @type {string|null}
  */
 exports.source = null;
+
+/**
+ * @type {boolean}
+ */
+exports.trace = !!args.opt.trace;
+
+/**
+ * The name of the readme file to write.
+ *
+ * @type {string}
+ */
+exports._file = args.opt._file || 'README.md';
 
 if(_.isString(exports.work))
 {
@@ -72,7 +84,7 @@ exports.showVersion = function()
  */
 exports.invalid = function()
 {
-	if(!exports.work)
+	if(!exports.work || args.opt.h || args.opt.help)
 	{
 		return true;
 	}
@@ -128,9 +140,10 @@ exports.copyright = function()
  * Options:
  *   -v, --version    print version number
  *   -s, --silent     hides copyright message
- *   -d, --debug      send README.md output to console
- *   --verbose        show debug message
+ *   -d, --debug      show debug message
+ *   --verbose        send README.md output to console
  *   --source         path to source folder (default: ./src)
+ *   --trace          write source code references in README.md
  *   --file           name of output file (default: README.md)
  * ```
  *
@@ -144,8 +157,9 @@ exports.usage = function()
 	console.log('Options:');
 	console.log('  -v, --version    print version number');
 	console.log('  -s, --silent     hides copyright message');
-	console.log('  -d, --debug      send README.md output to console');
-	console.log('  --verbose        show debug message');
+	console.log('  -d, --debug      show debug message');
+	console.log('  --verbose        send README.md output to console');
+	console.log('  --trace          write source code references in README.md');
 	console.log('  --source         path to source folder (default: ./src)');
 	console.log('  --file           name of output file (default: README.md)');
 };

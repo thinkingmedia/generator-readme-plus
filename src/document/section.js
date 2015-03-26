@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var logger = require('winston');
 var sprintf = sprintf = require("sprintf-js").sprintf;
+var params = require('../params.js');
 
 /**
  * Defines a section in the document.
@@ -33,6 +34,13 @@ exports.Section = function(id, parent)
 	this.title = null;
 
 	/**
+	 * List of source files used to create this section.
+	 *
+	 * @type {Array.<{file:string,line:number}>}
+	 */
+	this.traces = [];
+
+	/**
 	 * Changes the title
 	 *
 	 * @param {string|undefined|null} str
@@ -61,7 +69,7 @@ exports.Section = function(id, parent)
 	/**
 	 * The contents of this section.
 	 *
-	 * @type {Array.<string>}
+	 * @type {Array.<exports.Line>}
 	 */
 	this.content = [];
 
@@ -76,6 +84,7 @@ exports.Section = function(id, parent)
 	 * Returns the child for the current node. If the child does not exist a new child is created for that ID.
 	 *
 	 * @param id
+	 * @returns {exports.Section}
 	 */
 	this.child = function(id)
 	{
@@ -90,19 +99,10 @@ exports.Section = function(id, parent)
 	/**
 	 * Appends text to the contents.
 	 *
-	 * @param {string[]|undefined} lines
+	 * @param {Array.<exports.Line>|Array.<string>} lines
 	 */
 	this.append = function(lines)
 	{
-		if(_.isString(lines))
-		{
-			this.append([lines]);
-			return;
-		}
-		if(!_.isArray(lines))
-		{
-			return;
-		}
 		this.content = this.content.concat(lines);
 	};
 
@@ -127,15 +127,33 @@ exports.Section = function(id, parent)
 	this.render = function(lines)
 	{
 		lines = lines || [];
-		lines.push(sprintf('%s %s %s', _.repeat('#', this.depth()), this.title, this.widgets.title.join('')));
-		lines.push(this.widgets.top.join(''));
-		lines = lines.concat(this.content);
-		lines.push(this.widgets.bottom.join(''));
+		lines.push(sprintf('%s %s %s', _.repeat('#', this.depth()), this.title, this.widgets.title.join(' ')));
+		lines.push(this.widgets.top.join(' '));
+
+		lines = lines.concat(_.map(this.content,function(/** exports.Line|string */line)
+		{
+			if(_.isString(line))
+			{
+				return line;
+			}
+			return line.getText();
+		}));
+
+		lines.push(this.widgets.bottom.join(' '));
 
 		_.each(this.children, function(child)
 		{
 			lines = child.render(lines);
 		});
+
+		if(params.trace)
+		{
+			_.each(this.traces,function(trace)
+			{
+				lines.push(sprintf("%d:%s", trace.line, trace.file));
+			});
+			this.traces.length && lines.push('');
+		}
 
 		return lines;
 	};
@@ -155,6 +173,11 @@ exports.Section = function(id, parent)
 			var str = exports.badge(title, img, url);
 			this.widgets[widget].push(str);
 		}
+	};
+
+	this.trace = function(file, line)
+	{
+		this.traces.push({file: file, line: line});
 	};
 };
 

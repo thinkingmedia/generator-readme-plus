@@ -1,3 +1,11 @@
+/**
+ * @readme
+ *
+ * Readme+ uses the contents of the current work folder to generate a `README.md` file for the project. Most of your
+ * time is spent in the source code and this is where you can add notes to be included in the output `README.md`.
+ *
+ * Readme+ searches for `@readme` markers in the source code comments.
+ */
 require('./bootstrap.js');
 
 var _ = require('lodash');
@@ -131,7 +139,7 @@ function render()
 	}
 	else
 	{
-		var outfile = params.work + 'README.md';
+		var outfile = params.work + params._file;
 		fs.writeFileSync(outfile, lines.join("\n"), 'utf8');
 	}
 }
