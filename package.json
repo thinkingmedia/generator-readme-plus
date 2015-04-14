@@ -42,7 +42,6 @@
     "bin": "./bin"
   },
   "dependencies": {
-    "dustjs-linkedin": "~2.6.0",
     "fileset": "^0.1.5",
     "lodash": "~3.0.0",
     "optjs": "^3.2.1-boom",
