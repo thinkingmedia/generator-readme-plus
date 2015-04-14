@@ -17,7 +17,12 @@ exports.verbose = !!args.opt.verbose;
 /**
  * @type {boolean}
  */
-exports.version = false;
+exports.version = !!args.opt.v || !!args.opt.version;
+
+/**
+ * @type {boolean}
+ */
+exports.help = !!args.opt.h || !!args.opt.help;
 
 /**
  * @type {string|null}
@@ -47,14 +52,14 @@ if(_.isString(exports.work))
 	exports.source = path.normalize(exports.work) + (args.opt.source || 'src');
 	exports.source = path.normalize(exports.source.replace(/\\/g, '/')) + path.sep;
 
-	exports.work = exports.work.replace(/\\/g,'/');
-	exports.source = exports.source.replace(/\\/g,'/');
+	exports.work = exports.work.replace(/\\/g, '/');
+	exports.source = exports.source.replace(/\\/g, '/');
 }
 
 /**
  * @type {boolean}
  */
-exports.debug = !!args.opt.debug;
+exports.debug = !!args.opt.d || !!args.opt.debug;
 if(exports.debug)
 {
 	logger.level = 'debug';
@@ -66,7 +71,7 @@ if(exports.debug)
  */
 exports.getVersion = function()
 {
-	return _(fs.readFileSync("VERSION.txt", 'utf8').trim().split("\n")).last();
+	return _(fs.readFileSync(__dirname + "/../VERSION.txt", 'utf8').trim().split("\n")).last();
 };
 
 /**
@@ -74,34 +79,30 @@ exports.getVersion = function()
  */
 exports.showVersion = function()
 {
-	exports.log(exports.getVersion());
+	console.log(exports.getVersion());
 };
 
 /**
  * Checks if the parameters are valid
- *
- * @todo this can be part of the module startup
  */
-exports.invalid = function()
+exports.validate = function()
 {
-	if(!exports.work || args.opt.h || args.opt.help)
+	if(exports.work === null && !fs.existsSync(".git"))
 	{
-		return true;
+		throw new Error("Current directory does not appear to be Git working folder.");
 	}
 
+	exports.work = exports.work || process.cwd();
 	if(!fs.existsSync(exports.work))
 	{
-		console.error('Not found: ' + exports.work);
-		return true;
+		throw new Error("Working folder not found: "+exports.work);
 	}
 
+	exports.source = exports.work || exports.source + "/src";
 	if(!fs.existsSync(exports.source))
 	{
-		console.error('Source not found: ' + exports.source);
-		return true;
+		throw new Error("Source code folder not found: "+exports.source);
 	}
-
-	return false;
 };
 
 /**
@@ -130,7 +131,8 @@ exports.copyright = function()
  * $ readme
  * ```
  *
- * The default options assume your working folder contains a sub-folder named `src` that contains the source code for your project.
+ * The default options assume your working folder contains a sub-folder named `src` that contains the source code for
+ *     your project.
  *
  * ```
  * Usage: readme [options] <path>
@@ -155,6 +157,7 @@ exports.usage = function()
 	console.log('Example: readme --source=./www/js /home/mathew/thinkingmedia/readme');
 	console.log('');
 	console.log('Options:');
+	console.log('  -h, --help       shows this usage message');
 	console.log('  -v, --version    print version number');
 	console.log('  -s, --silent     hides copyright message');
 	console.log('  -d, --debug      show debug message');

@@ -18,15 +18,25 @@ var Q = require('q');
 var async = require('./async.js');
 var section = require('./document/section.js');
 
-if(params.invalid())
+if(params.version)
+{
+	params.showVersion();
+	return;
+}
+
+if(params.help)
 {
 	params.usage();
 	return;
 }
 
-if(params.version)
+try
 {
-	params.showVersion();
+	params.validate();
+}
+catch($ex)
+{
+	console.error("fatal: "+$ex.message);
 	return;
 }
 

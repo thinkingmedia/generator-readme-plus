@@ -130,13 +130,9 @@ exports.Section = function(id, parent)
 		lines.push(sprintf('%s %s %s', _.repeat('#', this.depth()), this.title, this.widgets.title.join(' ')));
 		lines.push(this.widgets.top.join(' '));
 
-		lines = lines.concat(_.map(this.content,function(/** exports.Line|string */line)
+		lines = lines.concat(_.map(_.compact(this.content),function(/** exports.Line|string */line)
 		{
-			if(_.isString(line))
-			{
-				return line;
-			}
-			return line.getText();
+			return _.isString(line) ? line : line.getText();
 		}));
 
 		lines.push(this.widgets.bottom.join(' '));
