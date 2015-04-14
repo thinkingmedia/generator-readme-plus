@@ -5,7 +5,6 @@ var logger = require('winston');
 var coreSource = require('../core/source_code.js');
 var coreTag = require('../core/tag.js');
 
-var section = require('../document/section.js');
 var reader = require('../files/reader.js');
 
 /**
@@ -19,7 +18,7 @@ exports.create = function(options)
 {
 	var plugin = function(options)
 	{
-		this.name = 'reader';
+		this.name = options.name || 'n/a';
 		this.include = options.include;
 		this.exclude = options.exclude;
 		this.useSource = true;

@@ -27,7 +27,7 @@ exports.help = !!args.opt.h || !!args.opt.help;
 /**
  * @type {string|null}
  */
-exports.work = args.argv[0] || null;
+exports.work = args.argv[0] || process.cwd();
 
 /**
  * @type {string|null}
@@ -46,7 +46,10 @@ exports.trace = !!args.opt.trace;
  */
 exports._file = args.opt._file || 'README.md';
 
-if(_.isString(exports.work))
+/**
+ * Configure the paths
+ */
+(function()
 {
 	exports.work = path.normalize(exports.work.replace(/\\/g, '/')) + path.sep;
 	exports.source = path.normalize(exports.work) + (args.opt.source || 'src');
@@ -54,7 +57,7 @@ if(_.isString(exports.work))
 
 	exports.work = exports.work.replace(/\\/g, '/');
 	exports.source = exports.source.replace(/\\/g, '/');
-}
+})();
 
 /**
  * @type {boolean}
@@ -92,16 +95,16 @@ exports.validate = function()
 		throw new Error("Current directory does not appear to be Git working folder.");
 	}
 
-	exports.work = exports.work || process.cwd();
+	//exports.work = exports.work || process.cwd();
 	if(!fs.existsSync(exports.work))
 	{
-		throw new Error("Working folder not found: "+exports.work);
+		throw new Error("Working folder not found: " + exports.work);
 	}
 
-	exports.source = exports.work || exports.source + "/src";
+	//exports.source = exports.work || exports.source + "/src";
 	if(!fs.existsSync(exports.source))
 	{
-		throw new Error("Source code folder not found: "+exports.source);
+		throw new Error("Source code folder not found: " + exports.source);
 	}
 };
 
@@ -116,6 +119,30 @@ exports.copyright = function()
 	console.log('Copyright (c) 2015. ThinkingMedia. http://www.thinkingmedia.ca');
 	console.log('Developed by Mathew Foscarini, support@thinkingmedia.ca');
 	console.log('This is free software; see the source for MIT license.');
+	console.log('');
+};
+
+/**
+ * Displays the current configured options.
+ */
+exports.showConfig = function()
+{
+	var config = {
+		'Work':   exports.work,
+		'Source': exports.source,
+		'Trace':  exports.trace,
+		'Debug':  exports.debug,
+		'Output': exports._file
+	};
+	var size = 0;
+	_.each(config, function(value, key)
+	{
+		size = Math.max(size, key.length + 1);
+	});
+	_.each(config, function(value, key)
+	{
+		console.log(_.padLeft(key, size) + ": " + value);
+	});
 	console.log('');
 };
 

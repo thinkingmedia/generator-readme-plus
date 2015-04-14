@@ -14,7 +14,7 @@ exports.create = function(options)
 		this.start = function()
 		{
 			this._file = reader.read(params.work + ".travis.yml");
-			this._file && logger.debug('Found .travis.yml file');
+			this._file && logger.info('Found .travis.yml file');
 			return this.valid = true;
 		};
 

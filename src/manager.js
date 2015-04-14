@@ -8,11 +8,12 @@ var logger = require('winston');
  * @param {string} type
  * @param {string} json_file
  *
- * @returns {boolean}
  * @returns {Array|null}
  */
 exports.load = function(type, json_file)
 {
+	logger.debug('Load: ' + json_file);
+
 	var options = require(json_file);
 
 	options = _.filter(options, function(option)
@@ -36,7 +37,7 @@ exports.load = function(type, json_file)
 
 		try
 		{
-			logger.debug('Load: ' + option.path);
+			logger.debug('  Start: ' + option.path);
 
 			var module = require(option.path);
 			if(!_.isFunction(module.create))
@@ -58,11 +59,11 @@ exports.load = function(type, json_file)
 				return false;
 			}
 
-			logger.debug('%s[%s]: %s', obj.name, type, option.path);
+			logger.debug('    %s[%s]: %s', obj.name, type, option.path);
 
 			if(_.isFunction(obj.start) && obj.start() !== true)
 			{
-				logger.debug('%s[%s]: Failed to start', type, option.path);
+				logger.debug('    %s[%s]: Failed to start', type, option.path);
 				return false;
 			}
 
@@ -77,8 +78,8 @@ exports.load = function(type, json_file)
 				obj.exclude = _.isString(obj.exclude) ? obj.exclude : '';
 				obj.useSource = _.isBoolean(obj.useSource) ? obj.useSource : false;
 
-				obj.include && logger.debug('Include[%s]: %s', option.path, obj.include);
-				obj.exclude && logger.debug('Exclude[%s]: %s', option.path, obj.exclude);
+				obj.include && logger.debug('    Include[%s]: %s', option.path, obj.include);
+				obj.exclude && logger.debug('    Exclude[%s]: %s', option.path, obj.exclude);
 			}
 
 			return obj;
@@ -118,7 +119,12 @@ exports.load = function(type, json_file)
 		return null;
 	}
 
-	var names = _.map(modules,function(module) { return module.name; });
+	logger.debug('');
+
+	var names = _.map(modules, function(module)
+	{
+		return module.name;
+	});
 	return _.zipObject(names, modules);
 };
 

@@ -36,13 +36,14 @@ try
 }
 catch($ex)
 {
-	console.error("fatal: "+$ex.message);
+	console.error("fatal: " + $ex.message);
 	return;
 }
 
 if(!params.silent)
 {
 	params.copyright();
+	params.showConfig();
 }
 
 var plugins = manager.load('plugin', './plugins.json');
@@ -91,43 +92,43 @@ function read(plugin)
 		cwd: plugin.useSource === true ? params.source : params.work
 	};
 
-	logger.debug('Plugin[%s]: Searching %s', plugin.name, conf.cwd);
+	var ex = plugin.exclude + " node_modules/** webroot/** vendor/**";
 
-	fileset(plugin.include, plugin.exclude, conf)
-		.on('error', function(err)
-			{
-				logger.error(err);
-				defer.resolve();
-			})
-		.on('match', function(file)
-			{
-				try
-				{
-					logger.debug('Found: %s', conf.cwd + file);
-					_.isFunction(plugin.read) && plugin.read(conf.cwd + file, section.root, services);
-				}
-				catch(ex)
-				{
-					logger.error(ex.message);
-					logger.debug(ex.stack);
-				}
-			})
-		.on('end', function(files)
-			{
-				try
-				{
-					logger.debug('End');
-					_.isFunction(plugin.done) && plugin.done(conf.cwd, files, section.root, services);
-					defer.resolve();
-				}
-				catch(ex)
-				{
-					logger.error(ex.message);
-					logger.debug(ex.stack);
-					defer.resolve();
-				}
-			});
+	fileset(plugin.include, ex, conf, function(err, files)
+	{
+		logger.info('Read[%s]: Find %s --> %s', plugin.name, plugin.include, conf.cwd);
 
+		if(err)
+		{
+			logger.error(err);
+			defer.reject(err);
+			return;
+		}
+
+		if(files.length === 0)
+		{
+			logger.info('  No files found.');
+		}
+
+		_.each(files, function(file)
+		{
+			try
+			{
+				var path = conf.cwd + "/" + file;
+				logger.debug('Match: %s', path);
+				_.isFunction(plugin.read) && plugin.read(path, section.root, services);
+			}
+			catch(ex)
+			{
+				logger.error(ex.message);
+				logger.debug(ex.stack);
+			}
+		});
+
+		logger.info('');
+
+		defer.resolve();
+	});
 	return defer.promise;
 }
 
@@ -162,6 +163,7 @@ var write = callMethod('write');
  * Calls each function above in order, but waits for the return promise to resolve before it calls the next function.
  * After all the functions are called the returned promise is resolved.
  */
+logger.info('');
 async.callThese(plugins, [beforeRead, read, beforeWrite, write])
 	.then(function()
 		  {

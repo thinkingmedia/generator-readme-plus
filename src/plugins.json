@@ -2,36 +2,28 @@
   {
     "path": "./plugins/reader.js",
     "include": "**/*.js",
+    "exclude": "**/*.min.js",
     "name": "JavaScript"
   },
   {
     "path": "./plugins/reader.js",
-    "include": "**.php",
-    "name": "JavaScript",
-    "disable": true
+    "include": "**/*.sass **/*.scss",
+    "name": "SASS"
   },
   {
     "path": "./plugins/reader.js",
-    "include": "**.sass **.scss",
-    "name": "SASS",
-    "disable": true
+    "include": "**/*.less",
+    "name": "LESS"
   },
   {
     "path": "./plugins/reader.js",
-    "include": "**.less",
-    "name": "LESS",
-    "disable": true
+    "include": "**/*.css",
+    "exclude": "**/*.min.css",
+    "name": "CSS"
   },
   {
     "path": "./plugins/reader.js",
-    "include": "**.css",
-    "name": "CSS",
-    "disable": true
-  },
-  {
-    "path": "./plugins/reader.js",
-    "include": "**.php",
-    "name": "PHP",
-    "disable": true
+    "include": "**/*.php",
+    "name": "PHP"
   }
 ]

@@ -37,7 +37,6 @@ exports.each = function(arr, callback)
  */
 function callChain(arr, callbacks, defer)
 {
-
 	if(callbacks.length === 0)
 	{
 		defer.resolve();
