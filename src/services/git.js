@@ -22,8 +22,6 @@ exports.create = function(options)
 				return line.split("=");
 			}));
 
-			console.log(this.cache);
-
 			if(this.cache['remote.origin.url'])
 			{
 				this.debug("remote.origin.url: %s",this.cache['remote.origin.url']);

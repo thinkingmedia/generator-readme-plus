@@ -46,8 +46,11 @@ exports.create = function(options)
 				{
 					this.info(tag.getTitle() ? "%s \"%s\"" : "%s", tag.getName() || 'ROOT', tag.getTitle());
 
-					var child = root.child(tag.getName() || 'ROOT');
-					child.title = tag.getTitle() || tag.getName();
+					var child = tag.getName() ? root.child(tag.getName()) : root;
+					if(tag.getTitle())
+					{
+						child.title = tag.getTitle();
+					}
 
 					var lines = tag.getLines();
 					if(lines.length > 0)
