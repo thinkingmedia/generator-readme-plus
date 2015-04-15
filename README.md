@@ -1,4 +1,4 @@
-# readme-plus [![Build Status](https://travis-ci.org/thinkingmedia/readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme-plus) [![Core Climate](https://codeclimate.com/github/thinkingmedia/readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme-plus)
+# readme-plus [*](https://github.com/thinkingmedia/readme-plus/blob/master/src/main.js#L2) [![Build Status](https://travis-ci.org/thinkingmedia/readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme-plus) [![Core Climate](https://codeclimate.com/github/thinkingmedia/readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme-plus)
 
 
 Readme+ uses the contents of the current work folder to generate a `README.md` file for the project. Most of your
