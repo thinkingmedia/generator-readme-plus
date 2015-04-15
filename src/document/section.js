@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var logger = require('winston');
 var sprintf = sprintf = require("sprintf-js").sprintf;
-var params = require('../params.js');
 
 /**
  * Defines a section in the document.
@@ -34,13 +33,6 @@ exports.Section = function(id, parent)
 	this.title = null;
 
 	/**
-	 * List of source files used to create this section.
-	 *
-	 * @type {Array.<{file:string,line:number}>}
-	 */
-	this.traces = [];
-
-	/**
 	 * Changes the title
 	 *
 	 * @param {string|undefined|null} str
@@ -62,6 +54,7 @@ exports.Section = function(id, parent)
 	 */
 	this.widgets = {
 		title:  [],
+		trace:  [],
 		top:    [],
 		bottom: []
 	};
@@ -127,10 +120,17 @@ exports.Section = function(id, parent)
 	this.render = function(lines)
 	{
 		lines = lines || [];
-		lines.push(sprintf('%s %s %s', _.repeat('#', this.depth()), this.title, this.widgets.title.join(' ')));
+
+		var title = [
+			_.repeat('#', this.depth()),
+			this.widgets.trace.join(' ') + this.title,
+			this.widgets.title.join(' ')
+		];
+
+		lines.push(_.compact(title).join(' '));
 		lines.push(this.widgets.top.join(' '));
 
-		lines = lines.concat(_.map(_.compact(this.content),function(/** exports.Line|string */line)
+		lines = lines.concat(_.map(_.compact(this.content), function(/** exports.Line|string */line)
 		{
 			return _.isString(line) ? line : line.getText();
 		}));
@@ -141,15 +141,6 @@ exports.Section = function(id, parent)
 		{
 			lines = child.render(lines);
 		});
-
-		if(params.trace)
-		{
-			_.each(this.traces,function(trace)
-			{
-				lines.push(sprintf("%d:%s", trace.line, trace.file));
-			});
-			this.traces.length && lines.push('');
-		}
 
 		return lines;
 	};
@@ -171,9 +162,21 @@ exports.Section = function(id, parent)
 		}
 	};
 
-	this.trace = function(file, line)
+	/**
+	 * Adds a link to a widget location.
+	 *
+	 * @param {string} widget
+	 * @param {string} title
+	 * @param {string} url
+	 * @param {boolean=} tiny
+	 */
+	this.addLink = function(widget, title, url, tiny)
 	{
-		this.traces.push({file: file, line: line});
+		if(_.isArray(this.widgets[widget]))
+		{
+			var format = tiny ? "<sub><sup>[%s](%s)</sub></sup>" : "[%s](%s)";
+			this.widgets[widget].push(sprintf(format, title, url));
+		}
 	};
 };
 

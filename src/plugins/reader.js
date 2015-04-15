@@ -1,11 +1,13 @@
 var _ = require('lodash');
 var fs = require('fs');
 var logger = require('winston');
+var sprintf = sprintf = require("sprintf-js").sprintf;
 
 var coreSource = require('../core/source_code.js');
 var coreTag = require('../core/tag.js');
 
 var reader = require('../files/reader.js');
+var params = require('../params.js');
 
 /**
  * @param options
@@ -42,7 +44,7 @@ exports.create = function(options)
 
 			_.each(comments, function(/** exports.Comment */comment)
 			{
-				_.each(coreTag.create(comment, 'readme'),function(/** exports.Tag */tag)
+				_.each(coreTag.create(comment, 'readme'), function(/** exports.Tag */tag)
 				{
 					this.info(tag.getTitle() ? "%s \"%s\"" : "%s", tag.getName() || 'ROOT', tag.getTitle());
 
@@ -53,13 +55,21 @@ exports.create = function(options)
 					}
 
 					var lines = tag.getLines();
-					if(lines.length > 0)
+					if(lines.length === 0)
 					{
-						child.append(lines);
-						child.trace(tag.getFile(), lines[0].getNum());
+						return;
 					}
-				},this);
-			},this);
+					child.append(lines);
+
+					var info = services.git.getInfo();
+					if(!params.trace || !info)
+					{
+						return;
+					}
+					var url = sprintf("https://github.com/%s/%s/blob/%s/%s#L%d", info.name, info.repo, info.branch, tag.getFile(), lines[0].getNum());
+					child.addLink('trace', '*', url, true);
+				}, this);
+			}, this);
 		};
 	};
 

@@ -24,7 +24,7 @@ exports.create = function(options)
 
 			if(this.cache['remote.origin.url'])
 			{
-				this.debug("remote.origin.url: %s",this.cache['remote.origin.url']);
+				this.debug("remote.origin.url: %s", this.cache['remote.origin.url']);
 			}
 
 			return this.valid = true;
@@ -72,7 +72,7 @@ exports.create = function(options)
  * Uses a simplified approach because Git urls can have a wide range of formats.
  *
  * @param {string} url
- * @returns {{name:string,repo:string}|undefined}
+ * @returns {{name:string,repo:string,branch:string}|undefined}
  */
 exports.getUserRepo = function(url)
 {
@@ -108,8 +108,10 @@ exports.getUserRepo = function(url)
 	}
 
 	// assume first 2 levels are username and repo
+	// @todo Figure out what branch this is.
 	return {
-		'user': parts[0],
-		'repo': parts[1]
+		'user':   parts[0],
+		'repo':   parts[1],
+		'branch': 'master'
 	};
 };

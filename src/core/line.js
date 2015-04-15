@@ -2,6 +2,10 @@ var _ = require('lodash');
 
 /**
  * Represents a line of text from a file.
+ *
+ * @param {number} num
+ * @param {string} text
+ *
  * @constructor
  */
 exports.Line = function(num, text)
