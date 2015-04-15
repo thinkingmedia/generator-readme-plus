@@ -22,7 +22,7 @@ exports.create = function(options)
 				return;
 			}
 
-			var info = services.git.info();
+			var info = services.git.getInfo();
 			if(info)
 			{
 				var url = "https://codeclimate.com/github/" + info.user + "/" + info.repo;

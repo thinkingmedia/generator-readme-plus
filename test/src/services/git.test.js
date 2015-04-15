@@ -13,6 +13,11 @@ test('services/git', function(git)
 
 	it('supports these types of urls',function()
 	{
+		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus'});
+		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus'});
+
 		expect(git.getUserRepo('https://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme'});
 		expect(git.getUserRepo('http://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme'});
 		expect(git.getUserRepo('http://github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme'});

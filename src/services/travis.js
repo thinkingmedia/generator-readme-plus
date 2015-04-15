@@ -20,7 +20,7 @@ exports.create = function(options)
 
 		this.write = function(root, services)
 		{
-			var info = services.git.info();
+			var info = services.git.getInfo();
 			if(!this._file || !info)
 			{
 				return;

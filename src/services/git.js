@@ -13,7 +13,7 @@ exports.create = function(options)
 		{
 			if(!shell.which('git'))
 			{
-				logger.error('git command line tool was not found.');
+				this.error('git command line tool was not found.');
 				return false;
 			}
 			var output = shell.exec('git config --local --list', {silent: true}).output.trim();
@@ -21,6 +21,14 @@ exports.create = function(options)
 			{
 				return line.split("=");
 			}));
+
+			console.log(this.cache);
+
+			if(this.cache['remote.origin.url'])
+			{
+				this.debug("remote.origin.url: %s",this.cache['remote.origin.url']);
+			}
+
 			return this.valid = true;
 		};
 
@@ -29,12 +37,18 @@ exports.create = function(options)
 		 *
 		 * @returns {{name:string,repo:string}|undefined}
 		 */
-		this.info = function()
+		this.getInfo = function()
 		{
-			var url = (this.cache && this.cache['remote.origin.url']) || undefined;
-			return url
-				? exports.getUserRepo(url)
-				: undefined;
+			if(!this.cache)
+			{
+				return undefined;
+			}
+			if(!this.cache['remote.origin.url'])
+			{
+				this.error('"remote.origin.url" is missing from Git info.');
+				return undefined;
+			}
+			return exports.getUserRepo(this.cache['remote.origin.url']);
 		};
 	};
 	return new plugin(options);

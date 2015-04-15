@@ -8,10 +8,6 @@ var coreTag = require('../core/tag.js');
 var reader = require('../files/reader.js');
 
 /**
- * @readme
- *
- * This is a test.
- *
  * @param options
  */
 exports.create = function(options)
@@ -60,7 +56,7 @@ exports.create = function(options)
 						child.trace(tag.getFile(), lines[0].getNum());
 					}
 				},this);
-			});
+			},this);
 		};
 	};
 
