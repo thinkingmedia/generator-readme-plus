@@ -37,7 +37,7 @@ exports.source = null;
 /**
  * @type {boolean}
  */
-exports.trace = !!args.opt.trace;
+exports.trace = !!args.opt.t || !!args.opt.trace;
 
 /**
  * The name of the readme file to write.
@@ -151,15 +151,15 @@ exports.showConfig = function()
  *
  * @readme Usage
  *
- * Run readme on the command line in the working folder where you want to generate a README.md file.
+ * Run `readme` on the command line in the working folder where you want to generate a README.md file.
  *
  * ```shell
  * $ cd /home/user/work
  * $ readme
  * ```
  *
- * The default options assume your working folder contains a sub-folder named `src` that contains the source code for
- *     your project.
+ * The default options assume your working folder contains a sub-folder named `src` that contains
+ * the source code for your project.
  *
  * ```
  * Usage: readme [options] <path>
@@ -167,9 +167,11 @@ exports.showConfig = function()
  * Example: readme --source=./www/js /home/mathew/thinkingmedia/readme
  *
  * Options:
+ *   -h, --help       shows this usage message
  *   -v, --version    print version number
  *   -s, --silent     hides copyright message
  *   -d, --debug      show debug message
+ *   -t, --trace      write source code references in README.md
  *   --verbose        send README.md output to console
  *   --source         path to source folder (default: ./src)
  *   --trace          write source code references in README.md
@@ -188,8 +190,8 @@ exports.usage = function()
 	console.log('  -v, --version    print version number');
 	console.log('  -s, --silent     hides copyright message');
 	console.log('  -d, --debug      show debug message');
+	console.log('  -t, --trace      write source code references in README.md');
 	console.log('  --verbose        send README.md output to console');
-	console.log('  --trace          write source code references in README.md');
 	console.log('  --source         path to source folder (default: ./src)');
 	console.log('  --file           name of output file (default: README.md)');
 };

@@ -4,14 +4,16 @@ var _ = require('lodash');
  * @param {string} file
  * @param {string} name
  * @param {string} title
+ * @param {number} num
  * @param {Array.<exports.Line>} lines
  * @constructor
  */
-exports.Tag = function(file, name, title, lines)
+exports.Tag = function(file, name, title, num, lines)
 {
 	this._file = file;
 	this._name = name;
 	this._title = title;
+	this._num = num;
 	this._lines = lines;
 };
 
@@ -38,6 +40,14 @@ exports.Tag.prototype.getTitle = function()
 {
 	return this._title;
 };
+
+/**
+ * @returns {number}
+ */
+exports.Tag.prototype.getNum = function()
+{
+	return this._num;
+}
 
 /**
  * @returns {Array.<exports.Line>}
@@ -141,8 +151,8 @@ exports.create = function(comment, tag)
 		return !_.startsWith(line.getText(), '@');
 	});
 
-	var name = exports.getName(_.first(lines));
-	var title = exports.getTitle(_.first(lines));
+	var name = exports.getName(lines[0]);
+	var title = exports.getTitle(lines[0]);
 
-	return [new exports.Tag(comment.getFile(), name, title, body)];
+	return [new exports.Tag(comment.getFile(), name, title, lines[0].getNum(), body)];
 };

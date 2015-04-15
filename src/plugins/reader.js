@@ -68,7 +68,7 @@ exports.create = function(options)
 					}
 
 					var url = services.git.convertPath(tag.getFile());
-					url = sprintf("%s#L%d", url, lines[0].getNum());
+					url = sprintf("%s#L%d", url, tag.getNum());
 					child.addLink('trace', '*', url, true);
 				}, this);
 			}, this);
