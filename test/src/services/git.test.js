@@ -13,18 +13,18 @@ test('services/git', function(git)
 
 	it('supports these types of urls',function()
 	{
-		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus'});
-		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus'});
+		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus','branch':'master'});
+		expect(git.getUserRepo('https://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus')).eql({'user':'thinkingmedia','repo':'readme-plus','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme-plus.git')).eql({'user':'thinkingmedia','repo':'readme-plus','branch':'master'});
 
-		expect(git.getUserRepo('https://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme/tree/trunk')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme?q=asd')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('http://github.com/thinkingmedia/readme#master')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('git://github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme'});
-		expect(git.getUserRepo('git@github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme'});
+		expect(git.getUserRepo('https://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme.git')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme/tree/trunk')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme?q=asd')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('http://github.com/thinkingmedia/readme#master')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('git://github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
+		expect(git.getUserRepo('git@github.com/thinkingmedia/readme')).eql({'user':'thinkingmedia','repo':'readme','branch':'master'});
 	});
 });

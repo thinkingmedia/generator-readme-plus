@@ -66,7 +66,9 @@ exports.create = function(options)
 					{
 						return;
 					}
-					var url = sprintf("https://github.com/%s/%s/blob/%s/%s#L%d", info.name, info.repo, info.branch, tag.getFile(), lines[0].getNum());
+
+					var url = services.git.convertPath(tag.getFile());
+					url = sprintf("%s#L%d", url, lines[0].getNum());
 					child.addLink('trace', '*', url, true);
 				}, this);
 			}, this);

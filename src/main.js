@@ -114,7 +114,7 @@ function read(plugin)
 		{
 			try
 			{
-				var path = conf.cwd + "/" + file;
+				var path = conf.cwd + file;
 				logger.debug('Match: %s', path);
 				_.isFunction(plugin.read) && plugin.read(path, section.root, services);
 			}

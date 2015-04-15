@@ -1,6 +1,9 @@
 var _ = require('lodash');
+var fs = require('fs');
 var shell = require('shelljs');
 var logger = require('winston');
+var sprintf = sprintf = require("sprintf-js").sprintf;
+var params = require('../params.js');
 
 exports.create = function(options)
 {
@@ -47,6 +50,25 @@ exports.create = function(options)
 				return undefined;
 			}
 			return exports.getUserRepo(this.cache['remote.origin.url']);
+		};
+
+		/**
+		 * Converts the path on the local drive to a URL on GitHub.
+		 *
+		 * @param {string} path
+		 * @returns {string}
+		 */
+		this.convertPath = function(path)
+		{
+			var info = this.getInfo();
+			if(!info)
+			{
+				return path;
+			}
+
+			path = fs.realpathSync(path).substr(params.work.length);
+			path = path.replace(/\\/g,'/');
+			return sprintf("https://github.com/%s/%s/blob/%s/%s", info.name, info.repo, info.branch, path);
 		};
 	};
 	return new plugin(options);
