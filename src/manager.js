@@ -70,6 +70,10 @@ exports.load = function(type, json_file)
 			{
 				logger.debug('%s[%s]: %s', type, obj.name, sprintf.apply(this, arguments));
 			};
+			obj.error = function()
+			{
+				logger.error('%s[%s]: %s', type, obj.name, sprintf.apply(this, arguments));
+			};
 
 			if(_.isFunction(obj.start) && obj.start() !== true)
 			{

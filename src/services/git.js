@@ -34,6 +34,19 @@ exports.create = function(options)
 		};
 
 		/**
+		 * Test the default title for the readme.
+		 */
+		this.beforeWrite = function(root, services)
+		{
+			var info = this.getInfo();
+			if(!info)
+			{
+				return;
+			}
+			root.setTitle(info.repo);
+		};
+
+		/**
 		 * Gets the username and repo name for the current working folder. Assumes it's a GitHub repo.
 		 *
 		 * @returns {{user:string,repo:string,branch:string}|undefined}

@@ -42,6 +42,11 @@ exports.create = function(options)
 
 		this.write = function(root, services)
 		{
+			if(!this._file)
+			{
+				return;
+			}
+
 			_.each(licenses, function(license)
 			{
 				var text = reader.read(__dirname + "/_licenses/" + license.file);

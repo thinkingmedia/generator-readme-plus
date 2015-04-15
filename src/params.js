@@ -52,8 +52,13 @@ exports._file = args.opt._file || 'README.md';
 (function()
 {
 	exports.work = path.normalize(exports.work.replace(/\\/g, '/')) + path.sep;
-	exports.source = path.normalize(exports.work) + (args.opt.source || 'src');
-	exports.source = path.normalize(exports.source.replace(/\\/g, '/')) + path.sep;
+	exports.source = _.find(_.compact([args.opt.source, 'src', 'www']), function(sub)
+	{
+		return fs.existsSync(exports.work + sub);
+	});
+	exports.source = exports.source
+		? path.normalize(exports.source.replace(/\\/g, '/')) + path.sep
+		: exports.work;
 
 	exports.work = exports.work.replace(/\\/g, '/');
 	exports.source = exports.source.replace(/\\/g, '/');

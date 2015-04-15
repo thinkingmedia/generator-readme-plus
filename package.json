@@ -44,6 +44,7 @@
   "dependencies": {
     "dustjs-linkedin": "~2.6.0",
     "fileset": "^0.1.5",
+    "github": "^0.2.3",
     "lodash": "~3.0.0",
     "optjs": "^3.2.1-boom",
     "q": "~1.2.0",

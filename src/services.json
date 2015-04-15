@@ -18,5 +18,13 @@
   {
     "path": "./services/licenses.js",
     "name": "licenses"
+  },
+  {
+    "path": "./services/composer.js",
+    "name": "composer"
+  },
+  {
+    "path": "./services/github.js",
+    "name": "github"
   }
 ]

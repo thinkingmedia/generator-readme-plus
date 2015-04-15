@@ -72,7 +72,11 @@ function callMethod(name)
 		if(_.isFunction(module[name]))
 		{
 			logger.debug('Module[%s]: %s', module.name, name);
-			module[name](section.root, services);
+			var result = module[name](section.root, services);
+			if(Q.isPromise(result))
+			{
+				return result;
+			}
 		}
 		return Q.thenResolve();
 	}

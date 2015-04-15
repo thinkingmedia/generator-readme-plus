@@ -2,6 +2,8 @@ var _ = require('lodash');
 var logger = require('winston');
 var sprintf = sprintf = require("sprintf-js").sprintf;
 
+var lines = require('../core/line.js');
+
 /**
  * Defines a section in the document.
  *
@@ -92,11 +94,30 @@ exports.Section = function(id, parent)
 	/**
 	 * Appends text to the contents.
 	 *
-	 * @param {Array.<exports.Line>|Array.<string>} lines
+	 * @param {Array.<exports.Line>|Array.<string>|string,exports.Line} strings
 	 */
-	this.append = function(lines)
+	this.append = function(strings)
 	{
-		this.content = this.content.concat(lines);
+		if(_.isString(strings))
+		{
+			return this.append(lines.create(strings));
+		}
+		strings = _.map(strings, function(str)
+		{
+			return _.isString(str)
+				? lines.create(str)
+				: str;
+		});
+		this.content = this.content.concat(strings);
+	};
+
+	/**
+	 * Gets the content for this section.
+	 * @returns {Array.<exports.Line>}
+	 */
+	this.getContent = function()
+	{
+		return _.compact(this.content);
 	};
 
 	/**
@@ -130,9 +151,9 @@ exports.Section = function(id, parent)
 		lines.push(_.compact(title).join(' '));
 		lines.push(this.widgets.top.join(' '));
 
-		lines = lines.concat(_.map(_.compact(this.content), function(/** exports.Line|string */line)
+		lines = lines.concat(_.map(_.compact(this.content), function(/** exports.Line */line)
 		{
-			return _.isString(line) ? line : line.getText();
+			return line.getText();
 		}));
 
 		lines.push(this.widgets.bottom.join(' '));

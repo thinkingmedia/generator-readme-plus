@@ -6,6 +6,7 @@ time is spent in the source code and this is where you can add notes to be inclu
 
 Readme+ searches for `@readme` markers in the source code comments.
 A readme file generator
+README.md generator that doesn't suck and requires little effort to use.
 
 ## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/core/tag.js#L61)</sub></sup>Naming The Sections
 
@@ -48,7 +49,7 @@ You can customize the heading used for each section by providing title text afte
 In the above example the default heading `Install` is replaced with `Installation Instructions`.
 
 
-## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/params.js#L152)</sub></sup>Usage
+## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/params.js#L157)</sub></sup>Usage
 
 
 Run `readme` on the command line in the working folder where you want to generate a README.md file.
