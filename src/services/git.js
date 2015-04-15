@@ -36,7 +36,7 @@ exports.create = function(options)
 		/**
 		 * Gets the username and repo name for the current working folder. Assumes it's a GitHub repo.
 		 *
-		 * @returns {{name:string,repo:string}|undefined}
+		 * @returns {{user:string,repo:string,branch:string}|undefined}
 		 */
 		this.getInfo = function()
 		{
@@ -68,33 +68,18 @@ exports.create = function(options)
 
 			path = fs.realpathSync(path).substr(params.work.length);
 			path = path.replace(/\\/g,'/');
-			return sprintf("https://github.com/%s/%s/blob/%s/%s", info.name, info.repo, info.branch, path);
+			return sprintf("https://github.com/%s/%s/blob/%s/%s", info.user, info.repo, info.branch, path);
 		};
 	};
 	return new plugin(options);
 };
-
-/*
- var info = $git.info();
- if(info)
- {
- if($fs.existsSync(this.work + '.travis.yml'))
- {
- var url = _.template('https://travis-ci.org/${user}/${repo}')(info);
- this.badges.build = this.badge('Build Status', url + '.svg', url);
- console.log('Travis: ' + url);
- }
- this.title = this.title || info.repo;
- this.github = _.template('https://github.com/${user}/${repo}')(info);
- }
- */
 
 /**
  * Extracts the username/organization and repo name from a GitHub URL address.
  * Uses a simplified approach because Git urls can have a wide range of formats.
  *
  * @param {string} url
- * @returns {{name:string,repo:string,branch:string}|undefined}
+ * @returns {{user:string,repo:string,branch:string}|undefined}
  */
 exports.getUserRepo = function(url)
 {
