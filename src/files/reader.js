@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var fs = require('fs');
 var logger = require('winston');
 
@@ -9,11 +10,29 @@ var logger = require('winston');
  */
 exports.read = function(file)
 {
+	if(!file)
+	{
+		return undefined;
+	}
 	if(fs.existsSync(file))
 	{
 		return fs.readFileSync(file, 'utf8');
 	}
 	return undefined;
+};
+
+/**
+ * Reads the first file that exists in the array.
+ *
+ * @param {Array.<string>} files
+ */
+exports.readFirst = function(files)
+{
+	var file = _.find(files,function(file)
+	{
+		return fs.existsSync(file);
+	});
+	return exports.read(file);
 };
 
 /**

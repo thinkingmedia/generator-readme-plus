@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var Q = require('q');
 var logger = require('winston');
+var sprintf = require('sprintf-js').sprintf;
 
 /**
  * Loads all the plugins for the app.
@@ -60,6 +61,15 @@ exports.load = function(type, json_file)
 			}
 
 			logger.debug('    %s[%s]: %s', obj.name, type, option.path);
+
+			obj.info = function()
+			{
+				logger.info('%s[%s]: %s', type, obj.name, sprintf.apply(this, arguments));
+			};
+			obj.debug = function()
+			{
+				logger.debug('%s[%s]: %s', type, obj.name, sprintf.apply(this, arguments));
+			};
 
 			if(_.isFunction(obj.start) && obj.start() !== true)
 			{

@@ -1,8 +1,6 @@
 var fs = require('fs');
 var logger = require('winston');
 
-var params = require('../params.js');
-
 exports.create = function(options)
 {
 	var plugin = function(options)

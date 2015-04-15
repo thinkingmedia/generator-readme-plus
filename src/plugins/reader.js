@@ -40,15 +40,15 @@ exports.create = function(options)
 			var comments = file.getComments();
 			if(comments.length !== 0)
 			{
-				logger.info(path);
-				logger.debug('Comments: %d', comments.length);
+				this.info(path);
+				this.debug('Comments: %d', comments.length);
 			}
 
 			_.each(comments, function(/** exports.Comment */comment)
 			{
 				_.each(coreTag.create(comment, 'readme'),function(/** exports.Tag */tag)
 				{
-					logger.info(tag.getTitle() ? "%s \"%s\"" : "%s", tag.getName() || 'ROOT', tag.getTitle());
+					this.info(tag.getTitle() ? "%s \"%s\"" : "%s", tag.getName() || 'ROOT', tag.getTitle());
 
 					var child = root.child(tag.getName() || 'ROOT');
 					child.title = tag.getTitle() || tag.getName();
@@ -59,7 +59,7 @@ exports.create = function(options)
 						child.append(lines);
 						child.trace(tag.getFile(), lines[0].getNum());
 					}
-				});
+				},this);
 			});
 		};
 	};

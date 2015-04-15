@@ -2,7 +2,7 @@ var _ = require('lodash');
 var fs = require('fs');
 
 var params = require('../params.js');
-var arrays = require('../primitives/arrays.js');
+var arrays = require('../utils/arrays.js');
 var reader = require('../files/reader.js');
 
 exports.create = function(options)

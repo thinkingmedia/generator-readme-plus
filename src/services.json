@@ -12,7 +12,11 @@
     "name": "travis"
   },
   {
-    "path": "./services/code-climate",
+    "path": "./services/code-climate.js",
     "name": "codeclimate"
+  },
+  {
+    "path": "./services/licenses.js",
+    "name": "licenses"
   }
 ]

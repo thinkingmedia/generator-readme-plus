@@ -1,0 +1,107 @@
+[
+  {
+    "file": "agpl-3.0.txt",
+    "title": "GNU Affero General Public License v3.0",
+    "nickname": "GNU Affero GPL v3.0",
+    "url": "http://www.gnu.org/licenses/agpl-3.0.txt",
+    "desc": "The GPL family of licenses is the most widely used free software license and has a strong copyleft requirement. When distributing derived works, the source code of the work must be made available under the same license. The AGPL family of licenses is distinguished from GPLv2 and GPLv3 in that hosted services using the code are considered distribution and trigger the copyleft requirements."
+  },
+  {
+    "file": "apache-2.0.txt",
+    "title": "Apache License 2.0",
+    "nickname": "Apache 2.0",
+    "url": "http://www.apache.org/licenses/LICENSE-2.0.html",
+    "desc": "A permissive license that also provides an express grant of patent rights from contributors to users."
+  },
+  {
+    "file": "artistic-2.0.txt",
+    "title": "Artistic License 2.0",
+    "nickname": "Artistic 2.0",
+    "url": "http://www.perlfoundation.org/attachment/legal/artistic-2_0.txt",
+    "desc": "Heavily favored by the Perl community, the Artistic license requires that modified versions of the software do not prevent users from running the standard version."
+  },
+  {
+    "file": "bsd-2-clause.txt",
+    "title": "BSD 2-clause \"Simplified\" License",
+    "nickname": "Simplified BSD",
+    "url": "http://opensource.org/licenses/BSD-2-Clause",
+    "desc": "A permissive license that comes in two variants, the <a href=\"/licenses/bsd\">BSD 2-Clause</a> and <a href=\"/licenses/bsd-3-clause\">BSD 3-Clause</a>. Both have very minute differences to the MIT license."
+  },
+  {
+    "file": "bsd-3-clause.txt",
+    "title": "BSD 3-clause \"New\" or \"Revised\" License",
+    "nickname": "New BSD",
+    "url": "http://opensource.org/licenses/BSD-3-Clause",
+    "desc": "A permissive license that comes in two variants, the <a href=\"/licenses/bsd\">BSD 2-Clause</a> and <a href=\"/licenses/bsd-3-clause\">BSD 3-Clause</a>. Both have very minute differences to the MIT license. The three clause variant prohibits others from using the name of the project or its contributors to promote derivative works without written consent."
+  },
+  {
+    "file": "cc0-1.0.txt",
+    "title": "Creative Commons Zero v1.0 Universal",
+    "nickname": "CC0 1.0 Universal",
+    "url": "http://creativecommons.org/publicdomain/zero/1.0/",
+    "desc": "The <a href=\"http://creativecommons.org/publicdomain/zero/1.0/\">Creative Commons CC0 Public Domain Dedication</a> waives copyright interest in any a work you've created and dedicates it to the world-wide public domain. Use CC0 to opt out of copyright entirely and ensure your work has the widest reach. As with the Unlicense and typical software licenses, CC0 disclaims warranties. CC0 is very similar to the Unlicense."
+  },
+  {
+    "file": "epl-1.0.txt",
+    "title": "Eclipse Public License 1.0",
+    "nickname": "Eclipse",
+    "url": "http://www.eclipse.org/legal/epl-v10.html",
+    "desc": "This commercially-friendly copyleft license provides the ability to commercially license binaries; a modern royalty-free patent license grant; and the ability for linked works to use other licenses, including commercial ones."
+  },
+  {
+    "file": "gpl-2.0.txt",
+    "title": "GNU General Public License v2.0",
+    "nickname": "GNU GPL v2.0",
+    "url": "http://www.gnu.org/licenses/gpl-2.0.txt",
+    "desc": "GPL is the most widely used free software license and has a strong copyleft requirement. When distributing derived works, the source code of the work must be made available under the same license. There are multiple variants of the GPL, each with different requirements."
+  },
+  {
+    "file": "gpl-3.0.txt",
+    "title": "GNU General Public License v3.0",
+    "nickname": "GNU GPL v3.0",
+    "url": "http://www.gnu.org/licenses/gpl-3.0.txt",
+    "desc": "GPL is the most widely used free software license and has a strong copyleft requirement. When distributing derived works, the source code of the work must be made available under the same license."
+  },
+  {
+    "file": "isc.txt",
+    "title": "ISC License",
+    "nickname": "ISC",
+    "url": "http://opensource.org/licenses/isc-license",
+    "desc": "A permissive license lets people do anything with your code with proper attribution and without warranty. The ISC license is functionally equivalent to the <a href=\"/licenses/bsd\">BSD 2-Clause</a> and <a href=\"/licenses/mit\">MIT</a> licenses, removing some language that is no longer necessary."
+  },
+  {
+    "file": "lgpl-2.1.txt",
+    "title": "GNU Lesser General Public License v2.1",
+    "nickname": "GNU LGPL v2.1",
+    "url": "http://www.gnu.org/licenses/lgpl-2.1.txt",
+    "desc": "Primarily used for software libraries, LGPL requires that derived works be licensed under the same license, but works that only link to it do not fall under this restriction. There are two commonly used versions of the LGPL."
+  },
+  {
+    "file": "lgpl-3.0.txt",
+    "title": "GNU Lesser General Public License v3.0",
+    "nickname": "GNU LGPL v3.0",
+    "url": "http://www.gnu.org/licenses/lgpl-3.0.txt",
+    "desc": "Version 3 of the LGPL is an additional set of permissions to the <a href=\"/licenses/GPL-3.0\">GPL v3 license</a> that requires that derived works be licensed under the same license, but works that only link to it do not fall under this restriction."
+  },
+  {
+    "file": "mit.txt",
+    "title": "MIT License",
+    "nickname": "MIT",
+    "url": "http://opensource.org/licenses/MIT",
+    "desc": "A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."
+  },
+  {
+    "file": "mpl-2.0.txt",
+    "title": "Mozilla Public License 2.0",
+    "nickname": "MPL 2.0",
+    "url": "http://www.mozilla.org/MPL/2.0/",
+    "desc": "/licenses/mpl-2.0/"
+  },
+  {
+    "file": "unlicense.txt",
+    "title": "The Unlicense",
+    "nickname": "Unlicensed",
+    "url": "http://unlicense.org/UNLICENSE",
+    "desc": "Because copyright is automatic in most countries, <a href=\"http://unlicense.org\">the Unlicense</a> is a template to waive copyright interest in software you've written and dedicate it to the public domain. Use the Unlicense to opt out of copyright entirely. It also includes the no-warranty statement from the MIT/X11 license."
+  }
+]
