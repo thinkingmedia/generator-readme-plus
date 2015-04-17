@@ -41,7 +41,15 @@ exports.Section = function(id, parent)
 	 */
 	this.setTitle = function(str)
 	{
-		this.title = this.title || str || null;
+		this.title = str;
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.hasTitle = function()
+	{
+		return !!this.title;
 	};
 
 	/**
@@ -112,6 +120,33 @@ exports.Section = function(id, parent)
 	};
 
 	/**
+	 * Sets the contents.
+	 *
+	 * @param {Array.<exports.Line>|Array.<string>|string,exports.Line} strings
+	 */
+	this.set = function(strings)
+	{
+		if(_.isString(strings))
+		{
+			return this.set(lines.create(strings));
+		}
+		this.content = _.map(strings, function(str)
+		{
+			return _.isString(str)
+				? lines.create(str)
+				: str;
+		});
+	};
+
+	/**
+	 * @returns {boolean}
+	 */
+	this.hasContent = function()
+	{
+		return this.content.length !== 0;
+	};
+
+	/**
 	 * Gets the content for this section.
 	 * @returns {Array.<exports.Line>}
 	 */
@@ -176,11 +211,8 @@ exports.Section = function(id, parent)
 	 */
 	this.addBadge = function(widget, title, img, url)
 	{
-		if(_.isArray(this.widgets[widget]))
-		{
-			var str = exports.badge(title, img, url);
-			this.widgets[widget].push(str);
-		}
+		var str = exports.badge(title, img, url);
+		this.add(widget, str);
 	};
 
 	/**
@@ -193,12 +225,39 @@ exports.Section = function(id, parent)
 	 */
 	this.addLink = function(widget, title, url, tiny)
 	{
-		if(_.isArray(this.widgets[widget]))
-		{
-			var format = tiny ? "<sub><sup>[%s](%s)</sub></sup>" : "[%s](%s)";
-			this.widgets[widget].push(sprintf(format, title, url));
-		}
+		var format = tiny ? "<sub><sup>[%s](%s)</sub></sup>" : "[%s](%s)";
+		this.add(widget, sprintf(format, title, url));
 	};
+
+	/**
+	 * Adds an image URL to a widget location.
+	 *
+	 * @param {string} widget
+	 * @param {string} title
+	 * @param {string} url
+	 * @param {boolean=} center
+	 */
+	this.addImage = function(widget, title, url, center)
+	{
+		var tag = center ? "<div style=\"text-align:center\">![%s](%s)</div>" : "![%s](%s)";
+		var img = sprintf(tag, title, url);
+		this.add(widget, img);
+	};
+
+	/**
+	 * Adds a string to a widget location.
+	 *
+	 * @param {string} widget
+	 * @param {string} str
+	 */
+	this.add = function(widget, str)
+	{
+		if(!_.isArray(this.widgets[widget]))
+		{
+			throw new Error("Widget location [" + widget + "] not found.");
+		}
+		this.widgets[widget].push(str);
+	}
 };
 
 /**

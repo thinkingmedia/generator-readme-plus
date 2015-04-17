@@ -9,7 +9,7 @@ exports.create = function(options)
 {
 	var plugin = function(options)
 	{
-		this.name = 'package';
+		this.name = 'npm';
 		this.valid = false;
 
 		this.start = function()
@@ -27,8 +27,18 @@ exports.create = function(options)
 		this.write = function(root)
 		{
 			var json = exports.format(this.json);
-			root.setTitle(json && json.title);
-			root.append(json && json.description);
+			if(!json)
+			{
+				return;
+			}
+			if(!root.hasTitle() && json.title)
+			{
+				root.setTitle(json.title);
+			}
+			if(!root.hasContent() && json.description)
+			{
+				root.append(json.description);
+			}
 		};
 	};
 

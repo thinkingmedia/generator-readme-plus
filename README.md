@@ -1,14 +1,12 @@
-# <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/main.js#L2)</sub></sup>readme-plus [![Build Status](https://travis-ci.org/thinkingmedia/readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme-plus) [![Core Climate](https://codeclimate.com/github/thinkingmedia/readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme-plus)
-
+# readme-plus [![Build Status](https://travis-ci.org/thinkingmedia/readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/readme-plus) [![Core Climate](https://codeclimate.com/github/thinkingmedia/readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/readme-plus)
+<div style="text-align:center">![readme-plus](https://raw.githubusercontent.com/thinkingmedia/readme-plus/master/C:/work/thinkingmedia/readme-plus/readme-plus.png)</div>
 
 Readme+ uses the contents of the current work folder to generate a `README.md` file for the project. Most of your
 time is spent in the source code and this is where you can add notes to be included in the output `README.md`.
 
 Readme+ searches for `@readme` markers in the source code comments.
-A readme file generator
-README.md generator that doesn't suck and requires little effort to use.
 
-## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/core/tag.js#L61)</sub></sup>Naming The Sections
+## Naming The Sections
 
 
 Each heading in a readme file is defined by a section of source code comments that use the `@readme` indicator. The
@@ -30,7 +28,7 @@ In the above example a heading labelled `Installations` will be added under the 
 found in the comment.
 
 
-## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/core/tag.js#L95)</sub></sup>Changing The Section Title
+## Changing The Section Title
 
 
 You can customize the heading used for each section by providing title text after declaring the section.
@@ -49,7 +47,7 @@ You can customize the heading used for each section by providing title text afte
 In the above example the default heading `Install` is replaced with `Installation Instructions`.
 
 
-## <sub><sup>[*](https://github.com/thinkingmedia/readme-plus/blob/master/src/params.js#L157)</sub></sup>Usage
+## Usage
 
 
 Run `readme` on the command line in the working folder where you want to generate a README.md file.

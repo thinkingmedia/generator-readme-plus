@@ -53,9 +53,11 @@ exports.create = function(options)
 									   return;
 								   }
 								   var url = res.homepage;
-								   var desc = res.description;
 
-								   root.append(res.description);
+								   if(root.getContent().length === 0)
+								   {
+									   root.append(res.description);
+								   }
 								   defer.resolve();
 							   }.bind(this));
 			return defer.promise;

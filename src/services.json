@@ -1,7 +1,7 @@
 [
   {
-    "path": "./services/package.js",
-    "name": "node"
+    "path": "./services/npm.js",
+    "name": "npm"
   },
   {
     "path": "./services/git.js",
@@ -26,5 +26,9 @@
   {
     "path": "./services/github.js",
     "name": "github"
+  },
+  {
+    "path": "./services/images.js",
+    "name": "images"
   }
 ]

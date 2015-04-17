@@ -14,8 +14,8 @@ exports.create = function(options)
 			var travis = (services.travis._file || '').trim().toUpperCase().indexOf('CODECLIMATE_REPO_TOKEN') !== -1;
 
 			// check if the dependency exists in the package.json file
-			var depend = services.package.json && services.package.json['dependencies'] && services.package.json['dependencies']['codeclimate-test-reporter'];
-			var devDepend = services.package.json && services.package.json['devDependencies'] && services.package.json['devDependencies']['codeclimate-test-reporter'];
+			var depend = services.npm.json && services.npm.json['dependencies'] && services.npm.json['dependencies']['codeclimate-test-reporter'];
+			var devDepend = services.npm.json && services.npm.json['devDependencies'] && services.npm.json['devDependencies']['codeclimate-test-reporter'];
 
 			if(!travis && !depend && !devDepend)
 			{
