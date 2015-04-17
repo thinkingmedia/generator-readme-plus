@@ -20,21 +20,19 @@ exports.create = function(options)
 			}
 
 			var types = ['png', 'jpg', 'gif'];
-			var paths = _.map(types, function(type)
+			_.find(types, function(type)
 			{
-				return params.work + info.repo + "." + type;
+				var path = params.work + info.repo + "." + type;
+				if(fs.existsSync(path))
+				{
+					var url = sprintf("https://raw.githubusercontent.com/%s/%s/%s/%s", info.user, info.repo, info.branch, info.repo +
+																														  "." +
+																														  type);
+					root.addImage('top', info.repo, url, true);
+					return true;
+				}
+				return false;
 			});
-			var image = _.find(paths, function(path)
-			{
-				return fs.existsSync(path);
-			});
-			if(!image)
-			{
-				return;
-			}
-
-			var url = sprintf("https://raw.githubusercontent.com/%s/%s/%s/%s", info.user, info.repo, info.branch, image);
-			root.addImage('top', info.repo, url, true);
 		}
 	};
 	return new plugin(options);
