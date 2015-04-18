@@ -239,7 +239,7 @@ exports.Section = function(id, parent)
 	 */
 	this.addImage = function(widget, title, url, center)
 	{
-		var tag = center ? "<img align=\"center\" title=\"%s\" src=\"%s\">" : "![%s](%s)";
+		var tag = center ? '<div><img title="%s" src="%s" style="margin: 0 auto;"></div>' : "![%s](%s)";
 		var img = sprintf(tag, title, url);
 		this.add(widget, img);
 	};
