@@ -49,6 +49,7 @@ exports.create = function(options)
 							   {
 								   if(err)
 								   {
+									   console.log(err);
 									   this.error(err);
 									   return;
 								   }

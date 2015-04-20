@@ -3,6 +3,7 @@ var logger = require('winston');
 var sprintf = sprintf = require("sprintf-js").sprintf;
 
 var lines = require('../core/line.js');
+var templates = require('../templates.js');
 
 /**
  * Defines a section in the document.
@@ -91,7 +92,7 @@ exports.Section = function(id, parent)
 	 */
 	this.child = function(id)
 	{
-		if(!this.children.hasOwnProperty(id))
+		if(!this.hasChild(id))
 		{
 			this.children[id] = exports.create(id, this);
 			this.children[id].parent = this;
@@ -100,9 +101,65 @@ exports.Section = function(id, parent)
 	};
 
 	/**
+	 * Checks if a child exists.
+	 *
+	 * @param {string} id
+	 * @returns {boolean}
+	 */
+	this.hasChild = function(id)
+	{
+		return this.children.hasOwnProperty(id);
+	};
+
+	/**
+	 * Renders a template into this section.
+	 *
+	 * The `mode` parameter can be one of the following.
+	 *
+	 * - "skip" (default) do not render if this section already contains content
+	 * - "replace" replace the contents of this section
+	 * - "append" append to the contents of this section
+	 *
+	 * @param {string} name The name of the template to render.
+	 * @param {Object.<string,string>} data The data for the template.
+	 * @param {string=} mode The mode of the render operation.
+	 *
+	 * @returns {exports.Section}
+	 */
+	this.template = function(name, data, mode)
+	{
+		mode = mode || "skip";
+
+		templates.render(name, data)
+			.then(function(str)
+				  {
+					  switch(mode)
+					  {
+						  case "skip":
+							  break;
+						  case "replace":
+							  this.content = [];
+							  this.append(str);
+							  break;
+						  case "append":
+							  this.append(str);
+							  break;
+						  default:
+							  throw new Error("Unsupported mode for template: " + mode);
+					  }
+				  }.bind(this), function(err)
+				  {
+					  throw new Error(err);
+				  });
+
+		return this;
+	};
+
+	/**
 	 * Appends text to the contents.
 	 *
 	 * @param {Array.<exports.Line>|Array.<string>|string,exports.Line} strings
+	 * @returns {exports.Section}
 	 */
 	this.append = function(strings)
 	{
@@ -117,12 +174,15 @@ exports.Section = function(id, parent)
 				: str;
 		});
 		this.content = this.content.concat(strings);
+
+		return this;
 	};
 
 	/**
 	 * Sets the contents.
 	 *
 	 * @param {Array.<exports.Line>|Array.<string>|string,exports.Line} strings
+	 * @returns {exports.Section}
 	 */
 	this.set = function(strings)
 	{
@@ -136,6 +196,7 @@ exports.Section = function(id, parent)
 				? lines.create(str)
 				: str;
 		});
+		return this;
 	};
 
 	/**
@@ -208,11 +269,13 @@ exports.Section = function(id, parent)
 	 * @param {string} title
 	 * @param {string} img
 	 * @param {string} url
+	 * @returns {exports.Section}
 	 */
 	this.addBadge = function(widget, title, img, url)
 	{
 		var str = exports.badge(title, img, url);
 		this.add(widget, str);
+		return this;
 	};
 
 	/**
@@ -222,11 +285,13 @@ exports.Section = function(id, parent)
 	 * @param {string} title
 	 * @param {string} url
 	 * @param {boolean=} tiny
+	 * @returns {exports.Section}
 	 */
 	this.addLink = function(widget, title, url, tiny)
 	{
 		var format = tiny ? "<sub><sup>[%s](%s)</sub></sup>" : "[%s](%s)";
 		this.add(widget, sprintf(format, title, url));
+		return this;
 	};
 
 	/**
@@ -236,12 +301,14 @@ exports.Section = function(id, parent)
 	 * @param {string} title
 	 * @param {string} url
 	 * @param {boolean=} center
+	 * @returns {exports.Section}
 	 */
 	this.addImage = function(widget, title, url, center)
 	{
-		var tag = center ? '<div><img title="%s" src="%s" style="margin: 0 auto;"></div>' : "![%s](%s)";
+		var tag = center ? '<div style="text-align">![%s](%s)</div>' : "![%s](%s)";
 		var img = sprintf(tag, title, url);
 		this.add(widget, img);
+		return this;
 	};
 
 	/**
@@ -249,6 +316,7 @@ exports.Section = function(id, parent)
 	 *
 	 * @param {string} widget
 	 * @param {string} str
+	 * @returns {exports.Section}
 	 */
 	this.add = function(widget, str)
 	{
@@ -257,6 +325,7 @@ exports.Section = function(id, parent)
 			throw new Error("Widget location [" + widget + "] not found.");
 		}
 		this.widgets[widget].push(str);
+		return this;
 	}
 };
 
@@ -264,6 +333,7 @@ exports.Section = function(id, parent)
  * Finds a section by it's ID.
  *
  * @param {string} id
+ * @returns {exports.Section}
  */
 exports.find = function(id)
 {

@@ -58,7 +58,17 @@ exports.create = function(options)
 				license.score = similarity.similarity(text,this._file);
 				this.debug("%s - %1.3f", license.file, license.score);
 			},this);
+
 			var license = _.first(_.sortBy(licenses,'score').reverse());
+			if(license.score < 0.95)
+			{
+				return;
+			}
+
+			root.child('LICENSE')
+				.template('license.dust',{},"append")
+				.setTitle('License');
+
 			this.info("%s - %1.3f", license.file, license.score);
 		}
 	};

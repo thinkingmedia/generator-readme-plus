@@ -1,5 +1,1 @@
-{#license}
-## License {badges.license}{~n}
-{~n}
-{title} is licensed under the {type} - see the `LICENSE` file for details.{~n}
-{/license}
+{title} is licensed under the {license.type} - see the `[{license.file}]({license.file})` file for details.
