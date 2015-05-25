@@ -20,12 +20,7 @@
       "url": "http://www.thinkingmedia.ca"
     }
   ],
-  "license": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/gruntjs/grunt-cli/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/thinkingmedia/readme/issues"
   },
