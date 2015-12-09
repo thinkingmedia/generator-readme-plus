@@ -1,17 +1,19 @@
 {
-  "name": "readme-plus",
-  "version": "1.0.0",
-  "description": "A readme file generator",
+  "name": "generator-readme-plus",
+  "version": "1.0.2",
+  "description": "README.md generator that doesn't suck and requires little effort to use.",
   "author": {
     "name": "Mathew Foscarini",
     "email": "support@thinkingmedia.ca",
     "url": "http://www.thinkingmedia.ca"
   },
-  "main": "./src/readme.js",
+  "files": [
+
+  ],
   "keywords": [
+    "yeoman-generator",
     "readme",
-    "generator",
-    "command line"
+    "generate-readme"
   ],
   "maintainers": [
     {
@@ -22,19 +24,16 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thinkingmedia/readme/issues"
+    "url": "https://github.com/thinkingmedia/generator-readme-plus/issues"
   },
   "preferGlobal": "true",
-  "homepage": "https://github.com/thinkingmedia/readme",
+  "homepage": "https://github.com/thinkingmedia/generator-readme-plus",
   "scripts": {
     "test": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive ./test/ -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/thinkingmedia/readme"
-  },
-  "directories": {
-    "bin": "./bin"
+    "url": "https://github.com/thinkingmedia/generator-readme-plus"
   },
   "dependencies": {
     "dustjs-linkedin": "~2.6.0",
