@@ -16,7 +16,7 @@ var readMePlus = {
             type: 'input',
             name: 'name',
             message: 'Project Name',
-            default: 'Hello World'
+            default: 'auto'
         },{
             type: 'confirm',
             name: 'toc',
