@@ -1,0 +1,8 @@
+Description:
+    README.md generator that doesn't suck and requires little effort to use.
+
+Example:
+    yo readme-plus
+
+    This will create:
+        README.md: The output file

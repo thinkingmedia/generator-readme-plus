@@ -8,8 +8,7 @@
     "url": "http://www.thinkingmedia.ca"
   },
   "files": [
-    "app",
-    "router"
+    "app"
   ],
   "keywords": [
     "yeoman-generator",
