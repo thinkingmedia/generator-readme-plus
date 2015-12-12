@@ -9,7 +9,9 @@
   },
   "main": "app/index.js",
   "files": [
-    "app"
+    "generators/app",
+    "generators/title",
+    "generators/toc"
   ],
   "keywords": [
     "yeoman-generator",
