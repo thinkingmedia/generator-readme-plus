@@ -49,5 +49,6 @@ Generator.prototype.prompting = function () {
 Generator.prototype.writing = function () {
     var str = this.fs.read(this.destinationPath('README.md'));
     var root = Section.load(str);
-    console.log(root);
+    str = root.toString();
+    this.fs.write(this.destinationPath('README+.md'), str)
 };

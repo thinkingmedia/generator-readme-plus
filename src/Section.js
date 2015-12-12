@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var EOL = require('os').EOL;
 var LinkedList = require('./LinkedList');
 
 /**
@@ -79,12 +80,10 @@ Section.prototype.getNormalizedDepth = function () {
 };
 
 /**
- * Changes the title
- *
- * @param {string} str
+ * @returns {string}
  */
-Section.prototype.setTitle = function (str) {
-    this.title = str;
+Section.prototype.getTitle = function () {
+    return _.repeat('#', this.getNormalizedDepth()) + ' ' + this.title;
 };
 
 /**
@@ -109,6 +108,31 @@ Section.prototype.trim = function () {
         lines = _.slice(lines, 0, lines.length - 1);
     }
     this.lines = lines;
+};
+
+/**
+ * @returns {string}
+ * @private
+ */
+Section.prototype._collapse = function() {
+    this.trim();
+    var lines = _.flatten([
+        this.getTitle(),
+        this.lines
+    ]);
+    return lines.join(EOL).trim();
+};
+
+/**
+ * @returns {string}
+ */
+Section.prototype.toString = function () {
+    var str = this._collapse();
+    _.each(this.child,function(child){
+        var s = child.toString().trim();
+        str += EOL + s;
+    });
+    return str;
 };
 
 /**
@@ -181,6 +205,7 @@ Section.load = function (str) {
     _.each(list.toArray(), function (node) {
         var section = Section._findParent(node, node.value.depth);
         if (section) {
+            node.value.parent = section;
             section.addChild(node.value);
         }
     });
