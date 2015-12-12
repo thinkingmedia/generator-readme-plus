@@ -11,6 +11,9 @@ var LinkedList = require('./LinkedList');
  * @constructor
  */
 var Section = function (title) {
+
+    title = (title || '').trim();
+
     /**
      * The parent that owns this section.
      *
@@ -22,13 +25,6 @@ var Section = function (title) {
      * @type {Section}
      */
     this.root = null;
-
-    /**
-     * The title of the section.
-     *
-     * @type {string|null}
-     */
-    this.title = (title || '').trim();
 
     /**
      * URL associated with the title.
@@ -63,8 +59,14 @@ var Section = function (title) {
             }
         }
         return -1;
-    })(this.title);
+    })(title);
 
+    /**
+     * The title of the section.
+     *
+     * @type {string|null}
+     */
+    this.title = title.substr(this.depth).trim();
 };
 
 /**
@@ -88,11 +90,25 @@ Section.prototype.setTitle = function (str) {
 /**
  * @param {Section} section
  */
-Section.prototype.addChild = function(section) {
-    if(!(section instanceof Section)) {
+Section.prototype.addChild = function (section) {
+    if (!(section instanceof Section)) {
         throw Error('Children can only be of type Section');
     }
     this.child.push(section);
+};
+
+/**
+ * Removes empty lines from the start and end of the section.
+ */
+Section.prototype.trim = function () {
+    var lines = this.lines;
+    while (lines.length > 0 && lines[0] == '') {
+        lines = _.slice(lines, 1);
+    }
+    while (lines.length > 0 && lines[lines.length - 1] == '') {
+        lines = _.slice(lines, 0, lines.length - 1);
+    }
+    this.lines = lines;
 };
 
 /**
@@ -111,6 +127,10 @@ Section._toSections = function (lines) {
             return;
         }
         current.lines.push(line);
+    });
+
+    _.each(sections, function (section) {
+        section.trim();
     });
 
     return sections;
