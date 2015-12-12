@@ -118,6 +118,7 @@ Section.prototype._collapse = function() {
     this.trim();
     var lines = _.flatten([
         this.getTitle(),
+        "",
         this.lines
     ]);
     return lines.join(EOL).trim();
@@ -127,12 +128,12 @@ Section.prototype._collapse = function() {
  * @returns {string}
  */
 Section.prototype.toString = function () {
-    var str = this._collapse();
+    var str = this._collapse().trim();
     _.each(this.child,function(child){
         var s = child.toString().trim();
-        str += EOL + s;
+        str += EOL + EOL + s;
     });
-    return str;
+    return str.trim();
 };
 
 /**
@@ -142,7 +143,7 @@ Section.prototype.toString = function () {
  */
 Section._toSections = function (lines) {
 
-    var current = new Section('README.md');
+    var current = new Section('');
     var sections = [current];
     _.each(lines, function (line) {
         if (_.startsWith(line, '#')) {
