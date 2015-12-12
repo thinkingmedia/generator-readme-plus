@@ -1,6 +1,7 @@
 var yeoman = require('yeoman-generator');
 var util = require('util');
 var _ = require('lodash');
+var Section = require('../../src/Section');
 
 /**
  * @lends yeoman.generators.Base
@@ -19,6 +20,8 @@ util.inherits(Generator, yeoman.generators.Base);
  * Configures the title for the readme.
  */
 Generator.prototype.prompting = function () {
+    // @todo - for debug only
+    return;
     var self = this;
     var done = this.async();
     this.prompt([{
@@ -44,7 +47,7 @@ Generator.prototype.prompting = function () {
  * Creates the README.md file
  */
 Generator.prototype.writing = function () {
-    //var readme = this.fs.read(this.destinationPath('README.md'));
-    //console.log(readme);
-    //console.log(this.values);
+    var str = this.fs.read(this.destinationPath('README.md'));
+    var root = Section.load(str);
+    console.log(root);
 };
