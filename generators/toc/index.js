@@ -6,7 +6,7 @@ var _ = require('lodash');
  * @lends yeoman.generators.Base
  * @constructor
  */
-var Generator = module.exports = function (args, options) {
+var Generator = function (args, options) {
     yeoman.generators.Base.apply(this, arguments);
     this.values = {
         toc: true
@@ -39,3 +39,5 @@ Generator.prototype.writing = function () {
     //console.log(readme);
     //console.log(this.values);
 };
+
+module.exports = Generator;

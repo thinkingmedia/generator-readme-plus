@@ -1,14 +1,20 @@
 var yeoman = require('yeoman-generator');
 var util = require('util');
 var _ = require('lodash');
-var Section = require('../../src/Section');
+var Markdown = require('../../src/Markdown');
 
 /**
  * @lends yeoman.generators.Base
  * @constructor
  */
-var Generator = module.exports = function (args, options) {
+var Generator = function (args, options) {
     yeoman.generators.Base.apply(this, arguments);
+
+    this.option('auto', {
+        'desc': 'Accept the defaults or previously save settings for all inputs.',
+        'alias': 'a'
+    });
+
     this.values = {
         autoTitle: true,
         title: this.determineAppname()
@@ -20,8 +26,9 @@ util.inherits(Generator, yeoman.generators.Base);
  * Configures the title for the readme.
  */
 Generator.prototype.prompting = function () {
-    // @todo - for debug only
-    return;
+    if (this.options.auto) {
+        return;
+    }
     var self = this;
     var done = this.async();
     this.prompt([{
@@ -43,12 +50,15 @@ Generator.prototype.prompting = function () {
     });
 };
 
-/**
- * Creates the README.md file
- */
-Generator.prototype.writing = function () {
-    var str = this.fs.read(this.destinationPath('README.md'));
-    var root = Section.load(str);
-    str = root.toString();
-    this.fs.write(this.destinationPath('README+.md'), str)
+Generator.prototype.settings = function () {
+    this.log('Title: ' + this.values.title);
+    this.config.set(this.values);
+    this.config.save();
 };
+
+Generator.prototype.writing = function () {
+    var root = Markdown.load(this, 'README.md');
+    Markdown.save(this, 'README+.md', root);
+};
+
+module.exports = Generator;

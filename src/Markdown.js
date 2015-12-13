@@ -1,9 +1,10 @@
 var _ = require('lodash');
 var EOL = require('os').EOL;
 var LinkedList = require('./LinkedList');
+var yeoman = require('yeoman-generator');
 
 /**
- * @name Section
+ * @name Markdown
  *
  * Defines a section in the readme file.
  *
@@ -11,19 +12,19 @@ var LinkedList = require('./LinkedList');
  *
  * @constructor
  */
-var Section = function (title) {
+var Markdown = function (title) {
 
     title = (title || '').trim();
 
     /**
      * The parent that owns this section.
      *
-     * @type {Section}
+     * @type {Markdown}
      */
     this.parent = null;
 
     /**
-     * @type {Section}
+     * @type {Markdown}
      */
     this.root = null;
 
@@ -44,7 +45,7 @@ var Section = function (title) {
     /**
      * The children of this section.
      *
-     * @type {Section[]}
+     * @type {Markdown[]}
      */
     this.child = [];
 
@@ -73,7 +74,7 @@ var Section = function (title) {
 /**
  * @returns {number}
  */
-Section.prototype.getNormalizedDepth = function () {
+Markdown.prototype.getNormalizedDepth = function () {
     return this.parent
         ? this.parent.getNormalizedDepth() + 1
         : 0;
@@ -82,16 +83,16 @@ Section.prototype.getNormalizedDepth = function () {
 /**
  * @returns {string}
  */
-Section.prototype.getTitle = function () {
+Markdown.prototype.getTitle = function () {
     return _.repeat('#', this.getNormalizedDepth()) + ' ' + this.title;
 };
 
 /**
- * @param {Section} section
+ * @param {Markdown} section
  */
-Section.prototype.addChild = function (section) {
-    if (!(section instanceof Section)) {
-        throw Error('Children can only be of type Section');
+Markdown.prototype.addChild = function (section) {
+    if (!(section instanceof Markdown)) {
+        throw Error('Children can only be of type Markdown');
     }
     this.child.push(section);
 };
@@ -99,7 +100,7 @@ Section.prototype.addChild = function (section) {
 /**
  * Removes empty lines from the start and end of the section.
  */
-Section.prototype.trim = function () {
+Markdown.prototype.trim = function () {
     var lines = this.lines;
     while (lines.length > 0 && lines[0] == '') {
         lines = _.slice(lines, 1);
@@ -114,7 +115,7 @@ Section.prototype.trim = function () {
  * @returns {string}
  * @private
  */
-Section.prototype._collapse = function() {
+Markdown.prototype._collapse = function () {
     this.trim();
     var lines = _.flatten([
         this.getTitle(),
@@ -127,9 +128,9 @@ Section.prototype._collapse = function() {
 /**
  * @returns {string}
  */
-Section.prototype.toString = function () {
+Markdown.prototype.toString = function () {
     var str = this._collapse().trim();
-    _.each(this.child,function(child){
+    _.each(this.child, function (child) {
         var s = child.toString().trim();
         str += EOL + EOL + s;
     });
@@ -138,16 +139,16 @@ Section.prototype.toString = function () {
 
 /**
  * @param {string[]} lines
- * @returns {Section[]}
+ * @returns {Markdown[]}
  * @private
  */
-Section._toSections = function (lines) {
+Markdown._toMarkdown = function (lines) {
 
-    var current = new Section('');
+    var current = new Markdown('');
     var sections = [current];
     _.each(lines, function (line) {
         if (_.startsWith(line, '#')) {
-            current = new Section(line);
+            current = new Markdown(line);
             sections.push(current);
             return;
         }
@@ -162,11 +163,11 @@ Section._toSections = function (lines) {
 };
 
 /**
- * @param {Section[]} sections
- * @returns {LinkedList<Section>}
+ * @param {Markdown[]} sections
+ * @returns {LinkedList<Markdown>}
  * @private
  */
-Section._toLinkedList = function (sections) {
+Markdown._toLinkedList = function (sections) {
     var list = new LinkedList();
     _.each(sections, function (section) {
         list.push(section);
@@ -175,36 +176,38 @@ Section._toLinkedList = function (sections) {
 };
 
 /**
- * @param {LinkedList.Node<Section>} node
+ * @param {LinkedList.Node<Markdown>} node
  * @param {number} depth
- * @returns {Section}
+ * @returns {Markdown}
  * @private
  */
-Section._findParent = function (node, depth) {
+Markdown._findParent = function (node, depth) {
     if (node.value.depth < depth) {
         return node.value;
     }
     return node.prev
-        ? Section._findParent(node.prev, depth)
+        ? Markdown._findParent(node.prev, depth)
         : null;
 };
 
 /**
  * Loads a string buffer
  *
- * @param {string} str
- * @returns {Section}
+ * @param {*} gen
+ * @param {string} fileName
+ * @returns {Markdown}
  */
-Section.load = function (str) {
+Markdown.load = function (gen, fileName) {
+    var str = gen.read(gen.destinationPath(fileName));
     var lines = _.map(str.split('\n'), function (line) {
         return line.trim();
     });
 
-    var sections = Section._toSections(lines);
-    var list = Section._toLinkedList(sections);
+    var sections = Markdown._toMarkdown(lines);
+    var list = Markdown._toLinkedList(sections);
 
     _.each(list.toArray(), function (node) {
-        var section = Section._findParent(node, node.value.depth);
+        var section = Markdown._findParent(node, node.value.depth);
         if (section) {
             node.value.parent = section;
             section.addChild(node.value);
@@ -214,4 +217,14 @@ Section.load = function (str) {
     return list.first.value;
 };
 
-module.exports = Section;
+/**
+ * @param {*} gen
+ * @param {string} fileName
+ * @param {Markdown} markDown
+ */
+Markdown.save = function (gen, fileName, markDown) {
+    var str = markDown.toString();
+    gen.fs.write(gen.destinationPath(fileName), str);
+};
+
+module.exports = Markdown;
