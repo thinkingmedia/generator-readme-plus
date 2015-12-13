@@ -14,7 +14,6 @@ Readme+ searches for `@readme` markers in the source code comments.
 * [Usage](#usage)
 
 ## Naming The Sections
-
 [Back To Top](#jump-to-section)
 
 Each heading in a readme file is defined by a section of source code comments that use the `@readme` indicator. The
