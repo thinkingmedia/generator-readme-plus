@@ -10,7 +10,7 @@
   "main": "app/index.js",
   "files": [
     "generators/app",
-    "generators/title",
+    "generators/header",
     "generators/toc"
   ],
   "keywords": [

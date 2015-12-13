@@ -1,6 +1,7 @@
 {
   "generator-readme-plus": {
-    "autoTitle": true,
-    "title": "generator readme plus"
+    "title": "generator-readme-plus",
+    "image": true,
+    "imageName": "generator-readme-plus.png"
   }
 }

@@ -11,6 +11,6 @@ var Generator = module.exports = function (args, options) {
 util.inherits(Generator, yeoman.generators.Base);
 
 Generator.prototype.default = function () {
-    this.composeWith('readme-plus:title', {auto:true});
-    this.composeWith('readme-plus:toc', this.options);
+    this.composeWith('readme-plus:header', {});
+    this.composeWith('readme-plus:toc', []);
 };

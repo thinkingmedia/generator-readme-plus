@@ -98,6 +98,13 @@ Markdown.prototype.addChild = function (section) {
 };
 
 /**
+ * @returns {Markdown|null}
+ */
+Markdown.prototype.firstChild = function() {
+    return this.child.length > 0 ? this.child[0] : null;
+};
+
+/**
  * Removes empty lines from the start and end of the section.
  */
 Markdown.prototype.trim = function () {
