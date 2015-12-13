@@ -92,11 +92,15 @@ Generator.prototype._getHeader = function (root) {
     return root.firstChild();
 };
 
+/**
+ * Creates markdown for an image.
+ * @returns {string}
+ * @private
+ */
 Generator.prototype._getImage = function () {
     if (!this.values.image) {
         return '';
     }
-    //![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png),
     return sprintf('![%s](https://github.com/%s/%s/raw/%s/%s.png)', this.git.repo, this.git.user, this.git.repo, this.git.branch, this.git.repo);
 };
 
