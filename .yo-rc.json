@@ -3,6 +3,8 @@
     "title": "generator-readme-plus",
     "image": true,
     "imageName": "generator-readme-plus.png",
+    "url": "",
+    "tagLine": "README.md generator that doesn't suck and requires little effort to use.",
     "toc": true
   }
 }

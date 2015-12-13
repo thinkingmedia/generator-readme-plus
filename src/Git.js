@@ -3,6 +3,9 @@ var fs = require('fs');
 var shell = require('shelljs');
 var sprintf = sprintf = require("sprintf-js").sprintf;
 
+/**
+ * @constructor
+ */
 var Git = function () {
     if (!shell.which('git')) {
         this.error('git command line tool was not found.');

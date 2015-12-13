@@ -83,4 +83,9 @@ Generator.prototype.writing = function () {
     Markdown.save(this, 'README+.md', root);
 };
 
+Generator.prototype.end = function() {
+    this.config.set(this.values);
+    this.config.save();
+};
+
 module.exports = Generator;
