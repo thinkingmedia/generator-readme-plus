@@ -2,6 +2,7 @@
   "generator-readme-plus": {
     "title": "generator-readme-plus",
     "image": true,
-    "imageName": "generator-readme-plus.png"
+    "imageName": "generator-readme-plus.png",
+    "toc": true
   }
 }

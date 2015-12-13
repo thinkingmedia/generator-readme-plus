@@ -7,6 +7,8 @@ var util = require('util');
  */
 var Generator = module.exports = function (args, options) {
     yeoman.generators.Base.apply(this, arguments);
+
+    this.fs.copy(this.destinationPath('README.md'),this.destinationPath('README+.md'));
 };
 util.inherits(Generator, yeoman.generators.Base);
 

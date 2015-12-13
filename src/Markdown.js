@@ -72,6 +72,13 @@ var Markdown = function (title) {
 };
 
 /**
+ * @returns {string}
+ */
+Markdown.prototype.getID = function () {
+    return _.kebabCase(this.title);
+};
+
+/**
  * @returns {number}
  */
 Markdown.prototype.getNormalizedDepth = function () {
@@ -90,18 +97,63 @@ Markdown.prototype.getTitle = function () {
 /**
  * @param {Markdown} section
  */
-Markdown.prototype.addChild = function (section) {
+Markdown.prototype.appendChild = function (section) {
     if (!(section instanceof Markdown)) {
         throw Error('Children can only be of type Markdown');
     }
+    section.parent = this;
     this.child.push(section);
+};
+
+/**
+ * @param {Markdown} section
+ */
+Markdown.prototype.prependChild = function (section) {
+    if (!(section instanceof Markdown)) {
+        throw Error('Children can only be of type Markdown');
+    }
+    section.parent = this;
+    this.child.unshift(section);
+};
+
+/**
+ * @param {number} indx
+ * @param {Markdown} section
+ */
+Markdown.prototype.insertChild = function (indx, section) {
+    if (!(section instanceof Markdown)) {
+        throw Error('Children can only be of type Markdown');
+    }
+    section.parent = this;
+    this.child.splice(indx, 0, section);
 };
 
 /**
  * @returns {Markdown|null}
  */
-Markdown.prototype.firstChild = function() {
+Markdown.prototype.firstChild = function () {
     return this.child.length > 0 ? this.child[0] : null;
+};
+
+/**
+ * @param {string} name
+ * @returns {Markdown|null}
+ */
+Markdown.prototype.findByID = function (name) {
+    var id = _.kebabCase(name);
+    return _.find(this.child, function (child) {
+            return child.getID() == id;
+        }) || null;
+};
+
+/**
+ * @param {string} name
+ */
+Markdown.prototype.removeByID = function(name) {
+    var item = this.findByID(name);
+    if(item) {
+        this.child = _.remove(this.child, item);
+    }
 };
 
 /**
@@ -217,7 +269,7 @@ Markdown.load = function (gen, fileName) {
         var section = Markdown._findParent(node, node.value.depth);
         if (section) {
             node.value.parent = section;
-            section.addChild(node.value);
+            section.appendChild(node.value);
         }
     });
 

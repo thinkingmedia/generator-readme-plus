@@ -1,6 +1,9 @@
 var yeoman = require('yeoman-generator');
 var util = require('util');
 var _ = require('lodash');
+var sprintf = sprintf = require("sprintf-js").sprintf;
+
+var Markdown = require('../../src/Markdown');
 
 /**
  * @lends yeoman.generators.Base
@@ -23,7 +26,7 @@ Generator.prototype.prompting = function () {
     this.prompt([{
         'type': 'confirm',
         'name': 'toc',
-        'message': 'Add table of content?',
+        'message': 'Add table of contents?',
         'default': self.values.toc
     }], function (values) {
         _.merge(self.values, values);
@@ -32,12 +35,52 @@ Generator.prototype.prompting = function () {
 };
 
 /**
+ * @param {Markdown} root
+ * @returns {Markdown|null}
+ * @private
+ */
+Generator.prototype._getTOC = function (root) {
+    var head = root.firstChild();
+    if (!head) {
+        return null;
+    }
+    head.removeByID('Jump To Section');
+    var toc = new Markdown('Jump To Section');
+    head.prependChild(toc);
+    return toc;
+};
+
+/**
  * Creates the README.md file
  */
 Generator.prototype.writing = function () {
-    //var readme = this.fs.read(this.destinationPath('README.md'));
-    //console.log(readme);
-    //console.log(this.values);
+    var root = Markdown.load(this, 'README+.md');
+    var head = root.firstChild();
+    if (!head) {
+        return;
+    }
+
+    // @todo - restrict TOC to 3 or more sections.
+
+    if (this.values.toc) {
+        head.removeByID('Jump To Section');
+        var toc = new Markdown('Jump To Section');
+        toc.lines = _.filter(_.map(head.child, function (/** Markdown */child) {
+            return sprintf('* [%s](#%s)', child.title, child.getID());
+        }));
+
+        var backToTop = '[Back To Top](#jump-to-section)';
+        _.each(head.child,function(/** Markdown */child){
+            if(_.first(child.lines) !== backToTop) {
+                child.lines.unshift('');
+                child.lines.unshift(backToTop);
+            }
+        });
+
+        head.prependChild(toc);
+    }
+
+    Markdown.save(this, 'README+.md', root);
 };
 
 module.exports = Generator;

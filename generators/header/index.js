@@ -50,20 +50,6 @@ Generator.prototype.prompting = function () {
     });
 };
 
-Generator.prototype.settings = function () {
-    var msg = {
-        'Title': this.values.title,
-        'Image': this.values.imageName
-    };
-
-    _.each(msg, function (value, key) {
-        this.log(key + ': ' + chalk.yellow.bold(value));
-    }.bind(this));
-
-    this.config.set(this.values);
-    this.config.save();
-};
-
 /**
  * Extras re-usable text from the header section. Lines from tbe bottom up that start with alpha-numeric characters.
  *
@@ -87,7 +73,7 @@ Generator.prototype._getHeaderText = function (lines) {
  */
 Generator.prototype._getHeader = function (root) {
     if (!root.firstChild()) {
-        root.addChild(new Markdown(this.values.title));
+        root.appendChild(new Markdown(this.values.title));
     }
     return root.firstChild();
 };
@@ -105,7 +91,7 @@ Generator.prototype._getImage = function () {
 };
 
 Generator.prototype.writing = function () {
-    var root = Markdown.load(this, 'README.md');
+    var root = Markdown.load(this, 'README+.md');
 
     var head = this._getHeader(root);
     head.title = this.values.title;
