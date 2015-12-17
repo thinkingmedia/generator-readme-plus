@@ -1,5 +1,5 @@
 {
-  "name": "generator-readme-plus",
+  "name": "grunt-readme-plus",
   "version": "1.0.2",
   "description": "README.md generator that doesn't suck and requires little effort to use.",
   "author": {
@@ -7,14 +7,12 @@
     "email": "support@thinkingmedia.ca",
     "url": "http://www.thinkingmedia.ca"
   },
-  "main": "app/index.js",
   "files": [
-    "generators/app",
-    "generators/header",
-    "generators/toc"
+    "tasks",
+    "LICENSE"
   ],
   "keywords": [
-    "yeoman-generator",
+    "gruntplugin",
     "readme",
     "generate-readme"
   ],
@@ -27,35 +25,21 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thinkingmedia/generator-readme-plus/issues"
+    "url": "https://github.com/thinkingmedia/grunt-readme-plus/issues"
   },
-  "preferGlobal": "true",
-  "homepage": "https://github.com/thinkingmedia/generator-readme-plus",
+  "homepage": "https://github.com/thinkingmedia/grunt-readme-plus",
   "scripts": {
     "test": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive ./test/ -R spec"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thinkingmedia/generator-readme-plus"
+    "url": "https://github.com/thinkingmedia/grunt-readme-plus"
   },
   "dependencies": {
-    "dustjs-linkedin": "~2.6.0",
-    "fileset": "^0.1.5",
-    "github": "^0.2.3",
-    "lodash": "~3.0.0",
-    "optjs": "^3.2.1-boom",
-    "q": "~1.2.0",
-    "regex-cache": "~0.3.0",
-    "shelljs": "^0.3.0",
-    "sprintf-js": "^1.0.2",
-    "winston": "^0.9.0",
-    "yeoman-generator": "^0.21.1"
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "lodash": "^3.10.1",
+    "shelljs": "^0.5.3"
   },
-  "devDependencies": {
-    "codeclimate-test-reporter": "0.0.4",
-    "expect.js": "^0.3.1",
-    "istanbul": "^0.3.8",
-    "mocha": "^2.2.1",
-    "mocha-istanbul": "^0.2.0"
-  }
+  "devDependencies": {}
 }

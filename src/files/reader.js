@@ -10,15 +10,7 @@ var logger = require('winston');
  */
 exports.read = function(file)
 {
-	if(!file)
-	{
-		return undefined;
-	}
-	if(fs.existsSync(file))
-	{
-		return fs.readFileSync(file, 'utf8');
-	}
-	return undefined;
+	return file && fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : undefined;
 };
 
 /**

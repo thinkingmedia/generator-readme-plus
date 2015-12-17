@@ -40,6 +40,7 @@ Generator.prototype.initializing = function () {
     // @todo - Handle non-github working folders.
     var self = this;
     var done = this.async();
+
     GitHub.getInfo().then(function (value) {
         self.values.url = value.url;
         self.values.tagLine = value.desc;
