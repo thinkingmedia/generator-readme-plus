@@ -1,6 +1,8 @@
 define(['lodash'], function (_) {
 
     /**
+     * @name Plus.Arrays
+     *
      * @constructor
      */
     var Arrays = function () {

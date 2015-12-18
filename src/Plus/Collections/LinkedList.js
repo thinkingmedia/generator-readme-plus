@@ -1,5 +1,7 @@
 define([], function () {
     /**
+     * @name Plus.LinkedList
+     *
      * @template T
      * @constructor
      */

@@ -1,12 +1,11 @@
-//var Git = require('../../src/Git');
-//var GitHub = require('../../src/GitHub');
-
-define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdown) {
+define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, /** Markdown */Markdown) {
 
     /**
+     * @name Plus.Header
+     *
      * @constructor
      */
-    var Generator = function () {
+    var Writer = function () {
         this.git = Git.getInfo();
         this.values = _.merge({}, {
             title: this.git.repo,
@@ -20,7 +19,7 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
     /**
      * Loads the GitHub API details.
      */
-    Generator.prototype.initializing = function () {
+    Writer.prototype.initializing = function () {
 
         if (!!this.values.tagLine || !!this.values.url) {
             return;
@@ -46,7 +45,7 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
      * @returns {string[]}
      * @private
      */
-    Generator.prototype._getHeaderText = function (lines) {
+    Writer.prototype._getHeaderText = function (lines) {
         lines = lines.slice();
         lines.reverse();
         lines = _.takeWhile(lines, function (line) {
@@ -60,7 +59,7 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
      * @param {Markdown} root
      * @private
      */
-    Generator.prototype._getHeader = function (root) {
+    Writer.prototype._getHeader = function (root) {
         if (!root.firstChild()) {
             root.appendChild(new Markdown(this.values.title));
         }
@@ -72,7 +71,7 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
      * @returns {string}
      * @private
      */
-    Generator.prototype._getImage = function () {
+    Writer.prototype._getImage = function () {
         if (!this.values.image) {
             return '';
         }
@@ -83,18 +82,18 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
      * @returns {string}
      * @private
      */
-    Generator.prototype._getTitle = function () {
+    Writer.prototype._getTitle = function () {
         return this.values.title;
     };
 
-    Generator.prototype._getTagLine = function () {
+    Writer.prototype._getTagLine = function () {
         return sprintf('> %s', this.values.tagLine);
     };
 
     /**
      * @param {Markdown} root
      */
-    Generator.prototype.writing = function (root) {
+    Writer.prototype.writing = function (root) {
         var head = this._getHeader(root);
         head.title = this._getTitle();
         head.lines = _.flatten([
@@ -106,5 +105,5 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, Markdow
         ]);
     };
 
-    return Generator;
+    return Writer;
 });

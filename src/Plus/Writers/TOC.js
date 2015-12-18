@@ -3,7 +3,7 @@ var util = require('util');
 var _ = require('lodash');
 var sprintf = sprintf = require("sprintf-js").sprintf;
 
-var Markdown = require('../../src/Markdown');
+//var Markdown = require('../../src/Markdown');
 
 /**
  * @lends yeoman.generators.Base

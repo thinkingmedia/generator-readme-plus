@@ -8,9 +8,9 @@ requirejs.config({
 var _ = requirejs('lodash');
 
 /**
- * @type {ReadMe}
+ * @type {Plus.Markdown}
  */
-var ReadMe = requirejs('ReadMe');
+var Markdown = requirejs('Files/Markdown');
 
 /**
  * @type {Logger}
@@ -40,7 +40,8 @@ module.exports = function (grunt) {
             }
         });
 
-        var readme = new ReadMe("./README.md");
-        readme.save("./README+.md");
+        var md = new Markdown.load("README.md");
+        //var readme = new ReadMe(md);
+        //readme.save("./README+.md");
     });
 };

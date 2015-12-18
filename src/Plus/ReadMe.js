@@ -1,20 +1,13 @@
-define(['path', 'Files/Markdown', 'Files/Logger'], function (path, Markdown, Logger) {
+define(['path', 'Files/Markdown', 'Files/Logger'], function (path, /** Markdown */Markdown, /** Logger */Logger) {
 
     /**
-     * @param {string} inFile
+     * @param {Markdown} md
      * @constructor
      */
-    var ReadMe = function (inFile) {
-        Logger.debug('Loading: ' + inFile);
-        this.md = Markdown.load(inFile);
-    };
-
-    /**
-     * @param {string} outFile
-     */
-    ReadMe.prototype.save = function (outFile) {
-        Logger.debug('Saving: ' + outFile);
-        this.md.save(outFile);
+    var ReadMe = function (md) {
+        if(!(md instanceof Markdown)) {
+            throw Error('Parameter must be a Markdown object.');
+        }
     };
 
     return ReadMe;
