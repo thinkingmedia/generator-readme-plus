@@ -1,4 +1,4 @@
-define(['lodash','os','Lib/LinkedList'],function(_,os,LinkedList){
+define(['lodash', 'fs', 'os', 'Collections/LinkedList'], function (_, fs, os, LinkedList) {
 
     /**
      * @name Markdown
@@ -178,7 +178,7 @@ define(['lodash','os','Lib/LinkedList'],function(_,os,LinkedList){
             "",
             this.lines
         ]);
-        return lines.join(EOL).trim();
+        return lines.join(os.EOL).trim();
     };
 
     /**
@@ -188,9 +188,17 @@ define(['lodash','os','Lib/LinkedList'],function(_,os,LinkedList){
         var str = this._collapse().trim();
         _.each(this.child, function (child) {
             var s = child.toString().trim();
-            str += EOL + EOL + s;
+            str += os.EOL + os.EOL + s;
         });
         return str.trim();
+    };
+
+    /**
+     * @param {string} fileName
+     */
+    Markdown.prototype.save = function (fileName) {
+        var str = this.toString();
+        fs.writeFileSync(fileName, str, 'UTF8');
     };
 
     /**
@@ -249,12 +257,12 @@ define(['lodash','os','Lib/LinkedList'],function(_,os,LinkedList){
     /**
      * Loads a string buffer
      *
-     * @param {*} gen
      * @param {string} fileName
      * @returns {Markdown}
      */
-    Markdown.load = function (gen, fileName) {
-        var str = gen.read(gen.destinationPath(fileName));
+    Markdown.load = function (fileName) {
+
+        var str = fs.readFileSync(fileName, 'UTF8');
         var lines = _.map(str.split('\n'), function (line) {
             return line.trim();
         });
@@ -271,16 +279,6 @@ define(['lodash','os','Lib/LinkedList'],function(_,os,LinkedList){
         });
 
         return list.first.value;
-    };
-
-    /**
-     * @param {*} gen
-     * @param {string} fileName
-     * @param {Markdown} markDown
-     */
-    Markdown.save = function (gen, fileName, markDown) {
-        var str = markDown.toString();
-        gen.fs.write(gen.destinationPath(fileName), str);
     };
 
     return Markdown;

@@ -40,7 +40,8 @@
     "grunt-cli": "^0.1.13",
     "lodash": "^3.10.1",
     "requirejs": "^2.1.22",
-    "shelljs": "^0.5.3"
+    "shelljs": "^0.5.3",
+    "sprintf-js": "^1.0.3"
   },
   "devDependencies": {}
 }

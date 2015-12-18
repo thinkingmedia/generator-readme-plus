@@ -1,4 +1,4 @@
-define([],function(){
+define([], function () {
     /**
      * @template T
      * @constructor
@@ -42,7 +42,7 @@ define([],function(){
     /**
      * Clears the contents.
      */
-    LinkedList.prototype.clear = function() {
+    LinkedList.prototype.clear = function () {
         this.first = this.last = null;
         this.count = 0;
     };
@@ -69,7 +69,7 @@ define([],function(){
     /**
      * @returns {LinkedList.Node<T>[]}
      */
-    LinkedList.prototype.toArray = function() {
+    LinkedList.prototype.toArray = function () {
         var items = [];
         var node = this.first;
         while (node) {

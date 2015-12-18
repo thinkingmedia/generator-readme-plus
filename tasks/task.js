@@ -1,16 +1,23 @@
 var requirejs = require('requirejs');
 
 requirejs.config({
-    baseUrl: __dirname + '/../src',
+    baseUrl: __dirname + '/../src/Plus',
     nodeRequire: require
 });
 
 var _ = requirejs('lodash');
-var Markdown = requirejs('Lib/Markdown');
+
+/**
+ * @type {ReadMe}
+ */
+var ReadMe = requirejs('ReadMe');
+
+/**
+ * @type {Logger}
+ */
+var Logger = requirejs('Files/Logger');
 
 module.exports = function (grunt) {
-
-    console.log('hello world');
 
     grunt.task.registerTask('readme', 'Generates the README.md file', function (args) {
 
@@ -19,23 +26,21 @@ module.exports = function (grunt) {
             url: null,
             image: null
         };
-
         var options = _.merge({}, defaults, this.options() || {});
 
-        console.log(options);
+        Logger.config({
+            info: function(str) {
+                grunt.log.ok(str);
+            },
+            debug: function(str) {
+                grunt.log.debug(str);
+            },
+            error: function(str) {
+                grunt.log.error(str);
+            }
+        });
 
-        /*
-         var git = Git.getInfo();
-
-         GitHub.getInfo().then(function (value) {
-         self.values.url = value.url;
-         self.values.tagLine = value.desc;
-         done();
-         }, function (err) {
-         throw Error(err);
-         });
-         */
-
-        console.log('hello');
+        var readme = new ReadMe("./README.md");
+        readme.save("./README+.md");
     });
 };
