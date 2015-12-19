@@ -1,11 +1,17 @@
-define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, /** Markdown */Markdown) {
+define(['lodash',
+    'Services/Print',
+    'Files/Markdown',
+    'Services/Git',
+    'Services/GitHub'], function (_, Print, /** Plus.Markdown */Markdown, /** Plus.Git */Git, /** Plus.GitHub */ GitHub) {
 
     /**
-     * @name Plus.Header
+     * @param {Plus} plus
      *
      * @constructor
      */
-    var Writer = function () {
+    var Writer = function (plus) {
+
+        return;
         this.git = Git.getInfo();
         this.values = _.merge({}, {
             title: this.git.repo,
@@ -25,7 +31,6 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, /** Mar
             return;
         }
 
-        // @todo - Handle non-github working folders.
         var self = this;
         var done = this.async();
 
@@ -75,7 +80,7 @@ define(['lodash', 'sprintf-js', 'Files/Markdown'], function (_, sprintf, /** Mar
         if (!this.values.image) {
             return '';
         }
-        return sprintf('![%s](https://github.com/%s/%s/raw/%s/%s.png)', this.git.repo, this.git.user, this.git.repo, this.git.branch, this.git.repo);
+        return Print('![%s](https://github.com/%s/%s/raw/%s/%s.png)', this.git.repo, this.git.user, this.git.repo, this.git.branch, this.git.repo);
     };
 
     /**

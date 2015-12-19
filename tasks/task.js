@@ -13,9 +13,17 @@ var _ = requirejs('lodash');
 var Markdown = requirejs('Files/Markdown');
 
 /**
+ * @type {Plus}
+ */
+var Plus = requirejs('Plus');
+
+/**
  * @type {Logger}
  */
 var Logger = requirejs('Files/Logger');
+
+var Header = requirejs('Plugins/Header');
+var plugins = [Header];
 
 module.exports = function (grunt) {
 
@@ -41,7 +49,12 @@ module.exports = function (grunt) {
         });
 
         var md = new Markdown.load("README.md");
-        //var readme = new ReadMe(md);
-        //readme.save("./README+.md");
+        var plus = new Plus(md);
+
+        plugins = _.map(plugins,function(plugin){
+            return new plugin(plus);
+        });
+
+        md.save("./README+.md");
     });
 };

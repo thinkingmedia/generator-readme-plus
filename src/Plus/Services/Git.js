@@ -1,4 +1,8 @@
-define(['lodash', 'fs', 'shell', 'sprintf-js', 'Files/Logger'], function (_, fs, shell, sprintf, /** Logger */Logger) {
+define(['lodash',
+    'fs',
+    'shelljs',
+    'Services/Print',
+    'Files/Logger'], function (_, fs, shell, Print, /** Plus.Logger */Logger) {
 
     /**
      * @name Plus.Git

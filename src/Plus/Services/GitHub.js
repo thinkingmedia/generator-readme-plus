@@ -1,4 +1,6 @@
-define(['q','github','Services/Git'], function(Q, GitHubApi, /** Git */Git){
+define(['q',
+    'github',
+    'Services/Git'], function (Q, GitHubApi, /** Git */Git) {
 
     /**
      * @name Plus.GitHub
