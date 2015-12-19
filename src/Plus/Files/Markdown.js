@@ -257,12 +257,10 @@ define(
         };
 
         /**
-         * @name Plus.Markdown#load
-         *
          * Loads a string buffer
          *
          * @param {string} fileName
-         * @returns {Markdown}
+         * @returns {Plus.Markdown}
          */
         Markdown.load = function (fileName) {
 

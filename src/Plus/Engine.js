@@ -1,18 +1,23 @@
-define(['path', 'Files/Markdown', 'Files/Logger'], function (path, /** Markdown */Markdown, /** Logger */Logger) {
+define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
 
     /**
      * @name Plus
-     *
-     * @param {Markdown} md
+     */
+
+    /**
+     * @name Plus.Engine
      * @constructor
      */
-    var Plus = function (md) {
-        if (!(md instanceof Markdown)) {
-            throw Error('Parameter must be a Markdown object.');
-        }
+    var Engine = function () {
+        this._filters = [];
+        this._actions = [];
+    };
 
-        this.filters = [];
-        this.actions = [];
+    /**
+     * @param {Plus.Markdown} md
+     */
+    Engine.prototype.render = function (md) {
+        this.trigger('before-render');
     };
 
     /**
@@ -20,8 +25,8 @@ define(['path', 'Files/Markdown', 'Files/Logger'], function (path, /** Markdown 
      * @param {function} hook
      * @param {number} priority
      */
-    Plus.prototype.add_action = function (name, hook, priority) {
-        this.actions.push({
+    Engine.prototype.add_action = function (name, hook, priority) {
+        this._actions.push({
             name: name,
             hook: hook,
             priority: priority
@@ -39,8 +44,8 @@ define(['path', 'Files/Markdown', 'Files/Logger'], function (path, /** Markdown 
      * @param {function} hook
      * @param {number} priority
      */
-    Plus.prototype.add_filter = function (name, hook, priority) {
-        this.filters.push({
+    Engine.prototype.add_filter = function (name, hook, priority) {
+        this._filters.push({
             name: name,
             hook: hook,
             priority: priority
@@ -54,9 +59,15 @@ define(['path', 'Files/Markdown', 'Files/Logger'], function (path, /** Markdown 
      *
      * @returns {*}
      */
-    Plus.prototype.apply_filters = function (name, value) {
+    Engine.prototype.apply_filters = function (name, value) {
 
     };
 
-    return Plus;
+    /**
+     * @param {string} name
+     */
+    Engine.prototype.trigger= function(name) {
+    };
+
+    return new Engine();
 });

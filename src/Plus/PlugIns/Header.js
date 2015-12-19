@@ -1,8 +1,13 @@
 define(['lodash',
+    'Engine',
     'Services/Print',
     'Files/Markdown',
     'Services/Git',
-    'Services/GitHub'], function (_, Print, /** Plus.Markdown */Markdown, /** Plus.Git */Git, /** Plus.GitHub */ GitHub) {
+    'Services/GitHub',
+    'Files/Logger'], function (_, /** Plus.Engine */ Engine, Print, /** Plus.Markdown */Markdown,
+                               /** Plus.Git */Git, /** Plus.GitHub */ GitHub, /** Plus.Logger */Logger) {
+
+    return;
 
     /**
      * @param {Plus} plus
