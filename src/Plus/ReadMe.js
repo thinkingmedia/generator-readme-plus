@@ -1,24 +1,23 @@
-define(['requirejs', 'Engine'], function (requirejs, /** Plus.Engine */Engine) {
+var dependencies = ['requirejs', 'Plus/Engine'];
 
-    /**
-     * Load plugins
-     */
-    requirejs('Plugins/Header');
+define(dependencies, function (requirejs, /** Plus.Engine */Engine) {
 
     /**
      * @name Plus.ReadMe
      * @constructor
      */
     var ReadMe = function () {
-
+        this.engine = new Engine();
+        this.plugins = [];
+        this.plugins.push(new requirejs('Plus/Plugins/Header')(this.engine));
     };
 
     /**
-     * @param {Plus.Markdown} md
+     * @param {Plus.Files.Markdown} md
      */
-    ReadMe.prototype.render = function(md) {
-        Engine.render(md);
+    ReadMe.prototype.render = function (md) {
+        this.engine.render(md);
     };
 
-    return new ReadMe();
+    return ReadMe;
 });

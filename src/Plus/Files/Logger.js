@@ -1,7 +1,9 @@
-define(['lodash', 'chalk', 'Services/Print'], function (_, chalk, print) {
+var dependencies = ['lodash', 'chalk', 'Plus/Services/Print'];
+
+define(dependencies, function (_, chalk, print) {
 
     /**
-     * @name Plus.Logger
+     * @name Plus.Files.Logger
      *
      * @constructor
      */
@@ -33,8 +35,8 @@ define(['lodash', 'chalk', 'Services/Print'], function (_, chalk, print) {
      * @returns {string}
      * @private
      */
-    Logger.prototype._format = function(values) {
-        if(!this.options.color) {
+    Logger.prototype._format = function (values) {
+        if (!this.options.color) {
             return print.apply(this, values);
         }
         var args = _.flatten([values[0], _.map(_.slice(values, 1), function (arg) {

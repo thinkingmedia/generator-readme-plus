@@ -1,11 +1,9 @@
-define(['lodash',
-    'fs',
-    'shelljs',
-    'Services/Print',
-    'Files/Logger'], function (_, fs, shell, Print, /** Plus.Logger */Logger) {
+var dependencies = ['lodash', 'fs', 'shelljs', 'Plus/Services/Print', 'Plus/Files/Logger'];
+
+define(dependencies, function (_, fs, shell, Print, /** Plus.Files.Logger */Logger) {
 
     /**
-     * @name Plus.Git
+     * @name Plus.Services.Git
      *
      * @constructor
      */

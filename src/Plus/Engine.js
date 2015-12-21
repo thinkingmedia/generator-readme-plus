@@ -1,4 +1,6 @@
-define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
+var dependencies = ['lodash', 'Plus/Files/Logger', 'collections/multi-map'];
+
+define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap) {
 
     /**
      * @name Plus
@@ -9,15 +11,17 @@ define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
      * @constructor
      */
     var Engine = function () {
-        this._filters = [];
-        this._actions = [];
+        this._filters = new MultiMap();
+        this._actions = new MultiMap();
     };
 
     /**
-     * @param {Plus.Markdown} md
+     * @param {Plus.Files.Markdown} md
      */
     Engine.prototype.render = function (md) {
         this.trigger('before-render');
+        this.trigger('render');
+        this.trigger('post-render');
     };
 
     /**
@@ -25,15 +29,14 @@ define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
      * @param {function} hook
      * @param {number} priority
      */
-    Engine.prototype.add_action = function (name, hook, priority) {
-        this._actions.push({
-            name: name,
-            hook: hook,
-            priority: priority
-        });
+    Engine.prototype.add_section = function (name, hook, priority) {
+        Logger.debug('add_section: %s', name);
+        this._actions.get(name).add({hook: hook, priority: priority});
     };
 
     /**
+     * @readme filters."Add Filter"
+     *
      * Hook a function to a specific filter action. ReadMe offers filters to allow Writers to modify various types
      * of data at writing time.
      *
@@ -45,11 +48,8 @@ define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
      * @param {number} priority
      */
     Engine.prototype.add_filter = function (name, hook, priority) {
-        this._filters.push({
-            name: name,
-            hook: hook,
-            priority: priority
-        });
+        Logger.debug('add_filter: %s', name);
+        this._filters.get(name).add({hook: hook, priority: priority});
     };
 
     /**
@@ -58,15 +58,21 @@ define(['lodash','Files/Logger'], function (_,/** Plus.Logger */Logger) {
      * @param {*} value
      *
      * @returns {*}
+     *
+     * @todo can not call trigger inside apply_filer
      */
     Engine.prototype.apply_filters = function (name, value) {
-
+        Logger.debug('apply_filter: %s', name);
     };
 
     /**
      * @param {string} name
+     *
+     * @todo an action can only be triggered once (use a list to keep track).
+     * @todo use a queue to run only one trigger at a time.
      */
-    Engine.prototype.trigger= function(name) {
+    Engine.prototype.trigger = function (name) {
+        Logger.debug('trigger: %s', name);
     };
 
     return new Engine();

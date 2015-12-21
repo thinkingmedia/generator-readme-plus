@@ -1,9 +1,9 @@
-define(['q',
-    'github',
-    'Services/Git'], function (Q, GitHubApi, /** Git */Git) {
+var dependencies = ['q', 'github', 'Plus/Services/Git'];
+
+define(dependencies, function (Q, GitHubApi, /** Plus.Services.Git */Git) {
 
     /**
-     * @name Plus.GitHub
+     * @name Plus.Services.GitHub
      *
      * @constructor
      */
@@ -16,10 +16,7 @@ define(['q',
 
         this.api = new GitHubApi({
             'version': '3.0.0',
-            'protocol': 'https',
-            'headers': {
-                'user-agent': 'thinkingmedia/generator-readme-plus'
-            }
+            'protocol': 'https'
         });
     };
 

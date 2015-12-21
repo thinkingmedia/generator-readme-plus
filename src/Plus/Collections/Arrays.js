@@ -1,7 +1,9 @@
-define(['lodash'], function (_) {
+var dependencies = ['lodash'];
+
+define(dependencies, function (_) {
 
     /**
-     * @name Plus.Arrays
+     * @name Plus.Collections.Arrays
      *
      * @constructor
      */

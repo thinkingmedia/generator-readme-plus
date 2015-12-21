@@ -1,53 +1,47 @@
 var requirejs = require('requirejs');
 
 requirejs.config({
-    baseUrl: __dirname + '/../src/Plus',
+    baseUrl: __dirname + '/../src',
     nodeRequire: require
 });
 
-var _ = requirejs('lodash');
-
-/**
- * @type {Plus.Markdown}
- */
-var Markdown = requirejs('Files/Markdown');
-
-/**
- * @type {Plus.ReadMe}
- */
-var ReadMe = requirejs('ReadMe');
-
-/**
- * @type {Logger}
- */
-var Logger = requirejs('Files/Logger');
-
 module.exports = function (grunt) {
 
-    grunt.task.registerTask('readme', 'Generates the README.md file', function (args) {
+    (/**
+     * @param _
+     * @param {Plus.Files.Markdown} Markdown
+     * @param {Plus.Files.Logger} Logger
+     * @param {Plus.ReadMe} ReadMe
+     */
+        function (_, Markdown, Logger, ReadMe) {
 
-        var defaults = {
-            title: null,
-            url: null,
-            image: null
-        };
-        var options = _.merge({}, defaults, this.options() || {});
+        grunt.task.registerTask('readme', 'Generates the README.md file', function (args) {
 
-        Logger.config({
-            info: function(str) {
-                grunt.log.ok(str);
-            },
-            debug: function(str) {
-                grunt.log.debug(str);
-            },
-            error: function(str) {
-                grunt.log.error(str);
-            }
+            var defaults = {
+                title: null,
+                url: null,
+                image: null
+            };
+            var options = _.merge({}, defaults, this.options() || {});
+
+            Logger.config({
+                info: function (str) {
+                    grunt.log.ok(str);
+                },
+                debug: function (str) {
+                    grunt.log.debug(str);
+                },
+                error: function (str) {
+                    grunt.log.error(str);
+                }
+            });
+
+            var md = Markdown.load("README.md");
+            var readme = new ReadMe();
+            readme.render(md);
+
+            //md.save("./README+.md");
         });
 
-        var md = Markdown.load("README.md");
-        ReadMe.render(md);
-
-        //md.save("./README+.md");
-    });
+    })(requirejs('lodash'), requirejs('Plus/Files/Markdown'), requirejs('Plus/Files/Logger'), requirejs('Plus/ReadMe'));
 };
