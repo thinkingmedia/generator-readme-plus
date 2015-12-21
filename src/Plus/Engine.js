@@ -75,5 +75,5 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap) {
         Logger.debug('trigger: %s', name);
     };
 
-    return new Engine();
+    return Engine;
 });

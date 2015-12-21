@@ -1,15 +1,22 @@
-var dependencies = ['lodash', 'Engine', 'Services/Print', 'Files/Markdown', 'Services/Git', 'Services/GitHub', 'Files/Logger'];
+var dependencies = ['lodash', 'Plus/Services/Print', 'Plus/Files/Markdown', 'Plus/Services/Git', 'Plus/Services/GitHub', 'Plus/Files/Logger'];
 
-define(dependencies, function (_, /** Plus.Engine */ Engine, Print, /** Plus.Files.Markdown */Markdown,
-                               /** Plus.Services.Git */Git, /** Plus.Services.GitHub */ GitHub, /** Plus.Files.Logger */Logger) {
+define(dependencies, function (_, Print,
+                               /** Plus.Files.Markdown */Markdown,
+                               /** Plus.Services.Git */Git,
+                               /** Plus.Services.GitHub */ GitHub,
+                               /** Plus.Files.Logger */Logger) {
 
     /**
-     * @Param {Plus.Engine} engine
+     * @param {Plus.Engine} engine
+     * @param {string} section
+     *
      * @constructor
      */
-    var Writer = function (engine) {
+    var Writer = function (engine, section) {
 
-        engine.add_section('root/header');
+        engine.add_filter(section, function (/** Plus.Files.Markdown */md) {
+            return md;
+        }, 10);
 
         return;
 

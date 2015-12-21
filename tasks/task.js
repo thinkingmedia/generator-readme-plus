@@ -9,11 +9,10 @@ module.exports = function (grunt) {
 
     (/**
      * @param _
-     * @param {Plus.Files.Markdown} Markdown
      * @param {Plus.Files.Logger} Logger
      * @param {Plus.ReadMe} ReadMe
      */
-        function (_, Markdown, Logger, ReadMe) {
+        function (_, Logger, ReadMe) {
 
         grunt.task.registerTask('readme', 'Generates the README.md file', function (args) {
 
@@ -36,12 +35,10 @@ module.exports = function (grunt) {
                 }
             });
 
-            var md = Markdown.load("README.md");
-            var readme = new ReadMe();
-            readme.render(md);
-
-            //md.save("./README+.md");
+            var readme = new ReadMe("README.md");
+            readme.render();
+            readme.save("README+.md");
         });
 
-    })(requirejs('lodash'), requirejs('Plus/Files/Markdown'), requirejs('Plus/Files/Logger'), requirejs('Plus/ReadMe'));
+    })(requirejs('lodash'), requirejs('Plus/Files/Logger'), requirejs('Plus/ReadMe'));
 };
