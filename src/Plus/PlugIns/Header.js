@@ -15,8 +15,11 @@ define(dependencies, function (_, Print,
     var Writer = function (engine, section) {
 
         engine.add_filter(section, function (/** Plus.Files.Markdown */md) {
+
+            Logger.debug('Header: updating title');
+
             return md;
-        }, 10);
+        });
 
         return;
 

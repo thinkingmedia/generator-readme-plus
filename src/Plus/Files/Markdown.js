@@ -7,7 +7,7 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
      *
      * Defines a section in the readme file.
      *
-     * @param {string} title
+     * @param {string=} title
      *
      * @constructor
      */
@@ -23,6 +23,8 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
         this.parent = null;
 
         /**
+         * This is only used during serializing from disk.
+         *
          * @type {Plus.Files.Markdown}
          */
         this.root = null;
@@ -72,6 +74,29 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
     };
 
     /**
+     * @param {Plus.Files.Markdown=} parent
+     * @returns {Plus.Files.Markdown}
+     */
+    Markdown.prototype.clone = function (parent) {
+        var md = new Markdown(this.title);
+        md.parent = parent || null;
+        md.url = this.url;
+        md.lines = this.lines.slice();
+        md.child = _.map(this.child, function (c) {
+            return c.clone(md);
+        });
+        return md;
+    };
+
+    /**
+     * @returns {Plus.Files.Markdown}
+     */
+    Markdown.prototype.dropChildren = function () {
+        this.child = [];
+        return this;
+    };
+
+    /**
      * @returns {string}
      */
     Markdown.prototype.getID = function () {
@@ -96,6 +121,7 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
 
     /**
      * @param {Plus.Files.Markdown} section
+     * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.appendChild = function (section) {
         if (!(section instanceof Markdown)) {
@@ -103,10 +129,12 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
         }
         section.parent = this;
         this.child.push(section);
+        return this;
     };
 
     /**
      * @param {Plus.Files.Markdown} section
+     * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.prependChild = function (section) {
         if (!(section instanceof Markdown)) {
@@ -114,11 +142,13 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
         }
         section.parent = this;
         this.child.unshift(section);
+        return this;
     };
 
     /**
      * @param {number} indx
      * @param {Plus.Files.Markdown} section
+     * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.insertChild = function (indx, section) {
         if (!(section instanceof Markdown)) {
@@ -126,6 +156,7 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
         }
         section.parent = this;
         this.child.splice(indx, 0, section);
+        return this;
     };
 
     /**
@@ -148,16 +179,19 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
 
     /**
      * @param {string} name
+     * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.removeByID = function (name) {
         var item = this.findByID(name);
         if (item) {
             this.child = _.remove(this.child, item);
         }
+        return this;
     };
 
     /**
      * Removes empty lines from the start and end of the section.
+     * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.trim = function () {
         var lines = this.lines;
@@ -168,6 +202,7 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
             lines = _.slice(lines, 0, lines.length - 1);
         }
         this.lines = lines;
+        return this;
     };
 
     /**
@@ -200,6 +235,10 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
      * @param {string} fileName
      */
     Markdown.prototype.save = function (fileName) {
+        if (!fileName) {
+            throw Error("Must provide a filename");
+        }
+        Logger.info('Writing: %s', fileName);
         var str = this.toString();
         fs.writeFileSync(fileName, str, 'UTF8');
     };
