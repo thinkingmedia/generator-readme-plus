@@ -20,9 +20,9 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
     };
 
     /**
-     *
+     * @param {string} fileName
      */
-    ReadMe.prototype.render = function () {
+    ReadMe.prototype.render = function (fileName) {
 
         /**
          * @type {Plus.Files.Markdown/null}
@@ -36,7 +36,7 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
             return original
                 ? original.clone().dropChildren().trim()
                 : md;
-        },10);
+        }, 10);
 
         // keep original header
         this.engine.add_filter('root/header', function (/**Plus.Files.Markdown*/md) {
@@ -44,20 +44,11 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
             return header
                 ? header.clone().dropChildren().trim()
                 : md;
-        },10);
+        }, 10);
 
-        this.result = this.engine.render();
-    };
-
-    /**
-     * @param fileName
-     * @returns {boolean}
-     */
-    ReadMe.prototype.save = function (fileName) {
-        if(!this.result) {
-            return false;
-        }
-        this.result.save(fileName);
+        this.engine.render().then(function (/** Plus.Files.Markdown */md) {
+            md.save(fileName);
+        });
     };
 
     return ReadMe;

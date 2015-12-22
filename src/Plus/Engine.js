@@ -1,6 +1,6 @@
-var dependencies = ['lodash', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown'];
+var dependencies = ['Q', 'lodash', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown'];
 
-define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown) {
+define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown) {
 
     /**
      * @name Plus
@@ -16,13 +16,14 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
     };
 
     /**
-     * @returns {Plus.Files.Markdown}
+     * @returns {promise}
      */
     Engine.prototype.render = function () {
 
         if (this._sections.length == 0) {
             throw Error("There are no sections to render.");
         }
+
         if (this._filters.length == 0) {
             throw Error("There are no filters to render.");
         }
@@ -33,31 +34,38 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
         }
 
         // filter each section by it's creationOrder
-        var sections = _.sortBy(this._sections, 'creationOrder');
-        _.each(sections, function (section) {
-            /**
-             * @type {Plus.Files.Markdown}
-             */
-            section.markdown = this.apply_filters(section.name, section.markdown);
-            section.markdown.trim();
-            section.markdown.title = this.apply_filters(section.name + ":title", section.markdown.title);
-            section.markdown.lines = this.apply_filters(section.name + ":lines", section.markdown.lines);
-        }.bind(this));
+        var self = this;
+        var promises = _.map(_.sortBy(self._sections, 'creationOrder'), function (section) {
+            return self.apply_filters(section.name, section.markdown).then(function (/**Plus.Files.Markdown*/md) {
+                // filter properties
+                var title = self.apply_filters(section.name + ":title", md.title);
+                var lines = self.apply_filters(section.name + ":lines", md.lines);
+                // return a promise that resolves to a section
+                return Q.spread([title, lines], function (title, lines) {
+                    section.markdown = md.clone();
+                    section.markdown.title = title;
+                    section.markdown.lines = lines;
+                    section.markdown.trim();
+                    return section;
+                });
+            });
+        });
 
-        // append sections to their parents by their order
-        sections = _.sortBy(sections, 'order');
-        _.each(sections, function (section) {
-            if (section.name === 'root') {
-                return;
-            }
-            var parent = this._get_section_parent(section.name);
-            if (parent) {
-                parent.markdown.appendChild(section.markdown);
-            }
-        }.bind(this));
+        // promise that resolves to final Markdown object.
+        return Q.all(promises).then(function (sections) {
+            // append sections to their parents by their order
+            _.each(_.sortBy(sections, 'order'), function (section) {
+                if (section.name === 'root') {
+                    return;
+                }
+                var parent = self._get_section_parent(section.name);
+                if (parent) {
+                    parent.markdown.appendChild(section.markdown);
+                }
+            });
 
-        // return the root section
-        return this._get_section('root').markdown;
+            return self._get_section('root').markdown;
+        });
     };
 
     /**
@@ -166,13 +174,17 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
             throw Error('Hook parameter must be a function.');
         }
 
-        this._filters.get(name).add({hook: hook, priority: priority});
+        this._filters.get(name).add({
+            name: name,
+            hook: hook,
+            priority: priority
+        });
     };
 
     /**
      * @param {string} name
      * @param {*} value
-     * @returns {*}
+     * @returns {promise}
      */
     Engine.prototype.apply_filters = function (name, value) {
         if (!_.isString(name) && name !== '') {
@@ -181,16 +193,13 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
 
         Logger.debug('apply_filter: %s', name);
 
-        var filters = this._filters.get(name);
-        if (!filters) {
-            return value;
-        }
-
-        _.each(_.sortBy(filters, 'priority'), function (filter) {
-            value = filter.hook(value);
+        var promise = Q(value);
+        _.each(_.sortBy(this._filters.get(name) || [], 'priority'), function (filter) {
+            promise = promise.then(function (value) {
+                return filter.hook(value);
+            });
         });
-
-        return value;
+        return promise;
     };
 
     return Engine;

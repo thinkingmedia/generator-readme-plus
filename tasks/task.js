@@ -36,8 +36,7 @@ module.exports = function (grunt) {
             });
 
             var readme = new ReadMe("README.md");
-            readme.render();
-            readme.save("README+.md");
+            readme.render("README+.md");
         });
 
     })(requirejs('lodash'), requirejs('Plus/Files/Logger'), requirejs('Plus/ReadMe'));
