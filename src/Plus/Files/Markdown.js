@@ -30,13 +30,6 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
         this.root = null;
 
         /**
-         * URL associated with the title.
-         *
-         * @type {string|null}
-         */
-        this.url = null;
-
-        /**
          * The contents of this section.
          *
          * @type {string[]}
@@ -80,7 +73,6 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
     Markdown.prototype.clone = function (parent) {
         var md = new Markdown(this.title);
         md.parent = parent || null;
-        md.url = this.url;
         md.lines = this.lines.slice();
         md.child = _.map(this.child, function (c) {
             return c.clone(md);

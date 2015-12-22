@@ -35,13 +35,19 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
         // filter each section by it's creationOrder
         var sections = _.sortBy(this._sections, 'creationOrder');
         _.each(sections, function (section) {
+            /**
+             * @type {Plus.Files.Markdown}
+             */
             section.markdown = this.apply_filters(section.name, section.markdown);
+            section.markdown.trim();
+            section.markdown.title = this.apply_filters(section.name + ":title", section.markdown.title);
+            section.markdown.lines = this.apply_filters(section.name + ":lines", section.markdown.lines);
         }.bind(this));
 
         // append sections to their parents by their order
         sections = _.sortBy(sections, 'order');
         _.each(sections, function (section) {
-            if(section.name === 'root') {
+            if (section.name === 'root') {
                 return;
             }
             var parent = this._get_section_parent(section.name);
@@ -78,7 +84,7 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
      */
     Engine.prototype._get_section_parent = function (name) {
         var parts = name.split('/');
-        var parentName = parts.slice(0,parts.length-1).join('/');
+        var parentName = parts.slice(0, parts.length - 1).join('/');
         var parent = this._get_section(parentName);
         if (!parent) {
             throw Error('Parent section not found: ' + parentName);
@@ -96,7 +102,7 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
      */
     Engine.prototype.add_section = function (name, order, creationOrder) {
 
-        if(!_.isString(name) && name !== '') {
+        if (!_.isString(name) && name !== '') {
             throw Error('Section must have a name.');
         }
 
@@ -149,14 +155,14 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
      * @param {number=} priority
      */
     Engine.prototype.add_filter = function (name, hook, priority) {
-        if(!_.isString(name) && name !== '') {
+        if (!_.isString(name) && name !== '') {
             throw Error('Filter must have a name.');
         }
 
         priority = ~~priority || 50;
         Logger.debug('add_filter: %s %s', name, priority);
 
-        if(!_.isFunction(hook)) {
+        if (!_.isFunction(hook)) {
             throw Error('Hook parameter must be a function.');
         }
 
@@ -169,18 +175,18 @@ define(dependencies, function (_, /** Plus.Files.Logger */Logger, MultiMap, /**P
      * @returns {*}
      */
     Engine.prototype.apply_filters = function (name, value) {
-        if(!_.isString(name) && name !== '') {
+        if (!_.isString(name) && name !== '') {
             throw Error('Filter must have a name.');
         }
 
         Logger.debug('apply_filter: %s', name);
 
         var filters = this._filters.get(name);
-        if(!filters) {
+        if (!filters) {
             return value;
         }
 
-        _.each(_.sortBy(filters,'priority'),function(filter){
+        _.each(_.sortBy(filters, 'priority'), function (filter) {
             value = filter.hook(value);
         });
 

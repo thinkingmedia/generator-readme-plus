@@ -16,7 +16,7 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
         this.engine.add_section('root/header');
 
         this.plugins = [];
-        this.plugins.push(new requirejs('Plus/Plugins/Header')(this.engine, 'root/header'));
+        this.plugins.push(new (requirejs('Plus/Plugins/Header'))(this.engine, 'root/header'));
     };
 
     /**
@@ -33,7 +33,6 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
 
         // keep original root
         this.engine.add_filter('root', function (/**Plus.Files.Markdown*/md) {
-            Logger.debug('Updating root');
             return original
                 ? original.clone().dropChildren().trim()
                 : md;
@@ -41,7 +40,6 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
 
         // keep original header
         this.engine.add_filter('root/header', function (/**Plus.Files.Markdown*/md) {
-            Logger.debug('Updating header');
             var header = original && original.firstChild();
             return header
                 ? header.clone().dropChildren().trim()

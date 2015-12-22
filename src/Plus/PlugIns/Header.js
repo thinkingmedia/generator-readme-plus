@@ -12,35 +12,46 @@ define(dependencies, function (_, Print,
      *
      * @constructor
      */
-    var Writer = function (engine, section) {
+    var Plugin = function (engine, section) {
+
+        this.git = Git.getInfo();
 
         engine.add_filter(section, function (/** Plus.Files.Markdown */md) {
-
-            Logger.debug('Header: updating title');
-
             return md;
         });
 
-        return;
+        engine.add_filter(section + ":title", function (title) {
+            return this.git
+                ? this.git.repo
+                : title;
+        }.bind(this));
 
-        this.git = Git.getInfo();
-        this.values = _.merge({}, {
-            title: this.git.repo,
-            image: true,
-            imageName: this.git.repo + '.png',
-            url: false,
-            tagLine: false
-        });
+        engine.add_filter(section + ":lines", function (/**string[]*/lines) {
+            lines = this._getHeaderText(lines);
+
+            this._prepend(lines, this._getImage());
+            this._prepend(lines, this._getTagLine());
+
+            return lines;
+        }.bind(this));
+    };
+
+    /**
+     * @param {string[]} lines
+     * @param {string} text
+     * @private
+     */
+    Plugin.prototype._prepend = function (lines, text) {
+        if (text) {
+            lines.unshift(text);
+            lines.unshift('');
+        }
     };
 
     /**
      * Loads the GitHub API details.
      */
-    Writer.prototype.initializing = function () {
-
-        if (!!this.values.tagLine || !!this.values.url) {
-            return;
-        }
+    Plugin.prototype.initializing = function () {
 
         var self = this;
         var done = this.async();
@@ -61,7 +72,7 @@ define(dependencies, function (_, Print,
      * @returns {string[]}
      * @private
      */
-    Writer.prototype._getHeaderText = function (lines) {
+    Plugin.prototype._getHeaderText = function (lines) {
         lines = lines.slice();
         lines.reverse();
         lines = _.takeWhile(lines, function (line) {
@@ -72,54 +83,25 @@ define(dependencies, function (_, Print,
     };
 
     /**
-     * @param {Markdown} root
-     * @private
-     */
-    Writer.prototype._getHeader = function (root) {
-        if (!root.firstChild()) {
-            root.appendChild(new Markdown(this.values.title));
-        }
-        return root.firstChild();
-    };
-
-    /**
      * Creates markdown for an image.
-     * @returns {string}
+     * @returns {string|null}
      * @private
      */
-    Writer.prototype._getImage = function () {
-        if (!this.values.image) {
-            return '';
-        }
-        return Print('![%s](https://github.com/%s/%s/raw/%s/%s.png)', this.git.repo, this.git.user, this.git.repo, this.git.branch, this.git.repo);
+    Plugin.prototype._getImage = function () {
+        return this.git
+            ? Print('![%s](https://github.com/%s/%s/raw/%s/%s.png)', this.git.repo, this.git.user, this.git.repo, this.git.branch, this.git.repo)
+            : null;
     };
 
     /**
-     * @returns {string}
+     * @returns {string|null}
      * @private
      */
-    Writer.prototype._getTitle = function () {
-        return this.values.title;
+    Plugin.prototype._getTagLine = function () {
+        return this.tagLine
+            ? Print('> %s', this.tagLine)
+            : null;
     };
 
-    Writer.prototype._getTagLine = function () {
-        return sprintf('> %s', this.values.tagLine);
-    };
-
-    /**
-     * @param {Markdown} root
-     */
-    Writer.prototype.writing = function (root) {
-        var head = this._getHeader(root);
-        head.title = this._getTitle();
-        head.lines = _.flatten([
-            this._getTagLine(),
-            '',
-            this._getImage(),
-            '',
-            this._getHeaderText(head.lines)
-        ]);
-    };
-
-    return Writer;
+    return Plugin;
 });
