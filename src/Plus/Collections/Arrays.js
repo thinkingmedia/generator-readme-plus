@@ -1,28 +1,79 @@
-var dependencies = ['lodash'];
+var dependencies = ['lodash', 'os'];
 
-define(dependencies, function (_) {
+define(dependencies, function (_, OS) {
 
     /**
      * @name Plus.Collections.Arrays
-     *
      * @constructor
      */
     var Arrays = function () {
+    };
 
+    /**
+     * Joins an array of lines using the OS end of line character.
+     *
+     * @param {string[]} lines
+     * @returns {string}
+     */
+    Arrays.prototype.toString = function (lines) {
+        return lines.join(OS.EOL).trim();
+    };
+
+    /**
+     * Calls trim on each string in the array.
+     *
+     * @param {string[]} lines
+     * @returns {string[]}
+     */
+    Arrays.prototype.trimEach = function (lines) {
+        return _.map(this.toArray(lines), function (line) {
+            return _.isString(line)
+                ? line.trim()
+                : line;
+        });
+    };
+
+    /**
+     * Removes empty lines from the start and end of the array.
+     *
+     * @param {string[]} lines
+     * @returns {string[]}
+     */
+    Arrays.prototype.trim = function (lines) {
+        lines = this.trimEach(this.toArray(lines));
+        while (lines.length > 0 && lines[0] === '') {
+            lines = _.slice(lines, 1);
+        }
+        while (lines.length > 0 && lines[lines.length - 1] === '') {
+            lines = _.slice(lines, 0, lines.length - 1);
+        }
+        return lines;
+    };
+
+    /**
+     * Converts the parameter to an array.
+     *
+     * @param {*[]|*} value
+     * @returns {*[]}
+     */
+    Arrays.prototype.toArray = function (value) {
+        if (value === null || typeof value === 'undefined') {
+            return [];
+        }
+        return _.isArray(value)
+            ? value
+            : [value];
     };
 
     /**
      * Returns the first element of an array or the value if it is not an array.
      *
-     * @param {*} value
+     * @param {*[]|*} value
      * @returns {*}
      */
-    Arrays.firstIfArray = function (value) {
-        if (_.isArray(value)) {
-            return _.first(value);
-        }
-        return value;
+    Arrays.prototype.first = function (value) {
+        return _.first(this.toArray(value));
     };
 
-    return Arrays;
+    return new Arrays();
 });

@@ -5,7 +5,7 @@ requirejs.config({
     nodeRequire: require
 });
 
-module.exports = function (grunt) {
+module.exports = function (/** IGrunt */grunt) {
 
     (/**
      * @param _
@@ -36,7 +36,13 @@ module.exports = function (grunt) {
             });
 
             var readme = new ReadMe("README.md");
-            readme.render("README+.md");
+            readme.render("README+.md").then(function(updated){
+                if(updated) {
+                    grunt.log.ok('README updated');
+                }
+            },function(err){
+                grunt.fail.fatal(err);
+            });
         });
 
     })(requirejs('lodash'), requirejs('Plus/Files/Logger'), requirejs('Plus/ReadMe'));

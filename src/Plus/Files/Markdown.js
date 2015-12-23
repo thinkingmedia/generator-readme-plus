@@ -1,6 +1,6 @@
-var dependencies = ['lodash', 'fs', 'os', 'chalk', 'Plus/Collections/LinkedList', 'Plus/Files/Logger'];
+var dependencies = ['lodash', 'fs', 'os', 'chalk', 'Plus/Collections/LinkedList', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
 
-define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList */LinkedList, /** Plus.Files.Logger */Logger) {
+define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList */LinkedList, /** Plus.Files.Logger */Logger, /**Plus.Collections.Arrays*/Arrays) {
 
     /**
      * @name Plus.Files.Markdown
@@ -186,14 +186,7 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
      * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.trim = function () {
-        var lines = this.lines;
-        while (lines.length > 0 && lines[0] == '') {
-            lines = _.slice(lines, 1);
-        }
-        while (lines.length > 0 && lines[lines.length - 1] == '') {
-            lines = _.slice(lines, 0, lines.length - 1);
-        }
-        this.lines = lines;
+        this.lines = Arrays.trim(this.lines);
         return this;
     };
 
@@ -202,24 +195,20 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
      * @private
      */
     Markdown.prototype._collapse = function () {
-        this.trim();
-        var lines = _.flatten([
-            this.getTitle(),
-            "",
-            this.lines
-        ]);
-        return lines.join(os.EOL).trim();
+        var lines = Arrays.trim(this.lines);
+        lines.unshift('');
+        lines.unshift(this.getTitle());
+        return Arrays.toString(lines);
     };
 
     /**
      * @returns {string}
      */
     Markdown.prototype.toString = function () {
-        var str = this._collapse().trim();
-        _.each(this.child, function (child) {
-            var s = child.toString().trim();
-            str += os.EOL + os.EOL + s;
-        });
+        var str = this._collapse();
+        str += _.map(this.child, function (child) {
+            return child.toString();
+        }).join(os.EOL + os.EOL);
         return str.trim();
     };
 

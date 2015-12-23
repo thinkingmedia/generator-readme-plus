@@ -14,6 +14,8 @@ define(dependencies, function (_, Print,
      */
     var Plugin = function (engine, section) {
 
+        var self = this;
+
         this.git = Git.getInfo();
 
         engine.add_filter(section, function (/** Plus.Files.Markdown */md) {
@@ -21,19 +23,19 @@ define(dependencies, function (_, Print,
         });
 
         engine.add_filter(section + ":title", function (title) {
-            return this.git
-                ? this.git.repo
+            return self.git
+                ? self.git.repo
                 : title;
-        }.bind(this));
+        });
 
         engine.add_filter(section + ":lines", function (/**string[]*/lines) {
-            lines = this._getHeaderText(lines);
+            lines = self._getHeaderText(lines);
 
-            this._prepend(lines, this._getImage());
-            this._prepend(lines, this._getTagLine());
+            self._prepend(lines, self._getImage());
+            self._prepend(lines, self._getTagLine());
 
             return lines;
-        }.bind(this));
+        });
     };
 
     /**

@@ -1,6 +1,6 @@
-var dependencies = ['requirejs', 'fs', 'Plus/Engine', 'Plus/Files/Markdown', 'Plus/Files/Logger'];
+var dependencies = ['lodash', 'requirejs', 'fs', 'Plus/Engine', 'Plus/Files/Markdown', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
 
-define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Files.Logger*/Logger) {
+define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Files.Logger*/Logger, /**Plus.Collections.Arrays*/Arrays) {
 
     /**
      * @name Plus.ReadMe
@@ -16,7 +16,8 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
         this.engine.add_section('root/header');
 
         this.plugins = [];
-        this.plugins.push(new (requirejs('Plus/Plugins/Header'))(this.engine, 'root/header'));
+        this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header'));
+        this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header'));
     };
 
     /**
@@ -40,14 +41,27 @@ define(dependencies, function (requirejs, fs, /** Plus.Engine */Engine, /**Plus.
 
         // keep original header
         this.engine.add_filter('root/header', function (/**Plus.Files.Markdown*/md) {
+            //console.log('header');
             var header = original && original.firstChild();
             return header
                 ? header.clone().dropChildren().trim()
                 : md;
         }, 10);
 
-        this.engine.render().then(function (/** Plus.Files.Markdown */md) {
+        // keep partial text from header
+        this.engine.add_filter('root/header:lines', function (/**string[]*/lines) {
+            lines.reverse();
+            lines = _.takeWhile(lines, function (line) {
+                return line == '' || line.match(/^[\w\d\s]/i);
+            });
+            lines.reverse();
+            lines = Arrays.trim(lines);
+            return lines;
+        }, 10);
+
+        return this.engine.render().then(function (/** Plus.Files.Markdown */md) {
             md.save(fileName);
+            return true;
         });
     };
 

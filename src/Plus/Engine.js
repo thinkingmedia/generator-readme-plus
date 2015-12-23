@@ -1,10 +1,43 @@
-var dependencies = ['Q', 'lodash', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown'];
+var dependencies = ['Q', 'lodash', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown', 'Plus/Collections/Arrays'];
 
-define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown) {
+define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
 
     /**
      * @name Plus
      */
+
+    /**
+     * @param {Array} sections
+     * @param {string} name
+     * @returns {Plus.Files.Markdown}
+     */
+    function get_section_parent(sections, name) {
+        var parts = name.split('/');
+        var parentName = parts.slice(0, parts.length - 1).join('/');
+        var parent = get_section(sections, parentName);
+        if (!parent) {
+            throw Error('Parent section not found: ' + parentName);
+        }
+        return parent;
+    }
+
+    /**
+     * @param {Array} sections
+     * @param {string} name
+     * @returns {Plus.Files.Markdown}
+     */
+    function get_section(sections, name) {
+        return _.find(sections, 'name', name);
+    }
+
+    /**
+     * @param {Array} sections
+     * @param {string} name
+     * @returns {boolean}
+     */
+    function has_section(sections, name) {
+        return !!get_section(sections, name);
+    }
 
     /**
      * @name Plus.Engine
@@ -29,7 +62,7 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
         }
 
         // must have a root section
-        if (!this.has_section('root')) {
+        if (!has_section(this._sections, 'root')) {
             throw Error('Must define a root section.');
         }
 
@@ -43,9 +76,8 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
                 // return a promise that resolves to a section
                 return Q.spread([title, lines], function (title, lines) {
                     section.markdown = md.clone();
-                    section.markdown.title = title;
-                    section.markdown.lines = lines;
-                    section.markdown.trim();
+                    section.markdown.title = title.trim();
+                    section.markdown.lines = Arrays.trim(lines);
                     return section;
                 });
             });
@@ -58,46 +90,14 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
                 if (section.name === 'root') {
                     return;
                 }
-                var parent = self._get_section_parent(section.name);
+                var parent = get_section_parent(sections, section.name);
                 if (parent) {
                     parent.markdown.appendChild(section.markdown);
                 }
             });
 
-            return self._get_section('root').markdown;
+            return get_section(sections, 'root').markdown;
         });
-    };
-
-    /**
-     * @param {string} name
-     * @returns {boolean}
-     */
-    Engine.prototype.has_section = function (name) {
-        return !!this._get_section(name);
-    };
-
-    /**
-     * @param {string} name
-     * @returns {Plus.Files.Markdown}
-     * @private
-     */
-    Engine.prototype._get_section = function (name) {
-        return _.find(this._sections, 'name', name);
-    };
-
-    /**
-     * @param {string} name
-     * @returns {Plus.Files.Markdown}
-     * @private
-     */
-    Engine.prototype._get_section_parent = function (name) {
-        var parts = name.split('/');
-        var parentName = parts.slice(0, parts.length - 1).join('/');
-        var parent = this._get_section(parentName);
-        if (!parent) {
-            throw Error('Parent section not found: ' + parentName);
-        }
-        return parent;
     };
 
     /**
@@ -114,7 +114,7 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
             throw Error('Section must have a name.');
         }
 
-        if (this.has_section(name)) {
+        if (has_section(this._sections, name)) {
             throw Error('Section already exists: ' + name);
         }
 

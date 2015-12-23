@@ -101,7 +101,7 @@ exports.people = function(json)
  */
 exports.license = function(json)
 {
-	json = arrays.firstIfArray(json);
+	json = arrays.first(json);
 	if(_.isString(json))
 	{
 		return {'type': json};
