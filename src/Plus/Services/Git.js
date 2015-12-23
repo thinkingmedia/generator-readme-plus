@@ -6,6 +6,8 @@ define(dependencies, function (_, fs, shell, Print, /** Plus.Files.Logger */Logg
      * @name Plus.Services.Git
      *
      * @constructor
+     *
+     * @todo this should be made lazy so it's run only when needed.
      */
     var Git = function () {
         if (!shell.which('git')) {
@@ -23,23 +25,15 @@ define(dependencies, function (_, fs, shell, Print, /** Plus.Files.Logger */Logg
     };
 
     /**
-     * Gets the username and repo name for the current working folder. Assumes it's a GitHub repo.
+     * Extracts the username/organization and repo name from a GitHub URL address.
+     * Uses a simplified approach because Git urls can have a wide range of formats.
      *
      * @returns {{user:string,repo:string,branch:string}|undefined}
      */
     Git.prototype.getInfo = function () {
-        return Git.getUserRepo(this.cache['remote.origin.url']);
-    };
+        var url = (this.cache['remote.origin.url'] || '').trim();
 
-    /**
-     * Extracts the username/organization and repo name from a GitHub URL address.
-     * Uses a simplified approach because Git urls can have a wide range of formats.
-     *
-     * @param {string} url
-     * @returns {{user:string,repo:string,branch:string}|undefined}
-     */
-    Git.getUserRepo = function (url) {
-        if (url.indexOf('github.com') === -1) {
+        if (!url || url.indexOf('github.com') === -1) {
             return undefined;
         }
 

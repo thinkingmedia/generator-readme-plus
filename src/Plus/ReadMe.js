@@ -5,9 +5,10 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
     /**
      * @name Plus.ReadMe
      * @param {string} fileName
+     * @param {Object<string,*>} options
      * @constructor
      */
-    var ReadMe = function (fileName) {
+    var ReadMe = function (fileName, options) {
         this.engine = new Engine();
         this.fileName = fileName;
 
@@ -16,9 +17,11 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
         this.engine.add_section('root/header');
 
         this.plugins = [];
-        this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header'));
-        this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header'));
-        this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header'));
+        this.plugins.push(new (requirejs('Plus/Plugins/Git'))(this.engine, _.clone(options, true)));
+        this.plugins.push(new (requirejs('Plus/Plugins/GitHub'))(this.engine, _.clone(options, true)));
+        this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header', _.clone(options, true)));
+        this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header', _.clone(options, true)));
+        this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header', _.clone(options, true)));
     };
 
     /**

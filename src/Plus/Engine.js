@@ -191,7 +191,7 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
 
     /**
      * @param {string} name
-     * @param {*} value
+     * @param {*=} value
      * @returns {promise}
      */
     Engine.prototype.apply_filters = function (name, value) {

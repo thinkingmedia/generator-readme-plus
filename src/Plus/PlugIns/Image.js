@@ -1,28 +1,60 @@
-var dependencies = ['fs', 'Plus/Services/Print', 'Plus/Files/Logger', 'Plus/Services/Git'];
+var dependencies = ['lodash', 'fs', 'Plus/Services/Print', 'Plus/Files/Logger', 'Plus/Services/Git'];
 
-define(dependencies, function (fs, Print, /**Plus.Files.Logger*/Logger, /** Plus.Services.Git */Git) {
+define(dependencies, function (_, fs, Print, /**Plus.Files.Logger*/Logger, /** Plus.Services.Git */Git) {
 
     /**
      * @readme plugins.Image
      *
-     * To add an image to the top of the README file include a PNG file with the same name as the repository in the root
-     * folder.
+     * Image plugin will add any PNG/GIF image file that matches the name of the remote origin repository.
      *
+     * You can specify the name of the image file in the options, or assign `false` to disable images.
+     *
+     * ```
+     *    grunt.initConfig({
+     *        readme: {
+     *           options: {
+     *               image: 'example.png'
+     *           }
+     *        }
+     *    });
+     * ```
      * @param {Plus.Engine} engine
      * @param {string} section
+     * @param {Object<string,*>} options
      *
      * @constructor
      */
-    var Plugin = function (engine, section) {
+    var Plugin = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'Image', section);
 
+        options = _.merge({}, {image: true}, options);
+
+        if (!options.image) {
+            return;
+        }
+
         engine.add_filter(section + ":lines", function (/**string[]*/lines) {
-            var git = Git.getInfo();
-            if (git && fs.existsSync(git.repo + '.png')) {
-                lines.unshift('');
-                lines.unshift(Print('![%s](https://github.com/%s/%s/raw/%s/%s.png)', git.repo, git.user, git.repo, git.branch, git.repo));
-            }
-            return lines;
+            return engine.apply_filters('git:repo').then(function (repo) {
+                if (!repo) {
+                    return lines;
+                }
+                var fileName = options.image;
+                if (fileName === true) {
+                    if (fs.existsSync(repo + '.png')) {
+                        fileName = repo + '.png';
+                    } else if (fs.existsSync(repo + '.gif')) {
+                        fileName = repo + '.gif';
+                    }
+                    if (!fileName) {
+                        return lines;
+                    }
+                }
+                return engine.apply_filters('image:url', fileName).then(function (url) {
+                    lines.unshift('');
+                    lines.unshift(Print('![%s](%s)', repo, url));
+                    return lines;
+                });
+            });
         });
     };
 

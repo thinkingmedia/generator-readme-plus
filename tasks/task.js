@@ -16,11 +16,7 @@ module.exports = function (/** IGrunt */grunt) {
 
         grunt.task.registerTask('readme', 'Generates the README.md file', function (args) {
 
-            var defaults = {
-                title: null,
-                url: null,
-                image: null
-            };
+            var defaults = {};
             var options = _.merge({}, defaults, this.options() || {});
 
             Logger.config({
@@ -36,13 +32,9 @@ module.exports = function (/** IGrunt */grunt) {
             });
 
             var done = this.async();
-            var readme = new ReadMe("README.md");
+            var readme = new ReadMe("README.md", options);
             readme.render("README+.md").then(function(updated){
-                if(updated) {
-                    grunt.log.ok('README updated');
-                } else {
-                    grunt.log.ok('Not updated');
-                }
+                grunt.log.ok('Done');
                 done();
             },function(err){
                 grunt.fail.fatal(err);

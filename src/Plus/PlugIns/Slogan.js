@@ -1,23 +1,53 @@
-var dependencies = ['Plus/Files/Logger', 'Plus/Services/GitHub'];
+var dependencies = ['lodash', 'Plus/Files/Logger', 'Plus/Services/GitHub'];
 
-define(dependencies, function (/**Plus.Files.Logger*/Logger, /** Plus.Services.GitHub */GitHub) {
+define(dependencies, function (_, /**Plus.Files.Logger*/Logger, /** Plus.Services.GitHub */GitHub) {
 
     /**
      * @readme plugins.Slogan
      *
-     * Adds the GitHub repository description as a slogan to the header of the README file.
+     * Slogan plugin adds a quote caption to the README header under the title. The slogan is taken from one of these
+     * possible sources. You can disable this plugin by assigning `false` to the option.
+     *
+     * - the GitHub repository description
+     * - user defined string in the options
+     *
+     * Example custom title:
+     *
+     * ```
+     *    grunt.initConfig({
+     *        readme: {
+     *           options: {
+     *               slogan: "My Fancy Slogan"
+     *           }
+     *        }
+     *    });
+     * ```
      *
      * @param {Plus.Engine} engine
      * @param {string} section
+     * @param {Object<string,*>} options
      *
      * @constructor
      */
-    var Plugin = function (engine, section) {
+    var Plugin = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'Slogan', section);
+
+        options = _.merge({}, {slogan: true}, options);
+
         engine.add_filter(section + ":lines", function (/**string[]*/lines) {
-            return GitHub.getInfo().then(function (value) {
+            if (options.slogan === false) {
+                return lines;
+            }
+            if (_.isString(options.slogan)) {
                 lines.unshift('');
-                lines.unshift('> ' + value.desc);
+                lines.unshift('> ' + options.slogan);
+                return lines;
+            }
+            return engine.apply_filters('git:desc').then(function (desc) {
+                if (desc) {
+                    lines.unshift('');
+                    lines.unshift('> ' + desc);
+                }
                 return lines;
             });
         });
