@@ -17,6 +17,7 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
 
         this.plugins = [];
         this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header'));
+        this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header'));
         this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header'));
     };
 
