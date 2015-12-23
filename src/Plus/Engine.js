@@ -83,8 +83,16 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
             });
         });
 
+        // catches some common bugs during development
+        if(_.filter(promises).length != self._sections.length) {
+            throw Error('Incorrect number of section promises.');
+        }
+
         // promise that resolves to final Markdown object.
         return Q.all(promises).then(function (sections) {
+            if(!_.isArray(sections) || _.flatten(sections).length != self._sections.length) {
+                throw Error('Incorrect number of sections.');
+            }
             // append sections to their parents by their order
             _.each(_.sortBy(sections, 'order'), function (section) {
                 if (section.name === 'root') {

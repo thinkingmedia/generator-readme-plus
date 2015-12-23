@@ -16,8 +16,8 @@ define(dependencies, function (/**Plus.Files.Logger*/Logger, /** Plus.Services.G
         Logger.debug('Plugin %s: %s', 'Slogan', section);
         engine.add_filter(section + ":lines", function (/**string[]*/lines) {
             return GitHub.getInfo().then(function (value) {
-                lines.unshift('> ' + value.desc);
                 lines.unshift('');
+                lines.unshift('> ' + value.desc);
                 return lines;
             });
         });

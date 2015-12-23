@@ -35,13 +35,18 @@ module.exports = function (/** IGrunt */grunt) {
                 }
             });
 
+            var done = this.async();
             var readme = new ReadMe("README.md");
             readme.render("README+.md").then(function(updated){
                 if(updated) {
                     grunt.log.ok('README updated');
+                } else {
+                    grunt.log.ok('Not updated');
                 }
+                done();
             },function(err){
                 grunt.fail.fatal(err);
+                done();
             });
         });
 
