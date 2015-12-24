@@ -31,12 +31,14 @@ module.exports = function (/** IGrunt */grunt) {
                 }
             });
 
+            var config = grunt.config('readme') || {};
+
             var done = this.async();
             var readme = new ReadMe("README.md", options);
-            readme.render("README+.md").then(function(updated){
+            readme.render(config.dest || "README.md").then(function (updated) {
                 grunt.log.ok('Done');
                 done();
-            },function(err){
+            }, function (err) {
                 grunt.fail.fatal(err);
                 done();
             });

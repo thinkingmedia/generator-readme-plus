@@ -30,7 +30,11 @@ module.exports = function (grunt) {
     grunt.initConfig({
         readme: {
             options: {
-            }
+            },
+            src: [
+                'src/**/*.js'
+            ],
+            dest: 'README+.md'
         }
     });
 };

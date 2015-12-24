@@ -15,6 +15,7 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
         // should this be done to the Markdown?
         this.engine.add_section('root');
         this.engine.add_section('root/header');
+        this.engine.add_section('root/license');
 
         this.plugins = [];
         this.plugins.push(new (requirejs('Plus/Plugins/Git'))(this.engine, _.clone(options, true)));
@@ -22,6 +23,7 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
         this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header', _.clone(options, true)));
         this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header', _.clone(options, true)));
         this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header', _.clone(options, true)));
+        this.plugins.push(new (requirejs('Plus/Plugins/License'))(this.engine, 'root/license', _.clone(options, true)));
     };
 
     /**
@@ -45,7 +47,6 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
 
         // keep original header
         this.engine.add_filter('root/header', function (/**Plus.Files.Markdown*/md) {
-            //console.log('header');
             var header = original && original.firstChild();
             return header
                 ? header.clone().dropChildren().trim()
