@@ -1,6 +1,6 @@
-var dependencies = ['Q', 'lodash', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown', 'Plus/Collections/Arrays'];
+var dependencies = ['require', 'Q', 'lodash', 'Plus/Services/Print', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown', 'Plus/Collections/Arrays'];
 
-define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
+define(dependencies, function (require, Q, _, Print, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
 
     /**
      * @name Plus
@@ -84,13 +84,13 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
         });
 
         // catches some common bugs during development
-        if(_.filter(promises).length != self._sections.length) {
+        if (_.filter(promises).length != self._sections.length) {
             throw Error('Incorrect number of section promises.');
         }
 
         // promise that resolves to final Markdown object.
         return Q.all(promises).then(function (sections) {
-            if(!_.isArray(sections) || _.flatten(sections).length != self._sections.length) {
+            if (!_.isArray(sections) || _.flatten(sections).length != self._sections.length) {
                 throw Error('Incorrect number of sections.');
             }
             // append sections to their parents by their order
@@ -208,6 +208,50 @@ define(dependencies, function (Q, _, /** Plus.Files.Logger */Logger, MultiMap, /
             });
         });
         return promise;
+    };
+
+    /**
+     * @param {string|string[]} names
+     * @param {function} callback
+     */
+    Engine.prototype.get_values = function (names, callback) {
+        if (!_.isArray(names)) {
+            return this.get_values([names], callback);
+        }
+        var self = this;
+        var promises = _.map(names, function (name) {
+            return self.apply_filters(name);
+        });
+        Q.all(promises, function (values) {
+            callback.call(self, values);
+        });
+    };
+
+    /**
+     * @param {string|string[]} files
+     */
+    Engine.prototype.load_filters = function (files) {
+        if (!_.isArray(files)) {
+            return this.load_filters([files]);
+        }
+        var self = this;
+        _.each(files, function (file) {
+            var filter = require(file);
+            if (_.isFunction(filter)) {
+                filter(this);
+            }
+            if (_.isArray(filter)) {
+                var name = filter[0];
+                if (!_.isString(name) || name === '') {
+                    throw Error(Print("%s first array value should be string."));
+                }
+                var func = filter[1];
+                if (!_.isFunction(func)) {
+                    throw Error(Print("%s second array value should be function."));
+                }
+                self.add_filter(name, func, filter[2]);
+            }
+        });
     };
 
     return Engine;

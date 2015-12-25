@@ -1,6 +1,17 @@
-var dependencies = ['lodash', 'requirejs', 'fs', 'Plus/Engine', 'Plus/Files/Markdown', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
+var dependencies = ['module', 'path', 'lodash', 'requirejs', 'fs', 'Plus/Engine', 'Plus/Files/Markdown', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
 
-define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Files.Logger*/Logger, /**Plus.Collections.Arrays*/Arrays) {
+define(dependencies, function (module, path, _, requirejs, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Files.Logger*/Logger, /**Plus.Collections.Arrays*/Arrays) {
+
+    /**
+     * @param {string} path
+     * @returns {string[]}
+     */
+    function getFiles(path) {
+        var files = fs.readdirSync(path.dirname(module.uri) + path.sep + path);
+        return _.filter(files, function (file) {
+            return _.endsWith(file, '.js') && !_.startsWith(file, '_');
+        });
+    }
 
     /**
      * @name Plus.ReadMe
@@ -18,12 +29,22 @@ define(dependencies, function (_, requirejs, fs, /** Plus.Engine */Engine, /**Pl
         this.engine.add_section('root/license');
 
         this.plugins = [];
-        this.plugins.push(new (requirejs('Plus/Plugins/Git'))(this.engine, _.clone(options, true)));
-        this.plugins.push(new (requirejs('Plus/Plugins/GitHub'))(this.engine, _.clone(options, true)));
-        this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header', _.clone(options, true)));
-        this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header', _.clone(options, true)));
-        this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header', _.clone(options, true)));
-        this.plugins.push(new (requirejs('Plus/Plugins/License'))(this.engine, 'root/license', _.clone(options, true)));
+
+        this.engine.loadFilters(getFiles('Filters'));
+
+        //this.plugins.push(new (requirejs('Plus/Plugins/Git'))(this.engine, _.clone(options, true)));
+        //this.plugins.push(new (requirejs('Plus/Plugins/GitHub'))(this.engine, _.clone(options, true)));
+        //this.plugins.push(new (requirejs('Plus/Plugins/Title'))(this.engine, 'root/header', _.clone(options, true)));
+        //this.plugins.push(new (requirejs('Plus/Plugins/Image'))(this.engine, 'root/header', _.clone(options, true)));
+        //this.plugins.push(new (requirejs('Plus/Plugins/Slogan'))(this.engine, 'root/header', _.clone(options, true)));
+        //this.plugins.push(new (requirejs('Plus/Plugins/License'))(this.engine, 'root/license', _.clone(options, true)));
+
+        // handle overwrites for options
+        this.engine.add_filter('project:title', function (value) {
+            return options.title
+                ? options.title
+                : value;
+        }, 99);
     };
 
     /**
