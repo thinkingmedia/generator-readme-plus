@@ -1,17 +1,6 @@
-var dependencies = ['module', 'path', 'fs', 'Q', 'lodash', 'Plus/Services/Similarity', 'Plus/Files/Logger', 'Plus/Services/Strings', './_licenses/licenses.json'];
+var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Files/Logger'];
 
-define(dependencies, function (module, path, fs, Q, _, /** Plus.Services.Similarity */Similarity, /**Plus.Files.Logger*/Logger, /**Plus.Services.Strings*/Strings, Licenses) {
-
-    /**
-     * @param {string} value
-     * @returns {string}
-     */
-    function TrimBuffer(value) {
-        value = value.replace(/[\r\n]/g, " ").replace(/\s+/g, " ");
-        value = Strings.stripTags(value);
-        value = Strings.stripPunctuation(value);
-        return value.toLowerCase().replace(/\s+/g, " ").trim();
-    }
+define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Files.Logger */Logger) {
 
     /**
      * @readme plugins.License
@@ -35,33 +24,12 @@ define(dependencies, function (module, path, fs, Q, _, /** Plus.Services.Similar
 
         engine.add_filter(section, function (/**Plus.Files.Markdown*/md) {
 
-            var fileName = _.find(['LICENSE', 'LICENSE.txt', 'LICENSE.md'], function (fileName) {
-                return fs.existsSync(fileName);
-            });
+            var fileName = Licenses.getFileName();
             if (!fileName) {
                 Logger.error('Project has no licence.');
                 return md;
             }
-
-            var file = TrimBuffer(fs.readFileSync(fileName, 'UTF8'));
-
-            var scored = _.map(Licenses, function (license) {
-                var text = fs.readFileSync(path.dirname(module.uri) + "/_licenses/" + license.file, 'UTF8');
-                if (!text) {
-                    throw Error("Unable to read license file: " + license.file);
-                }
-                text = TrimBuffer(text);
-                var score = Similarity.similarity(text, file);
-                //Logger.debug("%s - %1.3f", license.file, score);
-                Logger.debug("%s - %s", license.file, score);
-                return _.merge({}, {score: score}, license);
-            });
-
-            var license = _.first(_.sortByOrder(scored, 'score', 'desc'));
-            if (license.score < 0.95) {
-                Logger.error('Could not resolve type of license.');
-                return md;
-            }
+            var license = Licenses.getLicence(fileName);
 
             //Logger.info("%s - %1.3f", license.file, license.score);
 
