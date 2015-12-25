@@ -1,6 +1,6 @@
-var dependencies = ['Plus/Services/Print', 'Plus/Files/Logger', 'Plus/Services/Git', 'Plus/Services/GitHub'];
+var dependencies = ['Plus/Services/GitHub'];
 
-define(dependencies, function (Print, /**Plus.Files.Logger*/Logger, /** Plus.Services.Git */Git, /** Plus.Services.GitHub */GitHub) {
+define(dependencies, function (/** Plus.Services.GitHub */GitHub) {
 
     /**
      * @readme plugins.GitHub
@@ -15,23 +15,11 @@ define(dependencies, function (Print, /**Plus.Files.Logger*/Logger, /** Plus.Ser
      * @param {Plus.Engine} engine
      * @constructor
      */
-    var Plugin = function (engine) {
-        Logger.debug('Plugin %s', 'GitHub');
-
-        engine.add_filter("image:url", function (/**string*/url) {
-            var git = Git.getInfo();
-            if (!git) {
-                return url;
-            }
-            return Print('https://github.com/%s/%s/raw/%s/%s', git.user, git.repo, git.branch, url);
-        });
-
+    return function (engine) {
         engine.add_filter("git:desc", function (/**string*/desc) {
             return GitHub.getInfo().then(function (value) {
                 return value && value.desc;
             });
         });
     };
-
-    return Plugin;
 });

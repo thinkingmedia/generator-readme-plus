@@ -1,6 +1,6 @@
-var dependencies = ['Plus/Files/Logger', 'Plus/Services/Git'];
+var dependencies = ['Plus/Services/Git'];
 
-define(dependencies, function (/**Plus.Files.Logger*/Logger, /** Plus.Services.Git */Git) {
+define(dependencies, function (/** Plus.Services.Git */Git) {
 
     /**
      * @readme plugins.Git
@@ -17,21 +17,10 @@ define(dependencies, function (/**Plus.Files.Logger*/Logger, /** Plus.Services.G
      * @param {Plus.Engine} engine
      * @constructor
      */
-    var Plugin = function (engine) {
-        Logger.debug('Plugin %s', 'Git');
-
-        var git = Git.getInfo();
-
-        engine.add_filter("git:repo", function (/**string*/repo) {
-            return git ? git.repo : repo;
-        });
-        engine.add_filter("git:branch", function (/**string*/branch) {
-            return git ? git.branch : branch;
-        });
+    return function (engine) {
         engine.add_filter("git:user", function (/**string*/user) {
+            var git = Git.getInfo();
             return git ? git.user : user;
         });
     };
-
-    return Plugin;
 });
