@@ -1,6 +1,6 @@
-var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Services/PackageJSON', 'Plus/Files/Logger'];
+var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Services/PackageJSON', 'Plus/Files/Logger', 'Plus/Services/Print'];
 
-define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Services.PackageJSON*/PackageJSON, /** Plus.Files.Logger */Logger) {
+define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Services.PackageJSON*/PackageJSON, /** Plus.Files.Logger */Logger, Print) {
 
     /**
      * @readme plugins.License
@@ -32,12 +32,16 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
             }
 
             var title = engine.apply_filters('licence:title', 'Licence');
-            var desc = engine.apply_filters('license:desc', '<%= title %> is licenced under the <%= name %s>.');
+            var desc = engine.apply_filters('license:desc', '<%= title %> is licenced under the <%= name %>.');
             var project = engine.apply_filters('project:title');
 
-            return Q.spread([title, desc], function (title, desc, project) {
+            return Q.spread([title, desc, project], function (title, desc, project) {
                 md.title = title.trim();
-                md.lines = [_.template(desc)({name: info.name, title: project})];
+                md.lines = [];
+                md.lines.push(_.template(desc)({name: info.name, title: project}));
+                if(info.file) {
+                    md.lines.push(Print('See %s for details.', info.file));
+                }
                 return md;
             });
         });
@@ -64,7 +68,7 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
         }
 
         return info
-            ? {name: info.nickname, url: info.url, file: fileName}
+            ? {name: info.title, url: info.url, file: fileName}
             : null;
     };
 

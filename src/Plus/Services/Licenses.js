@@ -70,5 +70,12 @@ define(dependencies, function (module, path, fs, _, /** Plus.Services.Similarity
             : null;
     };
 
+    /**
+     * @param {string} type
+     */
+    Licenses.prototype.getLicenceByType = function (type) {
+        return _.find(LicenseTypes, 'type', type);
+    };
+
     return new Licenses();
 });

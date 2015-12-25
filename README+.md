@@ -11,4 +11,5 @@ Readme+ searches for `@readme` markers in the source code comments.
 
 # Licence
 
-is licenced under the <%= name %s>.
+grunt-readme-plus is licenced under the MIT License.
+See LICENSE for details.
