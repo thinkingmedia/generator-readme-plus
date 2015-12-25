@@ -40,6 +40,7 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
                 md.lines = [];
                 md.lines.push(_.template(desc)({name: info.name, title: project}));
                 if(info.file) {
+                    md.lines.push('');
                     md.lines.push(Print('See %s for details.', info.file));
                 }
                 return md;
