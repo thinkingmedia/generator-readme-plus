@@ -11,4 +11,4 @@ Readme+ searches for `@readme` markers in the source code comments.
 
 # Licence
 
-<%= name %> is licenced under the <%= licence %s>.
+is licenced under the <%= name %s>.

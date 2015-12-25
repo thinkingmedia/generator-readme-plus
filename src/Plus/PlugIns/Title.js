@@ -35,7 +35,7 @@ define(dependencies, function (_, path, /**Plus.Files.Logger*/Logger) {
         options = _.merge({}, {title: 'auto'}, options);
         var directory_name = _.last(process.cwd().split(path.sep));
 
-        engine.add_filter(section + ":title", function () {
+        engine.add_filter('project:title', function () {
             if (options.title === 'auto') {
                 return engine.apply_filters('git:repo', directory_name).then(function (repo) {
                     return repo;
@@ -45,6 +45,10 @@ define(dependencies, function (_, path, /**Plus.Files.Logger*/Logger) {
                 return options.title;
             }
             return directory_name;
+        });
+
+        engine.add_filter(section + ":title", function () {
+            return engine.apply_filters('project:title');
         });
     };
 

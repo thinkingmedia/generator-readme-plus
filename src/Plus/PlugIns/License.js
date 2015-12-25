@@ -1,6 +1,6 @@
-var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Files/Logger'];
+var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Services/PackageJSON', 'Plus/Files/Logger'];
 
-define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Files.Logger */Logger) {
+define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Services.PackageJSON*/PackageJSON, /** Plus.Files.Logger */Logger) {
 
     /**
      * @readme plugins.License
@@ -16,6 +16,7 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
     var Plugin = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'License', section);
 
+        var self = this;
         options = _.merge({}, {license: true}, options);
 
         if (options.license === false) {
@@ -24,24 +25,47 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
 
         engine.add_filter(section, function (/**Plus.Files.Markdown*/md) {
 
-            var fileName = Licenses.getFileName();
-            if (!fileName) {
-                Logger.error('Project has no licence.');
+            //Logger.info("%s - %1.3f", license.file, license.score);
+            var info = self.getLicence();
+            if (!info) {
                 return md;
             }
-            var license = Licenses.getLicence(fileName);
-
-            //Logger.info("%s - %1.3f", license.file, license.score);
 
             var title = engine.apply_filters('licence:title', 'Licence');
-            var desc = engine.apply_filters('license:desc', '<%= name %> is licenced under the <%= licence %s>.');
+            var desc = engine.apply_filters('license:desc', '<%= title %> is licenced under the <%= name %s>.');
+            var project = engine.apply_filters('project:title');
 
-            return Q.spread([title, desc], function (title, desc) {
+            return Q.spread([title, desc], function (title, desc, project) {
                 md.title = title.trim();
-                md.lines = [desc];
+                md.lines = [_.template(desc)({name: info.name, title: project})];
                 return md;
             });
         });
+    };
+
+
+    /**
+     * @returns {{name: string, url: string, file: string}|null}
+     */
+    Plugin.prototype.getLicence = function () {
+        var fileName = Licenses.getFileName();
+        if (!fileName) {
+            Logger.error('Project has no licence file. You should disable the licence section.');
+            return null;
+        }
+
+        var info = Licenses.getLicence(fileName);
+        if (!info) {
+            // fall back to the package.json (if possible)
+            if (PackageJSON.hasPackage()) {
+                var type = PackageJSON.getLicenceType();
+                info = type && Licenses.getLicenceByType(type);
+            }
+        }
+
+        return info
+            ? {name: info.nickname, url: info.url, file: fileName}
+            : null;
     };
 
     return Plugin;
