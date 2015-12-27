@@ -1,3 +1,5 @@
+throw Error();
+
 test('core/line',function(line)
 {
 	it("creates an array",function()

@@ -2,7 +2,8 @@ language: node_js
 
 node_js:
   - "0.12"
+  - "4.2.1"
 
 script:
-  - npm test
+  - npm run-script test-coverage
   - CODECLIMATE_REPO_TOKEN=195b3284f7b4e56388e274ff045e805daa5d16e4af1e588509d7069bc2aa68e1 codeclimate < coverage/lcov.info

@@ -1,4 +1,4 @@
-return;
+throw Error();
 
 test(['comments/format', 'comments/search'], function(format, search)
 {

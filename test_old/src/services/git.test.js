@@ -1,3 +1,5 @@
+throw Error();
+
 test('services/git', function(git)
 {
 	it('ignores these types of urls',function()

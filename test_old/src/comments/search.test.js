@@ -1,4 +1,4 @@
-return;
+throw Error();
 
 test('comments/search', function($search)
 {

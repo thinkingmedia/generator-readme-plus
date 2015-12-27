@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/thinkingmedia/grunt-readme-plus",
   "scripts": {
-    "test": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive ./test/ -R spec"
+    "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive test/src",
+    "test-coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive test/src"
   },
   "repository": {
     "type": "git",
@@ -47,5 +48,8 @@
     "shelljs": "^0.5.3",
     "sprintf-js": "^1.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "istanbul": "^0.4.1",
+    "mocha": "^2.3.4"
+  }
 }
