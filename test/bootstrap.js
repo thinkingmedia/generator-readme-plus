@@ -5,6 +5,7 @@ _ = require('lodash');
 fs = require('fs');
 path = require('path');
 assert = require('assert');
+should = require('should');
 
 /**
  * Path to test data
@@ -12,9 +13,3 @@ assert = require('assert');
  * @type {string}
  */
 __data = __dirname + path.sep + "data" + path.sep;
-
-requirejs = require('requirejs');
-requirejs.config({
-    baseUrl: __dirname + '/../src',
-    nodeRequire: require
-});
