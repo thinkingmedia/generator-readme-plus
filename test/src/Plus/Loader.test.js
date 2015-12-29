@@ -27,6 +27,23 @@ describe('Loader', function () {
         });
     }
 
+    describe('resolve', function () {
+        validArgument(function (value) {
+            _loader.resolve(value);
+        });
+
+        it('loads node modules', function () {
+            var path = require('path');
+            _loader.resolve('path').should.be.equal(path);
+        });
+
+        it('loads Plus modules', function () {
+            var engine = _loader.resolve('Plus/Engine');
+            engine.should.be.a.function();
+            (engine.prototype.engine !== undefined).should.be.true();
+        });
+    });
+
     describe('isPlus', function () {
         validArgument(function (value) {
             _loader.isPlus(value);
@@ -55,12 +72,12 @@ describe('Loader', function () {
         });
 
         it('returns path to module', function () {
-            _loader.rewrite('Plus/Foo').should.be.equal('./Plus/Foo');
-            _loader.rewrite('Plus/Foo/Bar').should.be.equal('./Plus/Foo/Bar');
+            _loader.rewrite('Plus/Foo').should.be.equal('./Foo');
+            _loader.rewrite('Plus/Foo/Bar').should.be.equal('./Foo/Bar');
         });
         it('returns path to json file', function () {
-            _loader.rewrite('Plus/Foo.json').should.be.equal('./Plus/Foo.json');
-            _loader.rewrite('Plus/Foo/Bar.json').should.be.equal('./Plus/Foo/Bar.json');
+            _loader.rewrite('Plus/Foo.json').should.be.equal('./Foo.json');
+            _loader.rewrite('Plus/Foo/Bar.json').should.be.equal('./Foo/Bar.json');
         });
 
         it('can not rewrite none-namespace paths', function () {
@@ -130,6 +147,100 @@ describe('Loader', function () {
         it('returns cached item', function () {
             _loader._cache['Plus/Foo'] = 'something';
             _loader.getCached('Plus/Foo').should.be.equal('something');
+        });
+    });
+
+    describe('isJSON', function () {
+        validArgument(function (value) {
+            _loader.isJSON(value);
+        });
+
+        it('returns true for json files', function () {
+            _loader.isJSON('Plus/Foo.json').should.be.true();
+        });
+        it('returns false for modules', function () {
+            _loader.isJSON('Plus/Foo').should.be.false();
+        });
+    });
+
+    describe('resolve_module', function () {
+        validArgument(function (value) {
+            _loader.resolve_module(value);
+        });
+
+        it('returns value if not array', function () {
+            _loader.resolve_module("hello world").should.be.equal("hello world");
+        });
+
+        it('calls module function with no arguments', function () {
+            var module = [function () {
+                arguments.should.be.empty();
+                return "something";
+            }];
+            _loader.resolve_module(module).should.be.equal("something");
+        });
+
+        it("calls module function with node module", function () {
+            var module = ['path', function (path) {
+                path.should.be.equal(require('path'));
+                return "something";
+            }];
+            _loader.resolve_module(module).should.be.equal("something");
+        });
+
+        it("calls module function with Mock object", function () {
+            function Foo() {
+
+            }
+            _loader.setCache('Plus/Foo', new Foo());
+            var module = ['Plus/Foo', function (foo) {
+                foo.should.be.an.Object().and.be.an.instanceOf(Foo);
+                return "something";
+            }];
+            _loader.resolve_module(module).should.be.equal("something");
+        });
+
+    });
+
+    describe('getValues', function () {
+        validArgument(function (value) {
+            _loader.getValues(value);
+        });
+
+        it('throws on empty array', function () {
+            (function () {
+                _loader.getValues([]);
+            }).should.throw('not enough items in array');
+        });
+
+        it('returns empty array when length is 1', function () {
+            _loader.getValues([_.noop]).should.be.empty();
+        });
+
+        it('returns array without last item', function () {
+            _loader.getValues([1, 2, 3, 4, _.noop]).should.be.eql([1, 2, 3, 4]);
+        });
+    });
+
+    describe('getMethod', function () {
+        validArgument(function (value) {
+            _loader.getMethod(value);
+        });
+
+        it('throws on empty array', function () {
+            (function () {
+                _loader.getMethod([]);
+            }).should.throw('not enough items in array');
+        });
+
+        it('throws if last item is not a function', function () {
+            (function () {
+                _loader.getMethod([1, 2, 3, 4]);
+            }).should.throw('last item in array must be function');
+        });
+
+        it('returns last item as function', function () {
+            _loader.getMethod([1, 2, 3, 4, _.noop]).should.be.a.Function().and.be.equal(_.noop);
         });
     });
 });
