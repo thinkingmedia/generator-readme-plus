@@ -27,6 +27,20 @@ function Module(Section, Logger) {
     };
 
     /**
+     * Validate this collection
+     */
+    Sections.prototype.beforeRender = function() {
+        if (this.count() == 0) {
+            throw Error("There are no sections to render.");
+        }
+
+        // must have a root section
+        if (!this.contains('root')) {
+            throw Error('Must define a root section.');
+        }
+    };
+
+    /**
      * @param {string} name
      * @returns {Plus.Engine.Section}
      */
