@@ -4,52 +4,21 @@
  * @param Print
  * @param {Plus.Files.Logger} Logger
  * @param MultiMap
- * @param {Plus.Files.Markdown} Markdown
- * @param {Plus.Collections.Array} Arrays
+ * @param {Plus.Collections.Arrays} Arrays
+ * @param {Plus.Engine.Sections} Sections
+ *
  * @returns {Plus.Engine}
  */
-function Module(Q, _, Print, Logger, MultiMap, Markdown, Arrays) {
-
-    /**
-     * @param {Array} sections
-     * @param {string} name
-     * @returns {Plus.Files.Markdown}
-     */
-    function get_section_parent(sections, name) {
-        var parts = name.split('/');
-        var parentName = parts.slice(0, parts.length - 1).join('/');
-        var parent = get_section(sections, parentName);
-        if (!parent) {
-            throw Error('Parent section not found: ' + parentName);
-        }
-        return parent;
-    }
-
-    /**
-     * @param {Array} sections
-     * @param {string} name
-     * @returns {Plus.Files.Markdown}
-     */
-    function get_section(sections, name) {
-        return _.find(sections, 'name', name);
-    }
-
-    /**
-     * @param {Array} sections
-     * @param {string} name
-     * @returns {boolean}
-     */
-    function has_section(sections, name) {
-        return !!get_section(sections, name);
-    }
+function Module(Q, _, Print, Logger, MultiMap, Arrays, Sections) {
 
     /**
      * @name Plus.Engine
+     *
      * @constructor
      */
     var Engine = function () {
         this._filters = new MultiMap();
-        this._sections = [];
+        this._sections = new Sections();
     };
 
     /**
@@ -57,7 +26,7 @@ function Module(Q, _, Print, Logger, MultiMap, Markdown, Arrays) {
      */
     Engine.prototype.render = function () {
 
-        if (this._sections.length == 0) {
+        if (this._sections.count() == 0) {
             throw Error("There are no sections to render.");
         }
 
@@ -66,13 +35,13 @@ function Module(Q, _, Print, Logger, MultiMap, Markdown, Arrays) {
         }
 
         // must have a root section
-        if (!has_section(this._sections, 'root')) {
+        if (!this._sections.contains('root')) {
             throw Error('Must define a root section.');
         }
 
         // filter each section by it's creationOrder
         var self = this;
-        var promises = _.map(_.sortBy(self._sections, 'creationOrder'), function (section) {
+        var promises = _.map(this._sections.byCreationOrder(), function (/** Plus.Engine.Section*/section) {
             return self.apply_filters(section.name, section.markdown).then(function (/**Plus.Files.Markdown*/md) {
                 // filter properties
                 var title = self.apply_filters(section.name + ":title", md.title);
@@ -88,76 +57,28 @@ function Module(Q, _, Print, Logger, MultiMap, Markdown, Arrays) {
         });
 
         // catches some common bugs during development
-        if (_.filter(promises).length != self._sections.length) {
+        if (_.filter(promises).length != self._sections.count()) {
             throw Error('Incorrect number of section promises.');
         }
 
         // promise that resolves to final Markdown object.
-        return Q.all(promises).then(function (sections) {
-            if (!_.isArray(sections) || _.flatten(sections).length != self._sections.length) {
+        return Q.all(promises).then(function (items) {
+            var sections = new Sections(items);
+            if (sections.count() != self._sections.count()) {
                 throw Error('Incorrect number of sections.');
             }
             // append sections to their parents by their order
-            _.each(_.sortBy(sections, 'order'), function (section) {
+            _.each(sections.byOrder(), function (/** Plus.Engine.Section*/section) {
                 if (section.name === 'root') {
                     return;
                 }
-                var parent = get_section_parent(sections, section.name);
+                var parent = sections.parent(section.name);
                 if (parent) {
                     parent.markdown.appendChild(section.markdown);
                 }
             });
 
-            return get_section(sections, 'root').markdown;
-        });
-    };
-
-    /**
-     * Sections are first created in the order defined by the creationOrder parameter, and then appended to the
-     * Markdown by the order parameter.
-     *
-     * @param {string} name Use forward slash to define hierarchy.
-     * @param {number=} order The order is relative to parent. The default is 50.
-     * @param {number=} creationOrder The default is 50
-     */
-    Engine.prototype.add_section = function (name, order, creationOrder) {
-
-        if (!_.isString(name) && name !== '') {
-            throw Error('Section must have a name.');
-        }
-
-        if (has_section(this._sections, name)) {
-            throw Error('Section already exists: ' + name);
-        }
-
-        if (name !== 'root') {
-            if (name.split('/').length == 1) {
-                throw Error('Only the root is allowed to be top-level: ' + name);
-            }
-            if (!_.startsWith(name, 'root/')) {
-                throw Error('Must be a child of the root: ' + name);
-            }
-        }
-
-        order = order || 50;
-        creationOrder = creationOrder || 50;
-
-        if (!_.isNumber(order)
-            || !_.isNumber(creationOrder)
-            || order <= 0
-            || order > 100
-            || creationOrder <= 0
-            || creationOrder > 100) {
-            throw Error("Sort order parameters must be numeric with a value between 1 and 100.");
-        }
-
-        Logger.debug('add_section: %s', name);
-
-        this._sections.push({
-            name: name,
-            order: order,
-            creationOrder: creationOrder,
-            markdown: new Markdown()
+            return sections.find('root').markdown;
         });
     };
 
@@ -267,7 +188,7 @@ module.exports = [
     'Plus/Services/Print',
     'Plus/Files/Logger',
     'collections/multi-map',
-    'Plus/Files/Markdown',
     'Plus/Collections/Arrays',
+    'Plus/Engine/Sections',
     Module
 ];
