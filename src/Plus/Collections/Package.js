@@ -1,4 +1,7 @@
-define([],function(){
+/**
+ * @returns {Plus.Package}
+ */
+function Module(){
 
     /**
      * @name Plus.Collections
@@ -9,4 +12,8 @@ define([],function(){
     }
 
     return Package;
-});
+}
+
+module.exports = [
+    Module
+];

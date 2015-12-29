@@ -1,6 +1,9 @@
-var dependencies = ['lodash', 'os'];
-
-define(dependencies, function (_, OS) {
+/**
+ * @param _
+ * @param OS
+ * @returns {Plus.Collections.Arrays}
+ */
+function Module(_, OS) {
 
     /**
      * @name Plus.Collections.Arrays
@@ -76,4 +79,10 @@ define(dependencies, function (_, OS) {
     };
 
     return new Arrays();
-});
+}
+
+module.exports = [
+    'lodash',
+    'os',
+    Module
+];

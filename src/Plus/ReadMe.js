@@ -1,6 +1,13 @@
-var dependencies = ['module', 'path', 'lodash', 'requirejs', 'fs', 'Plus/Engine', 'Plus/Files/Markdown', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
-
-define(dependencies, function (module, path, _, requirejs, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Files.Logger*/Logger, /**Plus.Collections.Arrays*/Arrays) {
+/**
+ * @param module
+ * @param _
+ * @param fs
+ * @param {Plus.Engine} Engine
+ * @param {Plus.Files.Markdown} Markdown
+ * @param {Plus.Collections.Array} Arrays
+ * @returns {Plus.ReadMe}
+ */
+function Module(module, _, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
 
     /**
      * @param {string} path
@@ -92,4 +99,14 @@ define(dependencies, function (module, path, _, requirejs, fs, /** Plus.Engine *
     };
 
     return ReadMe;
-});
+}
+
+module.exports = [
+    'module',
+    'lodash',
+    'fs',
+    'Plus/Engine',
+    'Plus/Files/Markdown',
+    'Plus/Collections/Arrays',
+    Module
+];

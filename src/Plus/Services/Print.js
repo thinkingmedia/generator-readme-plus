@@ -1,4 +1,12 @@
-// makes injecting sprintf easier.
-define(['sprintf-js'],function(sprintfJs) {
+/**
+ * @name Plus.Services.Print
+ * @typedef {Function}
+ */
+function Module(sprintfJs) {
     return sprintfJs.sprintf;
-});
+}
+
+module.exports = [
+    'sprintf-js',
+    Module
+];

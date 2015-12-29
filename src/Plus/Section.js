@@ -1,4 +1,7 @@
-define([],function(){
+/**
+ * @returns {Plus.Section}
+ */
+function Module(){
 
     /**
      * @name Plus.Section
@@ -17,4 +20,8 @@ define([],function(){
 
     return Section;
 
-});
+}
+
+module.exports = [
+    Module
+];

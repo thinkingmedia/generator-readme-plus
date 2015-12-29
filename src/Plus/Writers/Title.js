@@ -1,6 +1,10 @@
-var dependencies = ['lodash', 'path', 'Plus/Files/Logger'];
-
-define(dependencies, function (_, path, /**Plus.Files.Logger*/Logger) {
+/**
+ * @param _
+ * @param path
+ * @param {Plus.Files.Logger} Logger
+ * @returns {Plugin}
+ */
+function Module(_, path, Logger) {
 
     /**
      * @readme plugins.Title
@@ -53,4 +57,11 @@ define(dependencies, function (_, path, /**Plus.Files.Logger*/Logger) {
     };
 
     return Plugin;
-});
+}
+
+module.exports = [
+    'lodash',
+    'path',
+    'Plus/Files/Logger',
+    Module
+];

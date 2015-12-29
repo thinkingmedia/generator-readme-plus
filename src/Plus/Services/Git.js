@@ -1,6 +1,10 @@
-var dependencies = ['lodash', 'fs', 'shelljs', 'Plus/Services/Print', 'Plus/Files/Logger'];
-
-define(dependencies, function (_, fs, shell, Print, /** Plus.Files.Logger */Logger) {
+/**
+ * @param _
+ * @param shell
+ * @param {Plus.Files.Logger} Logger
+ * @returns {Plus.Services.Git}
+ */
+function Module(_, shell, Logger) {
 
     /**
      * @name Plus.Services.Git
@@ -69,4 +73,11 @@ define(dependencies, function (_, fs, shell, Print, /** Plus.Files.Logger */Logg
     };
 
     return new Git();
-});
+}
+
+module.exports = [
+    'lodash',
+    'shelljs',
+    'Plus/Files/Logger',
+    Module
+];

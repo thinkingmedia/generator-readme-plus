@@ -1,6 +1,11 @@
-var dependencies = ['lodash', 'fs', 'Plus/Services/Print', 'Plus/Files/Logger', 'Plus/Services/Git'];
-
-define(dependencies, function (_, fs, Print, /**Plus.Files.Logger*/Logger, /** Plus.Services.Git */Git) {
+/**
+ * @param _
+ * @param fs
+ * @param Print
+ * @param {Plus.Files.Logger} Logger
+ * @returns {Plugin}
+ */
+function Module(_, fs, Print, /**Plus.Files.Logger*/Logger) {
 
     /**
      * @readme plugins.Image
@@ -59,4 +64,12 @@ define(dependencies, function (_, fs, Print, /**Plus.Files.Logger*/Logger, /** P
     };
 
     return Plugin;
-});
+}
+
+module.exports = [
+    'lodash',
+    'fs',
+    'Plus/Services/Print',
+    'Plus/Files/Logger',
+    Module
+];

@@ -1,6 +1,8 @@
-var dependencies = ['Plus/Services/GitHub'];
-
-define(dependencies, function (/** Plus.Services.GitHub */GitHub) {
+/**
+ * @param {Plus.Services.GitHub} GitHub
+ * @returns {Function}
+ */
+function Module(GitHub) {
 
     /**
      * @readme plugins.GitHub
@@ -22,4 +24,9 @@ define(dependencies, function (/** Plus.Services.GitHub */GitHub) {
             });
         });
     };
-});
+}
+
+module.exports = [
+    'Plus/Services/GitHub',
+    Module
+];

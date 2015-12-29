@@ -1,6 +1,8 @@
-var dependencies = ['lodash'];
-
-define(dependencies, function (_) {
+/**
+ * @param _
+ * @returns {Plus.Services.Similarity}
+ */
+function Module(_) {
 
     /**
      * @name Plus.Services.Similarity
@@ -106,4 +108,9 @@ define(dependencies, function (_) {
     };
 
     return new Similarity();
-});
+}
+
+module.exports = [
+    'lodash',
+    Module
+];

@@ -1,6 +1,8 @@
-var dependencies = ['lodash'];
-
-define(dependencies, function (_) {
+/**
+ * @param _
+ * @returns {Plus.Services.Badges}
+ */
+function Module(_) {
 
     /**
      * @name Plus.Services.Badges
@@ -24,4 +26,9 @@ define(dependencies, function (_) {
     };
 
     return new Badges();
-});
+}
+
+module.exports = [
+    'lodash',
+    Module
+];

@@ -1,10 +1,14 @@
-var dependencies = ['require', 'Q', 'lodash', 'Plus/Services/Print', 'Plus/Files/Logger', 'collections/multi-map', 'Plus/Files/Markdown', 'Plus/Collections/Arrays'];
-
-define(dependencies, function (require, Q, _, Print, /** Plus.Files.Logger */Logger, MultiMap, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
-
-    /**
-     * @name Plus
-     */
+/**
+ * @param Q
+ * @param _
+ * @param Print
+ * @param {Plus.Files.Logger} Logger
+ * @param MultiMap
+ * @param {Plus.Files.Markdown} Markdown
+ * @param {Plus.Collections.Array} Arrays
+ * @returns {Plus.Engine}
+ */
+function Module(Q, _, Print, Logger, MultiMap, Markdown, Arrays) {
 
     /**
      * @param {Array} sections
@@ -255,4 +259,15 @@ define(dependencies, function (require, Q, _, Print, /** Plus.Files.Logger */Log
     };
 
     return Engine;
-});
+}
+
+module.exports = [
+    'Q',
+    'lodash',
+    'Plus/Services/Print',
+    'Plus/Files/Logger',
+    'collections/multi-map',
+    'Plus/Files/Markdown',
+    'Plus/Collections/Arrays',
+    Module
+];

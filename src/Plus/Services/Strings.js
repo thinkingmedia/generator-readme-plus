@@ -1,6 +1,8 @@
-var dependencies = ['lodash'];
-
-define(dependencies, function (_) {
+/**
+ * @param _
+ * @returns {Plus.Services.Strings}
+ */
+function Module(_) {
 
     /**
      * @name Plus.Services.Strings
@@ -41,4 +43,9 @@ define(dependencies, function (_) {
     };
 
     return new Strings();
-});
+}
+
+module.exports = [
+    'lodash',
+    Module
+];

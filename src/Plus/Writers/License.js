@@ -1,6 +1,13 @@
-var dependencies = ['Q', 'lodash', 'Plus/Services/Licenses', 'Plus/Services/PackageJSON', 'Plus/Files/Logger', 'Plus/Services/Print'];
-
-define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** Plus.Services.PackageJSON*/PackageJSON, /** Plus.Files.Logger */Logger, Print) {
+/**
+ * @param Q
+ * @param _
+ * @param {Plus.Services.Licenses} Licenses
+ * @param {Plus.Services.PackageJSON} PackageJSON
+ * @param {Plus.Files.Logger} Logger
+ * @param Print
+ * @returns {Plugin}
+ */
+function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
 
     /**
      * @readme plugins.License
@@ -39,7 +46,7 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
                 md.title = title.trim();
                 md.lines = [];
                 md.lines.push(_.template(desc)({name: info.name, title: project}));
-                if(info.file) {
+                if (info.file) {
                     md.lines.push('');
                     md.lines.push(Print('See %s for details.', info.file));
                 }
@@ -74,4 +81,14 @@ define(dependencies, function (Q, _, /** Plus.Services.Licenses */Licenses, /** 
     };
 
     return Plugin;
-});
+}
+
+module.exports = [
+    'Q',
+    'lodash',
+    'Plus/Services/Licenses',
+    'Plus/Services/PackageJSON',
+    'Plus/Files/Logger',
+    'Plus/Services/Print',
+    Module
+];

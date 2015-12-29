@@ -1,6 +1,11 @@
-var dependencies = ['lodash', 'chalk', 'Plus/Services/Print'];
-
-define(dependencies, function (_, chalk, print) {
+/**
+ * @param _
+ * @param chalk
+ * @param {Plus.Services.Print} print
+ * @returns {Plus.Files.Logger}
+ * @constructor
+ */
+function Module(_, chalk, print) {
 
     /**
      * @name Plus.Files.Logger
@@ -58,4 +63,11 @@ define(dependencies, function (_, chalk, print) {
     };
 
     return new Logger();
-});
+}
+
+module.exports = [
+    'lodash',
+    'chalk',
+    'Plus/Services/Print',
+    Module
+];

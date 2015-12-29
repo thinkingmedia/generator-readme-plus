@@ -1,6 +1,4 @@
-var dependencies = ['module', 'path', 'fs', 'require'];
-
-define(dependencies, function (module, path, fs, require) {
+function Module(module, path, fs) {
 
     /**
      * @name Plus.Services.PackageJSON
@@ -67,4 +65,11 @@ define(dependencies, function (module, path, fs, require) {
     };
 
     return new PackageJSON(path.dirname(module.uri) + path.sep + "package.json");
-});
+}
+
+module.exports = [
+    'module',
+    'path',
+    'fs',
+    Module
+];

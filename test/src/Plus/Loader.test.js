@@ -39,8 +39,8 @@ describe('Loader', function () {
 
         it('loads Plus modules', function () {
             var engine = _loader.resolve('Plus/Engine');
-            engine.should.be.a.function();
-            (engine.prototype.engine !== undefined).should.be.true();
+            engine.should.be.a.Function();
+            (engine.prototype.render !== undefined).should.be.true();
         });
     });
 

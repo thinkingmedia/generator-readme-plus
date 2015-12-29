@@ -1,6 +1,10 @@
-var dependencies = ['q', 'github', 'Plus/Services/Git'];
-
-define(dependencies, function (Q, GitHubApi, /** Plus.Services.Git */Git) {
+/**
+ * @param Q
+ * @param GitHubApi
+ * @param {Plus.Services.Git} Git
+ * @returns {Plus.Services.GitHub}
+ */
+function Module(Q, GitHubApi, Git) {
 
     /**
      * @name Plus.Services.GitHub
@@ -48,4 +52,11 @@ define(dependencies, function (Q, GitHubApi, /** Plus.Services.Git */Git) {
     };
 
     return new GitHub();
-});
+}
+
+module.exports = [
+    'q',
+    'github',
+    'Plus/Services/Git',
+    Module
+];

@@ -1,4 +1,4 @@
-define([],function(){
+module.exports = [function () {
 
     /**
      * @name Plus
@@ -9,4 +9,4 @@ define([],function(){
     }
 
     return Package;
-});
+}];

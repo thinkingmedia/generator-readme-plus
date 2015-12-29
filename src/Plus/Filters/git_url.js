@@ -1,6 +1,9 @@
-var dependencies = ['Plus/Services/Print', 'Plus/Services/Git'];
-
-define(dependencies, function (Print, /** Plus.Services.Git */Git) {
+/**
+ * @param {Plus.Services.Print} Print
+ * @param {Plus.Services.Git} Git
+ * @returns {Function}
+ */
+function Module(Print, Git) {
 
     /**
      * @readme plugins.GitHub
@@ -24,4 +27,10 @@ define(dependencies, function (Print, /** Plus.Services.Git */Git) {
             return Print('https://github.com/%s/%s/raw/%s/%s', git.user, git.repo, git.branch, url);
         });
     };
-});
+}
+
+module.exports = [
+    'Plus/Services/Print',
+    'Plus/Services/Git',
+    Module
+];

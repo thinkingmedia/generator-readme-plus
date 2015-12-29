@@ -1,4 +1,7 @@
-define([], function () {
+/**
+ * @returns {Plus.Collections.LinkedList}
+ */
+function Module() {
     /**
      * @name Plus.Collections.LinkedList
      *
@@ -82,4 +85,8 @@ define([], function () {
     };
 
     return LinkedList;
-});
+}
+
+module.exports = [
+    Module
+];

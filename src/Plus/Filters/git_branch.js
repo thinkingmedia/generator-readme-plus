@@ -1,6 +1,8 @@
-var dependencies = ['Plus/Services/Git'];
-
-define(dependencies, function (/** Plus.Services.Git */Git) {
+/**
+ * @param {Plus.Services.Git} Git
+ * @returns {Function}
+ */
+function Module(Git) {
 
     /**
      * @readme plugins.Git
@@ -23,4 +25,9 @@ define(dependencies, function (/** Plus.Services.Git */Git) {
             return git ? git.branch : branch;
         });
     };
-});
+}
+
+module.exports = [
+    'Plus/Services/Git',
+    Module
+];

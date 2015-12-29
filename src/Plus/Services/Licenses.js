@@ -1,6 +1,15 @@
-var dependencies = ['module', 'path', 'fs', 'lodash', 'Plus/Services/Similarity', 'Plus/Files/Logger', 'Plus/Services/Strings', './_licenses/licenses.json'];
-
-define(dependencies, function (module, path, fs, _, /** Plus.Services.Similarity */Similarity, /**Plus.Files.Logger*/Logger, /**Plus.Services.Strings*/Strings, LicenseTypes) {
+/**
+ * @param module
+ * @param path
+ * @param fs
+ * @param _
+ * @param {Plus.Services.Similarity} Similarity
+ * @param {Plus.Files.Logger} Logger
+ * @param {Plus.Services.Strings} Strings
+ * @param {Array} LicenseTypes
+ * @returns {Plus.Services.Licenses}
+ */
+function Module(module, path, fs, _, Similarity, Logger, Strings, LicenseTypes) {
 
     /**
      * @name Plus.Services.Licenses
@@ -78,4 +87,16 @@ define(dependencies, function (module, path, fs, _, /** Plus.Services.Similarity
     };
 
     return new Licenses();
-});
+}
+
+module.exports = [
+    'module',
+    'path',
+    'fs',
+    'lodash',
+    'Plus/Services/Similarity',
+    'Plus/Files/Logger',
+    'Plus/Services/Strings',
+    'Plus/Services/_licenses/licenses.json',
+    Module
+];

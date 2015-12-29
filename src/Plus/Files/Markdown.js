@@ -1,6 +1,14 @@
-var dependencies = ['lodash', 'fs', 'os', 'chalk', 'Plus/Collections/LinkedList', 'Plus/Files/Logger', 'Plus/Collections/Arrays'];
-
-define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList */LinkedList, /** Plus.Files.Logger */Logger, /**Plus.Collections.Arrays*/Arrays) {
+/**
+ * @param _
+ * @param fs
+ * @param os
+ * @param {Plus.Collections.LinkedList} LinkedList
+ * @param {Plus.Files.Logger} Logger
+ * @param {Plus.Collections.Arrays} Arrays
+ * @returns {Plus.Files.Markdown}
+ * @constructor
+ */
+function Module(_, fs, os, LinkedList, Logger, Arrays) {
 
     /**
      * @name Plus.Files.Markdown
@@ -307,4 +315,14 @@ define(dependencies, function (_, fs, os, chalk, /** Plus.Collections.LinkedList
     };
 
     return Markdown;
-});
+}
+
+module.exports = [
+    'lodash',
+    'fs',
+    'os',
+    'Plus/Collections/LinkedList',
+    'Plus/Files/Logger',
+    'Plus/Collections/Arrays',
+    Module
+];

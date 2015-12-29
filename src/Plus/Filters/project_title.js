@@ -1,6 +1,9 @@
-var dependencies = ['lodash', 'path'];
-
-define(dependencies, function (_, path) {
+/**
+ * @param _
+ * @param path
+ * @returns {Function}
+ */
+function Module(_, path) {
 
     /**
      * @param {Plus.Engine} engine
@@ -15,4 +18,10 @@ define(dependencies, function (_, path) {
             });
         });
     };
-});
+}
+
+module.exports = [
+    'lodash',
+    'path',
+    Module
+];
