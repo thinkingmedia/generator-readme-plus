@@ -19,7 +19,7 @@ function Loader() {
  * handled using the resolve_module method.
  *
  * @param {string} path
- * @returns {Object}
+ * @returns {*}
  */
 Loader.prototype.resolve = function (path) {
     if (!path) {

@@ -12,8 +12,8 @@ function Module(Markdown) {
      * tree hierarchy and creation order for each section.
      *
      * @param {string} name
-     * @param {number} order
-     * @param {number} creationOrder
+     * @param {number=} order
+     * @param {number=} creationOrder
      *
      * @constructor
      */

@@ -16,6 +16,9 @@ function Module(Section, Logger) {
      * @constructor
      */
     var Sections = function (items) {
+        if(items && !_.isArray(items)) {
+            throw Error('invalid argument');
+        }
         this.items = (items || []).slice();
     };
 
@@ -34,7 +37,6 @@ function Module(Section, Logger) {
             throw Error("There are no sections to render.");
         }
 
-        // must have a root section
         if (!this.contains('root')) {
             throw Error('Must define a root section.');
         }
@@ -45,6 +47,9 @@ function Module(Section, Logger) {
      * @returns {Plus.Engine.Section}
      */
     Sections.prototype.parent = function (name) {
+        if(!name || !_.isString(name)) {
+            throw Error('invalid argument');
+        }
         var parts = name.split('/');
         var parentName = parts.slice(0, parts.length - 1).join('/');
         var parent = this.find(parentName);
