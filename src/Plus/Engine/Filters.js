@@ -34,6 +34,17 @@ function Module(Q, _, Logger, Filter, MultiMap) {
     };
 
     /**
+     * @param {string} name
+     * @returns {boolean}
+     */
+    Filters.prototype.contains = function (name) {
+        if (!_.isString(name) && name !== '') {
+            throw Error('invalid argument');
+        }
+        return this.items.has(name);
+    };
+
+    /**
      * @readme filters."Add Filter"
      *
      * Hook a function to a specific filter action. ReadMe offers filters to allow Writers to modify various types
@@ -55,18 +66,29 @@ function Module(Q, _, Logger, Filter, MultiMap) {
 
     /**
      * @param {string} name
+     * @returns {Plus.Engine.Filter[]}
+     */
+    Filters.prototype.byPriority = function (name) {
+        if (!_.isString(name) && name !== '') {
+            throw Error('invalid argument');
+        }
+        return _.sortBy(this.items.get(name) || [], 'priority');
+    };
+
+    /**
+     * @param {string} name
      * @param {*=} value
      * @returns {promise}
      */
     Filters.prototype.apply = function (name, value) {
         if (!_.isString(name) && name !== '') {
-            throw Error('Filter must have a name.');
+            throw Error('invalid argument');
         }
 
         Logger.debug('Filters::apply %s', name);
 
         var promise = Q(value);
-        _.each(_.sortBy(this.items.get(name) || [], 'priority'), function (filter) {
+        _.each(this.byPriority(name), function (/** Plus.Engine.Filter */filter) {
             promise = promise.then(function (value) {
                 return filter.hook(value);
             });
@@ -75,44 +97,46 @@ function Module(Q, _, Logger, Filter, MultiMap) {
     };
 
     /**
+     * @param {string[]|string} names
+     * @returns {Promise[]}
+     */
+    Filters.prototype.promises = function (names) {
+
+        names = _.isArray(names) ? names : [names];
+
+        return _.map(names, function (name) {
+            return this.contains(name)
+                ? this.apply(name)
+                : Q(undefined);
+        }.bind(this));
+    };
+
+    /**
      * @param {string|string[]} names
      * @param {Function} callback
+     *
+     * @returns {Promise}
      */
-    Filters.prototype.get_values = function (names, callback) {
-        if (!_.isArray(names)) {
-            return this.get_values([names], callback);
-        }
-        var promises = _.map(names, function (name) {
-            return this.apply(name);
-        }.bind(this));
-        Q.all(promises, function (values) {
-            callback.call(this, values);
-        }.bind(this));
+    Filters.prototype.resolve = function (names, callback) {
+
+        var promises = this.promises(names);
+
+        return Q.all(promises)
+            .then(function (values) {
+                return callback.apply(this, values);
+            }.bind(this));
     };
 
     /**
      * @param {string|string[]} files
      */
     Filters.prototype.load = function (files) {
-        if (!_.isArray(files)) {
-            return this.load([files]);
-        }
-        _.each(files, function (file) {
+        _.each(_.isArray(files) ? files : [files], function (file) {
             var filter = require(file);
-            if (_.isFunction(filter)) {
-                filter(this);
+            if (filter instanceof Filter) {
+                throw Error('Expected module to export a Filter object');
             }
-            if (_.isArray(filter)) {
-                var name = filter[0];
-                if (!_.isString(name) || name === '') {
-                    throw Error("First array value should be string.");
-                }
-                var func = filter[1];
-                if (!_.isFunction(func)) {
-                    throw Error("Second array value should be function.");
-                }
-                this.add(name, func, filter[2]);
-            }
+            this.items.get(name).add(filter);
         }.bind(this));
     };
 

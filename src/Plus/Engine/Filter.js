@@ -3,7 +3,6 @@
  */
 function Module() {
 
-
     /**
      * @name Plus.Engine.Filter
      *
