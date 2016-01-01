@@ -3,6 +3,12 @@
  */
 module.exports = function (grunt) {
 
+    if (grunt.file.exists('../grunt-thinkingmedia/tasks')) {
+        grunt.loadTasks('../grunt-thinkingmedia/tasks');
+    } else {
+        grunt.loadNpmTasks('grunt-thinkingmedia');
+    }
+
     // old dependencies
     //
     // "dustjs-linkedin": "~2.6.0",
@@ -28,9 +34,14 @@ module.exports = function (grunt) {
     grunt.loadTasks('tasks');
 
     grunt.initConfig({
+        config: {
+            webroot: false,
+            src: [
+                './src'
+            ]
+        },
         readme: {
-            options: {
-            },
+            options: {},
             src: [
                 'src/**/*.js'
             ],

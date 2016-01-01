@@ -2,9 +2,7 @@ var _ = require('lodash');
 
 /**
  * @name Plus.Loader
- *
- * @property {Plus.Loader} instance
- *
+ **
  * @constructor
  */
 function Loader() {
@@ -12,7 +10,23 @@ function Loader() {
      * @type {Object.<string,Object>}
      */
     this._cache = {};
+
+    /**
+     * @type {Plus.Files.Logger|null}
+     */
+    this.logger = null;
 }
+
+/**
+ * Allows attachment of a logger after the loader has been created. So that the loader can be used to load the
+ * logger.
+ *
+ * @param {Plus.Files.Logger} logger
+ */
+Loader.prototype.attach = function(logger) {
+    this.logger = logger;
+    this.logger && this.logger.debug('Loader:attach %s', !!logger);
+};
 
 /**
  * Resolves a module as either a node module or a Plus module. All paths that start with Plus are
@@ -28,6 +42,8 @@ Loader.prototype.resolve = function (path) {
     if (!this.isPlus(path)) {
         return require(path);
     }
+
+    this.logger && this.logger.debug('Loader:resolve %s', path);
 
     if (this.isCached(path)) {
         return this.getCached(path);
