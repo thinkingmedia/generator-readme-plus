@@ -55,7 +55,7 @@ throws = function (message, callback, error) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
     }
-    it(message, function () {
+    it('throws ' + message, function () {
         assert.ok(typeof callback === 'function');
         (function () {
             callback.call(this);

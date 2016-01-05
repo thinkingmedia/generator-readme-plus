@@ -65,7 +65,7 @@ describe('Engine', function () {
         });
     });
 
-    describe('engine', function (done) {
+    describe('engine', function () {
         promise('returns a promise that resolves to Markdown', function () {
             var e = CreateEngine();
             var p = e.render();
@@ -73,7 +73,7 @@ describe('Engine', function () {
             return p.then(function (/**Plus.Files.Markdown*/md) {
                 md.should.be.an.instanceOf(Markdown);
                 var str = md.toString();
-                str.should.be.equal("");
+                str.should.be.equal("#");
             });
         });
     });
