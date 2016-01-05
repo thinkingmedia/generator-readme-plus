@@ -4,10 +4,12 @@
  * @param {Plus.Files.Logger} Logger
  * @param {Plus.Engine.Filter} Filter
  * @param MultiMap
+ * @param {Plus.Engine.Section} Section
+ * @param {Plus.Collections.Arrays} Arrays
  *
  * @returns {Plus.Engine.Filters}
  */
-function Module(Q, _, Logger, Filter, MultiMap) {
+function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @name Plus.Engine.Filters
@@ -140,6 +142,32 @@ function Module(Q, _, Logger, Filter, MultiMap) {
         }.bind(this));
     };
 
+    /**
+     * @todo Markdown should be created and attached to sections.
+     *
+     * @param {Plus.Engine.Section} section
+     * @returns {Promise<Plus.Engine.Section>}
+     */
+    Filters.prototype.render = function (section) {
+        if(!section || !(section instanceof Section)) {
+            throw Error('invalid argument');
+        }
+
+        var self = this;
+        return self.apply(section.name, section.markdown).then(function (/**Plus.Files.Markdown*/md) {
+            // filter properties
+            var title = self.apply(section.name + ":title", md.title);
+            var lines = self.apply(section.name + ":lines", md.lines);
+            // return a promise that resolves to a section
+            return Q.spread([title, lines], function (title, lines) {
+                section.markdown = md.clone();
+                section.markdown.title = title.trim();
+                section.markdown.lines = Arrays.trim(lines);
+                return section;
+            });
+        });
+    };
+
     return Filters;
 }
 
@@ -149,5 +177,7 @@ module.exports = [
     'Plus/Files/Logger',
     'Plus/Engine/Filter',
     'collections/multi-map',
+    'Plus/Engine/Section',
+    'Plus/Collections/Arrays',
     Module
 ];

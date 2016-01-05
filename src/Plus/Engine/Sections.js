@@ -16,7 +16,7 @@ function Module(Section, Logger) {
      * @constructor
      */
     var Sections = function (items) {
-        if(items && !_.isArray(items)) {
+        if (items && !_.isArray(items)) {
             throw Error('invalid argument');
         }
         this.items = (items || []).slice();
@@ -32,7 +32,7 @@ function Module(Section, Logger) {
     /**
      * Validate this collection
      */
-    Sections.prototype.beforeRender = function() {
+    Sections.prototype.beforeRender = function () {
         if (this.count() == 0) {
             throw Error("There are no sections to render.");
         }
@@ -47,7 +47,7 @@ function Module(Section, Logger) {
      * @returns {Plus.Engine.Section}
      */
     Sections.prototype.parent = function (name) {
-        if(!name || !_.isString(name)) {
+        if (!name || !_.isString(name)) {
             throw Error('invalid argument');
         }
         var parts = name.split('/');
@@ -100,6 +100,8 @@ function Module(Section, Logger) {
      * @param {string} name Use forward slash to define hierarchy.
      * @param {number=} order The order is relative to parent. The default is 50.
      * @param {number=} creationOrder The default is 50
+     *
+     * @returns {Plus.Engine.Section}
      */
     Sections.prototype.append = function (name, order, creationOrder) {
 
@@ -109,7 +111,35 @@ function Module(Section, Logger) {
 
         Logger.debug('Sections::append %s', name);
 
-        this.items.push(new Section(name, order, creationOrder));
+        var section = new Section(name, order, creationOrder);
+        this.items.push(section);
+        return section;
+    };
+
+    /**
+     * @todo this should create the main Markdown without having to append to Markdown objects owned by sections.
+     *
+     * @returns {Plus.Files.Markdown}
+     */
+    Sections.prototype.getMarkdown = function () {
+        if (!this.contains('root')) {
+            throw Error('Sections do not have a root.');
+        }
+
+        // append sections to their parents by their order
+        _.each(this.byOrder(), function (/** Plus.Engine.Section*/section) {
+            if (section.name === 'root') {
+                return;
+            }
+            var parent = this.parent(section.name);
+            if (parent) {
+                parent.markdown.appendChild(section.markdown);
+            } else {
+                throw Error('Section missing parent');
+            }
+        }.bind(this));
+
+        return this.find('root').markdown;
     };
 
     return Sections;

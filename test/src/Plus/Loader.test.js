@@ -8,6 +8,7 @@ describe('Loader', function () {
     before(function () {
         Loader = require('../../../src/Plus/Loader');
     });
+
     beforeEach(function () {
         _loader = new Loader();
     });
@@ -18,12 +19,10 @@ describe('Loader', function () {
     });
 
     function validArgument(method) {
-        it('throws on false arguments', function () {
-            _.each([null, undefined, false, ''], function (value) {
-                (function () {
-                    method(value);
-                }).should.throw('invalid argument');
-            });
+        _.each([null, undefined, false, ''], function (value) {
+            throws('on false arguments', function () {
+                method(value);
+            }, 'invalid argument');
         });
     }
 
@@ -80,11 +79,9 @@ describe('Loader', function () {
             _loader.rewrite('Plus/Foo/Bar.json').should.be.equal('./Foo/Bar.json');
         });
 
-        it('can not rewrite none-namespace paths', function () {
-            (function () {
-                _loader.rewrite('path');
-            }).should.throw('not a namespace');
-        });
+        throws('can not rewrite none-namespace paths', function () {
+            _loader.rewrite('path');
+        }, 'not a namespace');
     });
 
     describe('replace', function () {
@@ -138,11 +135,9 @@ describe('Loader', function () {
             _loader.getCached(value);
         });
 
-        it('throws for missing item', function () {
-            (function () {
-                _loader.getCached('Plus/Foo')
-            }).should.throw('Plus/Foo is not cached.');
-        });
+        throws('for missing item', function () {
+            _loader.getCached('Plus/Foo')
+        }, 'Plus/Foo is not cached.');
 
         it('returns cached item', function () {
             _loader._cache['Plus/Foo'] = 'something';
@@ -192,6 +187,7 @@ describe('Loader', function () {
             function Foo() {
 
             }
+
             _loader.setCache('Plus/Foo', new Foo());
             var module = ['Plus/Foo', function (foo) {
                 foo.should.be.an.Object().and.be.an.instanceOf(Foo);
@@ -207,11 +203,9 @@ describe('Loader', function () {
             _loader.getValues(value);
         });
 
-        it('throws on empty array', function () {
-            (function () {
-                _loader.getValues([]);
-            }).should.throw('not enough items in array');
-        });
+        throws('on empty array', function () {
+            _loader.getValues([]);
+        }, 'not enough items in array');
 
         it('returns empty array when length is 1', function () {
             _loader.getValues([_.noop]).should.be.empty();
@@ -227,17 +221,13 @@ describe('Loader', function () {
             _loader.getMethod(value);
         });
 
-        it('throws on empty array', function () {
-            (function () {
-                _loader.getMethod([]);
-            }).should.throw('not enough items in array');
-        });
+        throws('on empty array', function () {
+            _loader.getMethod([]);
+        }, 'not enough items in array');
 
-        it('throws if last item is not a function', function () {
-            (function () {
-                _loader.getMethod([1, 2, 3, 4]);
-            }).should.throw('last item in array must be function');
-        });
+        throws('if last item is not a function', function () {
+            _loader.getMethod([1, 2, 3, 4]);
+        }, 'last item in array must be function');
 
         it('returns last item as function', function () {
             _loader.getMethod([1, 2, 3, 4, _.noop]).should.be.a.Function().and.be.equal(_.noop);

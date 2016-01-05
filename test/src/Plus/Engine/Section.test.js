@@ -17,23 +17,17 @@ describe('Section', function () {
     });
 
     describe('constructor', function () {
-        it('throws without a name', function () {
-            (function () {
-                new Section();
-            }).should.throw('Section must have a name.');
-        });
+        throws('without a name', function () {
+            new Section();
+        }, 'Section must have a name.');
 
-        it('throws if name is top-level', function () {
-            (function () {
-                new Section('Foo');
-            }).should.throw('Only the root is allowed to be top-level: Foo')
-        });
+        throws('if name is top-level', function () {
+            new Section('Foo');
+        }, 'Only the root is allowed to be top-level: Foo');
 
-        it('throws without root', function () {
-            (function () {
-                new Section('Foo/Bar');
-            }).should.throw('Must be a child of the root: Foo/Bar');
-        });
+        throws('without root', function () {
+            new Section('Foo/Bar');
+        }, 'Must be a child of the root: Foo/Bar');
 
         it('sets default order', function () {
             var section = new Section('root/header');
@@ -52,12 +46,11 @@ describe('Section', function () {
             section.creationOrder.should.be.equal(88);
         });
 
-        it('creates empty Markdown', function(){
+        it('creates empty Markdown', function () {
             var section = new Section('root/header');
             section.markdown.should.be.instanceOf(Markdown);
         });
     });
-
 
 
 });

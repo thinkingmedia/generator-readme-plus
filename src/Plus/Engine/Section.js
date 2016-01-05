@@ -47,6 +47,9 @@ function Module(Markdown) {
         this.name = name;
         this.order = order;
         this.creationOrder = creationOrder;
+        /**
+         * @type {Plus.Files.Markdown}
+         */
         this.markdown = new Markdown();
     };
 

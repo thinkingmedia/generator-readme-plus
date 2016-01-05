@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/thinkingmedia/grunt-readme-plus",
   "scripts": {
-    "test": "node_modules/.bin/mocha --require test/bootstrap.js --recursive test/src",
+    "test": "grunt test",
     "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/bootstrap.js --recursive test/src"
   },
   "repository": {

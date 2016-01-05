@@ -11,17 +11,13 @@ describe('Filter', function () {
     });
 
     describe('constructor', function () {
-        it('throws if invalid name', function () {
-            (function () {
-                new Filter(null);
-            }).should.throw('Filter must have a name.');
-        });
+        throws('if invalid name', function () {
+            new Filter(null);
+        }, 'Filter must have a name.');
 
-        it('throws if invalid hook', function () {
-            (function () {
-                new Filter('foo', null);
-            }).should.throw('Hook parameter must be a function.');
-        });
+        throws('if invalid hook', function () {
+            new Filter('foo', null);
+        }, 'Hook parameter must be a function.');
 
         it('sets a default priority', function () {
             var f = new Filter('foo', _.noop);

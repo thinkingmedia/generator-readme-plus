@@ -11,6 +11,16 @@ describe('Filters', function () {
     var Filter;
 
     /**
+     * @type {Plus.Engine.Section}
+     */
+    var Section;
+
+    /**
+     * @type {Plus.Files.Markdown}
+     */
+    var Markdown;
+
+    /**
      * @type {Plus.Engine.Filters}
      */
     var target;
@@ -19,6 +29,9 @@ describe('Filters', function () {
 
     before(function () {
         var loader = new Loader();
+
+        Section = loader.resolve('Plus/Engine/Section');
+        Markdown = loader.resolve('Plus/Files/Markdown');
         Filters = loader.resolve('Plus/Engine/Filters');
         Filter = loader.resolve('Plus/Engine/Filter');
         MultiMap = loader.resolve('collections/multi-map');
@@ -43,12 +56,10 @@ describe('Filters', function () {
     });
 
     describe('beforeRender', function () {
-        it('throws if no filters', function () {
-            (function () {
-                target.beforeRender();
-            }).should.throw("There are no filters to render.");
-        });
-        it('does no throw if there are filters', function () {
+        throws('if no filters', function () {
+            target.beforeRender();
+        }, "There are no filters to render.");
+        it('does not throw if there are filters', function () {
             target.add('foo', _.noop);
             target.beforeRender();
         });
@@ -75,11 +86,9 @@ describe('Filters', function () {
     });
 
     describe('byPriority', function () {
-        it('throws if invalid name', function () {
-            (function () {
-                target.byPriority(null);
-            }).should.throw('invalid argument');
-        });
+        throws('if invalid name', function () {
+            target.byPriority(null);
+        }, 'invalid argument');
         it('returns an empty array if name does not exist', function () {
             var arr = target.byPriority('something');
             arr.should.be.Array().and.be.empty();
@@ -97,34 +106,27 @@ describe('Filters', function () {
     });
 
     describe('apply', function () {
-        it('throws if invalid name', function () {
-            (function () {
-                target.apply(null, null);
-            }).should.throw('invalid argument');
+        throws('if invalid name', function () {
+            target.apply(null, null);
+        }, 'invalid argument');
+        promise('returns a promise', function () {
+            return target.apply('foo');
         });
-        it('returns a promise', function () {
-            var p = target.apply('foo');
-            p.should.be.a.Promise();
-        });
-        it('returns a promise that resolves to default value for missing filters', function () {
+        promise('returns a promise that resolves to default value for missing filters', function () {
             var p = target.apply('something:else', 99);
             p.should.be.fulfilledWith(99);
-            p.finally(function(){
-                done();
-            });
+            return p;
         });
-        it('returns a promise that resolves a filter', function () {
+        promise('returns a promise that resolves a filter', function () {
             target.add('foo', function (value) {
                 value.should.be.equal(99);
                 return 123;
             });
             var p = target.apply('foo', 99);
             p.should.be.fulfilledWith(123);
-            p.finally(function(){
-                done();
-            });
+            return p;
         });
-        it('chains the filter hooks together', function () {
+        promise('chains the filter hooks together', function () {
             target.add('foo', function (value) {
                 value.should.be.equal(99);
                 return 123;
@@ -135,11 +137,9 @@ describe('Filters', function () {
             });
             var p = target.apply('foo', 99);
             p.should.be.fulfilledWith(345);
-            p.finally(function(){
-                done();
-            });
+            return p;
         });
-        it('chains by sort order', function () {
+        promise('chains by sort order', function () {
             // lower priority filters last
             target.add('foo', function (value) {
                 value.should.be.equal(345);
@@ -151,9 +151,7 @@ describe('Filters', function () {
             }, 99);
             var p = target.apply('foo', 99);
             p.should.be.fulfilledWith(777);
-            p.finally(function(){
-                done();
-            });
+            return p;
         });
     });
 
@@ -168,24 +166,20 @@ describe('Filters', function () {
             var p = target.promises(['foo', 'bar']);
             p.should.be.an.Array().and.have.a.length(2);
         });
-        it("returns promise that resolve undefined for unknown filters", function () {
+        promise("returns promise that resolve undefined for unknown filters", function () {
             var p = target.promises('foo');
             p.should.be.an.Array();
             p[0].should.be.fulfilledWith(undefined);
-            Q.all(p).finally(function () {
-                done();
-            });
+            return Q.all(p);
         });
     });
 
     describe('resolve', function () {
-        it('throws if invalid name', function () {
-            (function () {
-                target.resolve(null, _.noop);
-            }).should.throw('invalid argument');
-        });
+        throws('throws if invalid name', function () {
+            target.resolve(null, _.noop);
+        }, 'invalid argument');
 
-        it('calls the callback', function () {
+        promise('calls the callback', function () {
             target.add('foo', function () {
                 return 99;
             });
@@ -198,12 +192,31 @@ describe('Filters', function () {
             p.should.be.fulfilledWith("done");
             p.finally(function () {
                 count.should.be.equal(1);
-                done();
             });
+            return p;
         })
     });
 
     describe('load', function () {
 
     });
+
+    describe('render', function () {
+        throws('on invalid arguments', function () {
+            target.render(null);
+        }, 'invalid argument');
+        throws('on invalid arguments', function () {
+            target.render({});
+        }, 'invalid argument');
+        promise('returns a promise that resolves to the section', function () {
+            var s = new Section('root');
+            var promise = target.render(s);
+            promise.should.be.a.Promise();
+            promise.then(function (/**Plus.Files.Markdown*/md) {
+                md.should.be.an.instanceOf(Section);
+            });
+            return promise;
+        });
+    });
+
 });
