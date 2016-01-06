@@ -99,9 +99,9 @@ describe('Filters', function () {
             target.add('foo', _.noop, 30);
             var arr = target.byPriority('foo');
             arr.should.be.length(3);
-            arr[0].priority.should.be.equal(30);
+            arr[0].priority.should.be.equal(70);
             arr[1].priority.should.be.equal(60);
-            arr[2].priority.should.be.equal(70);
+            arr[2].priority.should.be.equal(30);
         });
     });
 
