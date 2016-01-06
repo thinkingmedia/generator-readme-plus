@@ -17,11 +17,9 @@ function Module(GitHub) {
      * @param {Plus.Engine} engine
      * @constructor
      */
-    return function (engine) {
-        engine.add_filter("git:desc", function (/**string*/desc) {
-            return GitHub.getInfo().then(function (value) {
-                return value && value.desc;
-            });
+    return function (/**string*/desc) {
+        return GitHub.getInfo().then(function (value) {
+            return value && value.desc;
         });
     };
 }

@@ -19,11 +19,9 @@ function Module(Git) {
      * @param {Plus.Engine} engine
      * @constructor
      */
-    return function (engine) {
-        engine.add_filter("git:user", function (/**string*/user) {
-            var git = Git.getInfo();
-            return git ? git.user : user;
-        });
+    return function (/**string*/user) {
+        var g = Git.getInfo();
+        return g ? g.user : user;
     };
 }
 

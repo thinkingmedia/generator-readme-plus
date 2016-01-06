@@ -18,14 +18,12 @@ function Module(Print, Git) {
      * @param {Plus.Engine} engine
      * @constructor
      */
-    return function (engine) {
-        engine.add_filter("git:url", function (/**string*/url) {
-            var git = Git.getInfo();
-            if (!git) {
-                return url;
-            }
-            return Print('https://github.com/%s/%s/raw/%s/%s', git.user, git.repo, git.branch, url);
-        });
+    return function (/**string*/url) {
+        var g = Git.getInfo();
+        if (!g) {
+            return url;
+        }
+        return Print('https://github.com/%s/%s/raw/%s/%s', g.user, g.repo, g.branch, url);
     };
 }
 

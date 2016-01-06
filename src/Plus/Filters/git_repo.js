@@ -18,11 +18,9 @@ function Module(Git) {
      *
      * @param {Plus.Engine} engine
      */
-    return function (engine) {
-        engine.add_filter("git:repo", function (/**string*/repo) {
-            var git = Git.getInfo();
-            return git ? git.repo : repo;
-        });
+    return function (/**string*/repo) {
+        var g = Git.getInfo();
+        return g ? g.repo : repo;
     };
 }
 

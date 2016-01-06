@@ -19,11 +19,9 @@ function Module(Git) {
      * @param {Plus.Engine} engine
      * @constructor
      */
-    return function (engine) {
-        engine.add_filter("git:branch", function (/**string*/branch) {
-            var git = Git.getInfo();
-            return git ? git.branch : branch;
-        });
+    return function (/**string*/branch) {
+        var g = Git.getInfo();
+        return g ? g.branch : branch;
     };
 }
 
