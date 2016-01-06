@@ -130,15 +130,30 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * @param {string|string[]} files
+     * @param {string} name
+     * @returns {string}
+     * @private
      */
-    Filters.prototype.load = function (files) {
-        _.each(_.isArray(files) ? files : [files], function (file) {
-            var filter = require(file);
-            if (filter instanceof Filter) {
-                throw Error('Expected module to export a Filter object');
+    Filters.prototype._get_id = function (name) {
+        return _.kebabCase(_.last(name.split('/'))).replace(/-/g,':');
+    };
+
+    /**
+     * Loads all the filters using the loader.
+     *
+     * @param {Plus.Loader} loader
+     */
+    Filters.prototype.load = function (loader) {
+        var names = loader.resolve("Plus/filters.json");
+        if(!_.isArray(names)) {
+            throw Error('Unexpected data from filters.json');
+        }
+        _.each(names, function (name) {
+            var filter = loader.resolve(name);
+            if (!_.isFunction(filter)) {
+                throw Error('Filter module should return a filter function.');
             }
-            this.items.get(name).add(filter);
+            this.items.get(this._get_id(name)).add(filter);
         }.bind(this));
     };
 
@@ -149,7 +164,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
      * @returns {Promise<Plus.Engine.Section>}
      */
     Filters.prototype.render = function (section) {
-        if(!section || !(section instanceof Section)) {
+        if (!section || !(section instanceof Section)) {
             throw Error('invalid argument');
         }
 

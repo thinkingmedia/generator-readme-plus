@@ -47,9 +47,9 @@ describe('Sections', function () {
             s.items.should.be.eql([1, 2, 3]).and.not.equal(arr);
         });
 
-        throws('if not an array', function () {
+        throws('invalid argument', function () {
             var s = new Sections('something');
-        }, 'invalid argument')
+        })
     });
 
     describe('count', function () {
@@ -60,23 +60,23 @@ describe('Sections', function () {
     });
 
     describe('beforeRender', function () {
-        throws('there are no sections', function () {
+        throws('There are no sections to render.', function () {
             var s = new Sections();
             s.beforeRender();
-        }, 'There are no sections to render.');
-        throws('if there is no root', function () {
+        });
+        throws('Must define a root section.', function () {
             var s = new Sections([new Section('root/foo')]);
             s.beforeRender();
-        }, 'Must define a root section.');
+        });
     });
 
     describe('parent', function () {
-        throws('if invalid argument', function () {
+        throws('invalid argument', function () {
             target.parent(null);
-        }, 'invalid argument');
-        throws('if parent not found', function () {
+        });
+        throws('Parent section not found: root/chicken', function () {
             target.parent('root/chicken/roster');
-        }, 'Parent section not found: root/chicken');
+        });
         it('returns the parent', function () {
             var section = target.parent('root/foo/bar');
             section.should.be.instanceOf(Section);
@@ -126,9 +126,9 @@ describe('Sections', function () {
     });
 
     describe('append', function () {
-        throws('if section already exists', function () {
+        throws('Section already exists: root/foo', function () {
             target.append('root/foo');
-        }, 'Section already exists: root/foo');
+        });
         it('adds a new section', function () {
             target.append('root/mouse');
             target.items.should.be.length(4);
@@ -138,10 +138,10 @@ describe('Sections', function () {
     });
 
     describe('getMarkdown', function () {
-        throws('if there is no root', function () {
+        throws('Sections do not have a root.', function () {
             var s = new Sections();
             s.getMarkdown();
-        }, 'Sections do not have a root.');
+        });
         it('appends markdown to each parent', function () {
             var s = new Sections();
             var root = s.append('root');

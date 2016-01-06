@@ -56,9 +56,9 @@ describe('Filters', function () {
     });
 
     describe('beforeRender', function () {
-        throws('if no filters', function () {
+        throws("There are no filters to render.", function () {
             target.beforeRender();
-        }, "There are no filters to render.");
+        });
         it('does not throw if there are filters', function () {
             target.add('foo', _.noop);
             target.beforeRender();
@@ -86,9 +86,9 @@ describe('Filters', function () {
     });
 
     describe('byPriority', function () {
-        throws('if invalid name', function () {
+        throws('invalid argument', function () {
             target.byPriority(null);
-        }, 'invalid argument');
+        });
         it('returns an empty array if name does not exist', function () {
             var arr = target.byPriority('something');
             arr.should.be.Array().and.be.empty();
@@ -106,9 +106,9 @@ describe('Filters', function () {
     });
 
     describe('apply', function () {
-        throws('if invalid name', function () {
+        throws('invalid argument', function () {
             target.apply(null, null);
-        }, 'invalid argument');
+        });
         promise('returns a promise', function () {
             return target.apply('foo');
         });
@@ -175,9 +175,9 @@ describe('Filters', function () {
     });
 
     describe('resolve', function () {
-        throws('throws if invalid name', function () {
+        throws('invalid argument', function () {
             target.resolve(null, _.noop);
-        }, 'invalid argument');
+        });
 
         promise('calls the callback', function () {
             target.add('foo', function () {
@@ -197,17 +197,43 @@ describe('Filters', function () {
         })
     });
 
-    describe('load', function () {
+    describe('_get_id', function(){
+        it('converts CamelCase to name:space', function(){
+            target._get_id('Plus/Filters/UpperCase').should.be.equal('upper:case');
+        });
+    });
 
+    describe('load', function () {
+        throws('Unexpected data from filters.json', function () {
+            var l = new Loader();
+            l.replace('Plus/filters.json', {});
+            target.load(l);
+        });
+        throws('Filter module should return a filter function.', function () {
+            var l = new Loader();
+            l.replace('Plus/filters.json', ["Plus/Filters/Foo"]);
+            l.replace('Plus/Filters/Foo', {});
+            target.load(l);
+        });
+        it('loads a valid filter', function () {
+            var l = new Loader();
+            l.replace('Plus/filters.json', ["Plus/Filters/UpperCase"]);
+            l.replace('Plus/Filters/UpperCase', function (str) {
+                return str.toUpperCase();
+            });
+            target.contains('upper:case').should.be.False();
+            target.load(l);
+            target.contains('upper:case').should.be.True();
+        });
     });
 
     describe('render', function () {
-        throws('on invalid arguments', function () {
+        throws('invalid argument', function () {
             target.render(null);
-        }, 'invalid argument');
-        throws('on invalid arguments', function () {
+        });
+        throws('invalid argument', function () {
             target.render({});
-        }, 'invalid argument');
+        });
         promise('returns a promise that resolves to the section', function () {
             var s = new Section('root');
             var promise = target.render(s);

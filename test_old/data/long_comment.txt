@@ -1,5 +1,0 @@
-/**
- * This is a very long comment.
- *
- * It has many lines and long text and such.
- */

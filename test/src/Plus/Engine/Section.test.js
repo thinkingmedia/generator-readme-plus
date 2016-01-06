@@ -17,17 +17,17 @@ describe('Section', function () {
     });
 
     describe('constructor', function () {
-        throws('without a name', function () {
+        throws('Section must have a name.', function () {
             new Section();
-        }, 'Section must have a name.');
+        });
 
-        throws('if name is top-level', function () {
+        throws('Only the root is allowed to be top-level: Foo', function () {
             new Section('Foo');
-        }, 'Only the root is allowed to be top-level: Foo');
+        });
 
-        throws('without root', function () {
+        throws('Must be a child of the root: Foo/Bar', function () {
             new Section('Foo/Bar');
-        }, 'Must be a child of the root: Foo/Bar');
+        });
 
         it('sets default order', function () {
             var section = new Section('root/header');

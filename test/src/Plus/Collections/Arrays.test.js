@@ -49,10 +49,10 @@ load('Plus/Collections/Arrays', function (/** Plus.Collections.Arrays */Arrays) 
         it('returns first item', function () {
             Arrays.first(['one', 'two', 'three']).should.be.equal('one');
         });
-        it(['non-array is returned as is'], function () {
+        it('non-array is returned as is', function () {
             Arrays.first('something').should.be.equal('something');
         });
-        it(['empty array returns undefined'], function () {
+        it('empty array returns undefined', function () {
             (typeof Arrays.first([])).should.be.equal('undefined');
             (typeof Arrays.first(null)).should.be.equal('undefined');
             (typeof Arrays.first(undefined)).should.be.equal('undefined');

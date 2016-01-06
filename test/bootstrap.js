@@ -4,9 +4,10 @@
 Q = require('q');
 _ = require('lodash');
 fs = require('fs');
-path = require('path');
 assert = require('assert');
 should = require('should');
+
+var path = require('path');
 
 /**
  * Path to test data
@@ -63,11 +64,19 @@ promise = function (message, callback) {
 };
 
 /**
+ * @param {string=} message
+ */
+promise.skip = function(message) {
+    it.skip(message, function(){
+
+    });
+};
+
+/**
  * @param {string} message
  * @param {Function} callback
- * @param {string=} error
  */
-throws = function (message, callback, error) {
+throws = function (message, callback) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
     }
@@ -75,25 +84,19 @@ throws = function (message, callback, error) {
         assert.ok(typeof callback === 'function');
         (function () {
             callback.call(this);
-        }).should.throw(error);
+        }).should.throw(message);
     });
 };
 
 /**
- * @param {string[]} namespace
- * @param {number} indx
- * @param {Function} callback
+ * @param {string=} message
+ * @param {Function=} callback
  */
-function describe_namespace(namespace, indx, callback) {
-    if (indx === namespace.length) {
-        var param = __loader.resolve(namespace.join('/'));
-        callback.call(this, param);
-        return;
-    }
-    describe(namespace[indx], function () {
-        describe_namespace(namespace, indx + 1, callback);
+throws.skip = function (message, callback) {
+    it.skip('throws ' + message, function () {
+
     });
-}
+};
 
 /**
  * Creates nested describe and loads the module being tested.
@@ -105,6 +108,9 @@ load = function (namespace, callback) {
     if (typeof namespace !== 'string') {
         throw Error('invalid message argument');
     }
-    var arr = namespace.split('/');
-    describe_namespace(arr, 0, callback);
+
+    describe(namespace, function () {
+        var param = __loader.resolve(namespace);
+        callback.call(this, param);
+    });
 };

@@ -20,9 +20,9 @@ describe('Loader', function () {
 
     function validArgument(method) {
         _.each([null, undefined, false, ''], function (value) {
-            throws('on false arguments', function () {
+            throws('invalid argument', function () {
                 method(value);
-            }, 'invalid argument');
+            });
         });
     }
 
@@ -79,9 +79,9 @@ describe('Loader', function () {
             _loader.rewrite('Plus/Foo/Bar.json').should.be.equal('./Foo/Bar.json');
         });
 
-        throws('can not rewrite none-namespace paths', function () {
+        throws('not a namespace', function () {
             _loader.rewrite('path');
-        }, 'not a namespace');
+        });
     });
 
     describe('replace', function () {
@@ -135,9 +135,9 @@ describe('Loader', function () {
             _loader.getCached(value);
         });
 
-        throws('for missing item', function () {
+        throws('Plus/Foo is not cached.', function () {
             _loader.getCached('Plus/Foo')
-        }, 'Plus/Foo is not cached.');
+        });
 
         it('returns cached item', function () {
             _loader._cache['Plus/Foo'] = 'something';
@@ -203,9 +203,9 @@ describe('Loader', function () {
             _loader.getValues(value);
         });
 
-        throws('on empty array', function () {
+        throws('not enough items in array', function () {
             _loader.getValues([]);
-        }, 'not enough items in array');
+        });
 
         it('returns empty array when length is 1', function () {
             _loader.getValues([_.noop]).should.be.empty();
@@ -221,13 +221,13 @@ describe('Loader', function () {
             _loader.getMethod(value);
         });
 
-        throws('on empty array', function () {
+        throws('not enough items in array', function () {
             _loader.getMethod([]);
-        }, 'not enough items in array');
+        });
 
-        throws('if last item is not a function', function () {
+        throws('last item in array must be function', function () {
             _loader.getMethod([1, 2, 3, 4]);
-        }, 'last item in array must be function');
+        });
 
         it('returns last item as function', function () {
             _loader.getMethod([1, 2, 3, 4, _.noop]).should.be.a.Function().and.be.equal(_.noop);

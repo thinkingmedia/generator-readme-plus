@@ -45,12 +45,12 @@ describe('Engine', function () {
     }
 
     describe('constructor', function () {
-        throws('if invalid filters argument', function () {
+        throws('invalid filters', function () {
             var e = new Engine(null, new Sections());
-        }, 'invalid filters');
-        throws('if invalid sections argument', function () {
+        });
+        throws('invalid sections', function () {
             var e = new Engine(new Filters(), null);
-        }, 'invalid sections');
+        });
     });
 
     describe('_filterSections', function () {
