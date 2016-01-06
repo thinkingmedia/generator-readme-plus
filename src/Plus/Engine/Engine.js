@@ -67,7 +67,7 @@ function Module(Q, _, Sections) {
 }
 
 module.exports = [
-    'Q',
+    'q',
     'lodash',
     'Plus/Engine/Sections',
     Module

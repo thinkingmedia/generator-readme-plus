@@ -84,7 +84,7 @@ function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
 }
 
 module.exports = [
-    'Q',
+    'q',
     'lodash',
     'Plus/Services/Licenses',
     'Plus/Services/PackageJSON',

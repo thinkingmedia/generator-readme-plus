@@ -172,7 +172,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 }
 
 module.exports = [
-    'Q',
+    'q',
     'lodash',
     'Plus/Files/Logger',
     'Plus/Engine/Filter',
