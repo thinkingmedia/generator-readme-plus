@@ -4,5 +4,6 @@ node_js:
   - "4.2.1"
 
 script:
+  - npm ls
   - grunt coverage
   - CODECLIMATE_REPO_TOKEN=9cfed082c6c08e432b1b38e427342a2d1c27a9e11685813aa929bd7b388cc4f9 codeclimate-test-reporter < lcov.info
