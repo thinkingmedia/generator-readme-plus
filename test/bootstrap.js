@@ -24,6 +24,13 @@ __data = __dirname + path.sep + "data" + path.sep;
  */
 Loader = require('../src/Plus/Loader');
 
+/**
+ * Loader that can be used by all tests.
+ * @type {Plus.Loader}
+ * @global
+ */
+__loader = new Loader();
+
 // maybe one day assert will add this method. So let's throw an error if it exists already.
 if (typeof assert.isPromise === 'function') {
     throw Error('isPromise is already defined!');
@@ -38,7 +45,12 @@ assert.isPromise = function (p, done, message) {
     }, done);
 };
 
-// new test function just for promises
+/**
+ * New test function just for promises
+ *
+ * @param {string} message
+ * @param {Function} callback
+ */
 promise = function (message, callback) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
@@ -50,7 +62,11 @@ promise = function (message, callback) {
     });
 };
 
-// simplifies testing for exceptions
+/**
+ * @param {string} message
+ * @param {Function} callback
+ * @param {string=} error
+ */
 throws = function (message, callback, error) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
@@ -61,4 +77,34 @@ throws = function (message, callback, error) {
             callback.call(this);
         }).should.throw(error);
     });
+};
+
+/**
+ * @param {string[]} namespace
+ * @param {number} indx
+ * @param {Function} callback
+ */
+function describe_namespace(namespace, indx, callback) {
+    if (indx === namespace.length) {
+        var param = __loader.resolve(namespace.join('/'));
+        callback.call(this, param);
+        return;
+    }
+    describe(namespace[indx], function () {
+        describe_namespace(namespace, indx + 1, callback);
+    });
+}
+
+/**
+ * Creates nested describe and loads the module being tested.
+ *
+ * @param {string} namespace
+ * @param {Function} callback
+ */
+load = function (namespace, callback) {
+    if (typeof namespace !== 'string') {
+        throw Error('invalid message argument');
+    }
+    var arr = namespace.split('/');
+    describe_namespace(arr, 0, callback);
 };

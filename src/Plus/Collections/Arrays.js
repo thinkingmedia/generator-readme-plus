@@ -1,9 +1,8 @@
 /**
  * @param _
- * @param OS
  * @returns {Plus.Collections.Arrays}
  */
-function Module(_, OS) {
+function Module(_) {
 
     /**
      * @name Plus.Collections.Arrays
@@ -19,7 +18,7 @@ function Module(_, OS) {
      * @returns {string}
      */
     Arrays.prototype.toString = function (lines) {
-        return lines.join(OS.EOL).trim();
+        return lines.join('\n').trim();
     };
 
     /**
@@ -83,6 +82,5 @@ function Module(_, OS) {
 
 module.exports = [
     'lodash',
-    'os',
     Module
 ];
