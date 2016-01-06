@@ -1,7 +1,7 @@
 /**
  * These variables are global for all unit tests.
  */
-Q = require('Q');
+Q = require('q');
 _ = require('lodash');
 fs = require('fs');
 path = require('path');
