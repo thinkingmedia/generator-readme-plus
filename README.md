@@ -1,4 +1,4 @@
-# readme-plus [![Build Status](https://travis-ci.org/thinkingmedia/grunt-readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/grunt-readme-plus) [![Code Climate](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus)
+# readme-plus [![Build Status](https://travis-ci.org/thinkingmedia/grunt-readme-plus.svg?branch=master)](https://travis-ci.org/thinkingmedia/grunt-readme-plus) [![Code Climate](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/badges/gpa.svg)](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus) [![Test Coverage](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/badges/coverage.svg)](https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/coverage)
 
 [![Join the chat at https://gitter.im/thinkingmedia/grunt-readme-plus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/thinkingmedia/grunt-readme-plus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
