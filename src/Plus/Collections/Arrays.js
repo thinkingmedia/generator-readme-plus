@@ -42,7 +42,7 @@ function Module(_) {
      * @returns {string[]}
      */
     Arrays.prototype.trim = function (lines) {
-        lines = this.trimEach(this.toArray(lines));
+        lines = this.toArray(lines);
         while (lines.length > 0 && lines[0] === '') {
             lines = _.slice(lines, 1);
         }

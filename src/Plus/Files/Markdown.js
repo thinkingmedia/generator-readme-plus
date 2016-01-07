@@ -63,7 +63,7 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
                     return i;
                 }
             }
-            return -1;
+            return 0;
         })(title);
 
         /**
@@ -78,14 +78,24 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
      * @param {Plus.Files.Markdown=} parent
      * @returns {Plus.Files.Markdown}
      */
-    Markdown.prototype.clone = function (parent) {
+    Markdown.prototype.deepCopy = function (parent) {
         var md = new Markdown(this.title);
         md.parent = parent || null;
         md.lines = this.lines.slice();
         md.child = _.map(this.child, function (c) {
-            return c.clone(md);
+            return c.deepCopy(md);
         });
         return md;
+    };
+
+    /**
+     * @param {Plus.Files.Markdown=} parent
+     * @returns {Plus.Files.Markdown}
+     * @deprecated
+     */
+    Markdown.prototype.clone = function (parent) {
+        console.error('Markdown::clone is deprecated use deepCopy instead');
+        return this.deepCopy(parent);
     };
 
     /**
@@ -104,7 +114,11 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Returns the depth of this child in the tree. This is based upon the number of parents and not how many
+     * hash tags were in the original title.
+     *
      * @returns {number}
+     * @see Plus.Files.Markdown#depth
      */
     Markdown.prototype.getNormalizedDepth = function () {
         return this.parent
@@ -113,10 +127,15 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Returns the title as Markdown heading using the normalized depth as the sub-heading value.
+     *
      * @returns {string}
      */
     Markdown.prototype.getTitle = function () {
-        return _.repeat('#', this.getNormalizedDepth()) + ' ' + this.title;
+        var str = this.title.trim();
+        return str
+            ? '#' + _.repeat('#', this.getNormalizedDepth()) + str
+            : '';
     };
 
     /**
@@ -146,20 +165,6 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
-     * @param {number} indx
-     * @param {Plus.Files.Markdown} section
-     * @returns {Plus.Files.Markdown}
-     */
-    Markdown.prototype.insertChild = function (indx, section) {
-        if (!(section instanceof Markdown)) {
-            throw Error('Children can only be of type Markdown');
-        }
-        section.parent = this;
-        this.child.splice(indx, 0, section);
-        return this;
-    };
-
-    /**
      * @returns {Plus.Files.Markdown|null}
      */
     Markdown.prototype.firstChild = function () {
@@ -184,13 +189,14 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     Markdown.prototype.removeByID = function (name) {
         var item = this.findByID(name);
         if (item) {
-            this.child = _.remove(this.child, item);
+            _.remove(this.child, item);
         }
         return this;
     };
 
     /**
      * Removes empty lines from the start and end of the section.
+     *
      * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.trim = function () {
@@ -215,8 +221,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     Markdown.prototype.toString = function () {
         var str = this._collapse();
         str += _.map(this.child, function (child) {
-            return child.toString();
-        }).join(os.EOL + os.EOL);
+            return '\n\n'+child.toString().trim();
+        }).join('');
         return str.trim();
     };
 

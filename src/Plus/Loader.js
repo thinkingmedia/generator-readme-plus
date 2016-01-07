@@ -39,15 +39,16 @@ Loader.prototype.resolve = function (path) {
     if (!path) {
         throw Error('invalid argument');
     }
+
+    if (this.isCached(path)) {
+        return this.getCached(path);
+    }
+
     if (!this.isPlus(path)) {
         return require(path);
     }
 
     this.logger && this.logger.debug('Loader:resolve %s', path);
-
-    if (this.isCached(path)) {
-        return this.getCached(path);
-    }
 
     var module = require(this.rewrite(path));
 

@@ -73,7 +73,7 @@ describe('Engine', function () {
             return p.then(function (/**Plus.Files.Markdown*/md) {
                 md.should.be.an.instanceOf(Markdown);
                 var str = md.toString();
-                str.should.be.equal("#");
+                str.should.be.equal('');
             });
         });
     });

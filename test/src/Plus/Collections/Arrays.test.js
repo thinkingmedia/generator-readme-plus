@@ -23,10 +23,10 @@ load('Plus/Collections/Arrays', function (/** Plus.Collections.Arrays */Arrays) 
 
     describe('trim', function () {
         it('removes empty lines from start', function () {
-            Arrays.trim(['', '', ' one  ', '', 'two']).should.be.eql(['one', '', 'two']);
+            Arrays.trim(['', '', ' one  ', '', 'two']).should.be.eql([' one  ', '', 'two']);
         });
         it('removes empty lines from end', function () {
-            Arrays.trim([' one  ', '', 'two']).should.be.eql(['one', '', 'two']);
+            Arrays.trim([' one  ', '', 'two','','']).should.be.eql([' one  ', '', 'two']);
         });
     });
 
