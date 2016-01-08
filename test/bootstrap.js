@@ -100,7 +100,19 @@ throws.skip = function (message, callback) {
  */
 writes = function (message, callback) {
     it('writes ' + message, function () {
-
+        var self = this;
+        self.count = 0;
+        var l = new Loader();
+        l.replace('fs', {
+            writeFileSync: function (name, value, type) {
+                self.name = name;
+                self.value = value;
+                self.type = type;
+                self.count++;
+            }
+        });
+        callback.call(this, l);
+        self.count.should.be.equal(1);
     });
 };
 
@@ -118,7 +130,19 @@ writes.skip = function (message, callback) {
  */
 reads = function (message, callback) {
     it('reads ' + message, function () {
-
+        var self = this;
+        self.count = 0;
+        var l = new Loader();
+        l.replace('fs', {
+            readFileSync: function (name, type) {
+                self.name = name;
+                self.type = type;
+                self.count++;
+                return self.input;
+            }
+        });
+        callback.call(this, l);
+        self.count.should.be.equal(1);
     });
 };
 

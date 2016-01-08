@@ -292,6 +292,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * @name Plus.Files.Markdown#load
+     *
      * Loads a string buffer
      *
      * @param {string} fileName
