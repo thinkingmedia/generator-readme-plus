@@ -89,10 +89,11 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
         Logger.debug('Filters::apply %s', name);
 
+        var self = this;
         var promise = Q(value);
         _.each(this.byPriority(name), function (/** Plus.Engine.Filter */filter) {
             promise = promise.then(function (value) {
-                return filter.hook(value);
+                return filter.getValue(self, value);
             });
         });
         return promise;
@@ -135,7 +136,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
      * @private
      */
     Filters.prototype._get_id = function (name) {
-        return _.kebabCase(_.last(name.split('/'))).replace(/-/g,':');
+        return _.kebabCase(_.last(name.split('/'))).replace(/-/g, ':');
     };
 
     /**
@@ -145,15 +146,15 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
      */
     Filters.prototype.load = function (loader) {
         var names = loader.resolve("Plus/filters.json");
-        if(!_.isArray(names)) {
+        if (!_.isArray(names)) {
             throw Error('Unexpected data from filters.json');
         }
         _.each(names, function (name) {
-            var filter = loader.resolve(name);
-            if (!_.isFunction(filter)) {
+            var func = loader.resolve(name);
+            if (!_.isFunction(func)) {
                 throw Error('Filter module should return a filter function.');
             }
-            this.items.get(this._get_id(name)).add(filter);
+            this.add(this._get_id(name), func);
         }.bind(this));
     };
 

@@ -1,4 +1,4 @@
-load('Plus/FIles/Markdown', function (/** Plus.Files.Markdown */Markdown) {
+load('Plus/Files/Markdown', function (/** Plus.Files.Markdown */Markdown) {
 
     describe('constructor', function () {
         it('sets defaults', function () {

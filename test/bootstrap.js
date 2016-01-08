@@ -56,7 +56,7 @@ promise = function (message, callback) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
     }
-    it(message, function (done) {
+    it('a promise that ' + message, function (done) {
         assert.ok(typeof callback === 'function');
         var p = callback.call(this, done);
         assert.isPromise(p, done);
@@ -66,8 +66,8 @@ promise = function (message, callback) {
 /**
  * @param {string=} message
  */
-promise.skip = function(message) {
-    it.skip(message, function(){
+promise.skip = function (message) {
+    it.skip(message, function () {
 
     });
 };
