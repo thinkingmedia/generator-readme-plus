@@ -282,28 +282,17 @@ load('Plus/Files/Markdown', function (/** Plus.Files.Markdown */Markdown) {
             var m = new Markdown('Root');
             m.save();
         });
-        it('calls fs.writeFileSync', function () {
-            var l = new Loader();
-            var count = 0;
-            l.replace('fs', {
-                writeFileSync: function (name, str) {
-                    name.should.be.equal('README.md');
-                    str.should.be.equal('#Root');
-                    count++;
-                }
-            });
-            var target = l.resolve('Plus/Files/Markdown');
+        writes.skip('out the README.md file', function(loader) {
+            var target = loader.resolve('Plus/Files/Markdown');
             var m = new target('Root');
             m.save('README.md');
-            count.should.be.equal(1);
+            this.name.should.be.equal('README.md');
+            this.output.should.be.equal('#Root');
         });
     });
 
     describe('load', function () {
-        it.skip('calls fs.readFileSync', function () {
-
-        });
-        it.skip('returns a Markdown object', function () {
+        reads.skip('in the cache file', function(){
 
         });
     });
