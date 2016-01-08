@@ -10,6 +10,13 @@ function Module(Cache) {
      * @constructor
      */
     var CacheFactory = function () {
+        this.clear();
+    };
+
+    /**
+     *
+     */
+    CacheFactory.prototype.clear = function() {
         this._caches = {};
     };
 

@@ -67,9 +67,7 @@ promise = function (message, callback) {
  * @param {string=} message
  */
 promise.skip = function (message) {
-    it.skip(message, function () {
-
-    });
+    it.skip(message, _.noop);
 };
 
 /**
@@ -93,24 +91,55 @@ throws = function (message, callback) {
  * @param {Function=} callback
  */
 throws.skip = function (message, callback) {
-    it.skip('throws ' + message, function () {
+    it.skip('throws ' + message, _.noop);
+};
+
+/**
+ * @param {string} message
+ * @param {Function} callback
+ */
+writes = function (message, callback) {
+    it('writes ' + message, function () {
 
     });
 };
 
 /**
- * Creates nested describe and loads the module being tested.
- *
- * @param {string} namespace
+ * @param {string} message
+ * @param {Function=} callback
+ */
+writes.skip = function (message, callback) {
+    it.skip('writes ' + message, _.noop);
+};
+
+/**
+ * @param {string} message
  * @param {Function} callback
  */
-load = function (namespace, callback) {
-    if (typeof namespace !== 'string') {
-        throw Error('invalid message argument');
-    }
+reads = function (message, callback) {
+    it('reads ' + message, function () {
 
-    describe(namespace, function () {
-        var param = __loader.resolve(namespace);
-        callback.call(this, param);
+    });
+};
+
+/**
+ * @param {string} message
+ * @param {Function} callback
+ */
+reads.skip = function (message, callback) {
+    it.skip('reads ' + message, _.noop);
+};
+
+/**
+ * Creates nested describe and loads the module being tested.
+ *
+ * @param {string[]|string} names
+ * @param {Function} callback
+ */
+load = function (names, callback) {
+    names = _.isArray(names) ? names : [names];
+    names.push(callback);
+    describe(_.first(names), function () {
+        __loader.resolve_module(names);
     });
 };
