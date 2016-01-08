@@ -20,8 +20,7 @@ function Module(Git) {
      * @constructor
      */
     return function (/**string*/user) {
-        var g = Git.getInfo();
-        return g ? g.user : user;
+        return Git.getUser() || user || null;
     };
 }
 

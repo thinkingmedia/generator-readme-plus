@@ -19,8 +19,7 @@ function Module(Git) {
      * @param {Plus.Engine} engine
      */
     return function (/**string*/repo) {
-        var g = Git.getInfo();
-        return g ? g.repo : repo;
+        return Git.getRepo() || repo || null;
     };
 }
 

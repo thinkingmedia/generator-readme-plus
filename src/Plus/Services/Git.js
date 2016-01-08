@@ -29,6 +29,27 @@ function Module(_, shell, Logger) {
     };
 
     /**
+     * @returns {string}
+     */
+    Git.prototype.getBranch = function() {
+        return this.getInfo().branch;
+    };
+
+    /**
+     * @returns {string}
+     */
+    Git.prototype.getUser = function() {
+        return this.getInfo().user;
+    };
+
+    /**
+     * @returns {string}
+     */
+    Git.prototype.getRepo = function() {
+        return this.getInfo().repo;
+    };
+
+    /**
      * Extracts the username/organization and repo name from a GitHub URL address.
      * Uses a simplified approach because Git urls can have a wide range of formats.
      *

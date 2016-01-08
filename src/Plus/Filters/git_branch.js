@@ -18,8 +18,7 @@ function Module(Git) {
      * - git:user string The current username (if configured).
      */
     return function (/**string*/branch) {
-        var g = Git.getInfo();
-        return g ? g.branch : branch;
+        return Git.getBranch() || branch || 'master';
     };
 }
 
