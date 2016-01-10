@@ -51,27 +51,28 @@ load([
             });
         });
 
+        // uses Date.UTC so test pass when timezone is different (i.e. travis-ci)
         describe('toObject', function () {
             it('returns empty object if factory is empty', function () {
                 CacheFactory.toObject().should.be.eql({version: 1, caches: []});
             });
             it('sets a version', function () {
-                CacheFactory.create('Test', new Date(2015, 1, 1, 0, 0, 0), 60);
+                CacheFactory.create('Test', new Date(Date.UTC(2015, 1, 1, 0, 0, 0)), 60);
                 var obj = CacheFactory.toObject();
                 obj.version.should.be.equal(1);
             });
             it('stores caches in an array', function () {
-                CacheFactory.create('Test', new Date(2015, 1, 1, 0, 0, 0), 60);
+                CacheFactory.create('Test', new Date(Date.UTC(2015, 1, 1, 0, 0, 0)), 60);
                 var obj = CacheFactory.toObject();
                 obj.caches.should.be.an.Array().and.length(1);
             });
             it('attaches each cache to the object', function () {
-                CacheFactory.create('Test', new Date(2015, 1, 1, 0, 0, 0), 60);
+                CacheFactory.create('Test', new Date(Date.UTC(2015, 1, 1, 0, 0, 0)), 60);
                 var obj = CacheFactory.toObject();
                 obj.caches.should.be.length(1);
                 obj.caches[0].should.be.eql({
                     name: 'Test',
-                    expires: 'Sun, 01 Feb 2015 06:00:00 GMT',
+                    expires: 'Sun, 01 Feb 2015 01:00:00 GMT',
                     ttl: 60,
                     data: {}
                 });
