@@ -286,24 +286,28 @@ load('Plus/Files/Markdown', function (/** Plus.Files.Markdown */Markdown) {
             var target = loader.resolve('Plus/Files/Markdown');
             var m = new target('Root');
             m.save('README.md');
-            this.name.should.be.equal('README.md');
-            this.value.should.be.equal('#Root');
+        }, function (name, value) {
+            name.should.be.equal('README.md');
+            value.should.be.equal('#Root');
         });
     });
 
     describe('load', function () {
         reads('in the cache file', function (loader) {
-            /**
-             * @type {Plus.Files.Markdown}
-             */
-            var target = loader.resolve('Plus/Files/Markdown');
-            this.input = '#Hello\n\nThis is a test\n\n##Child\n\nThis is a child.';
-            var md = target.load('README.md');
-            (md.parent === null).should.be.True();
-            md.firstChild().title.should.be.equal('Hello');
-            md.firstChild().lines.should.be.eql(['This is a test']);
-            md.firstChild().firstChild().title.should.be.equal('Child');
-            md.firstChild().firstChild().lines.should.be.eql(['This is a child.']);
-        });
+                /**
+                 * @type {Plus.Files.Markdown}
+                 */
+                var target = loader.resolve('Plus/Files/Markdown');
+                var md = target.load('README.md');
+                (md.parent === null).should.be.True();
+                md.firstChild().title.should.be.equal('Hello');
+                md.firstChild().lines.should.be.eql(['This is a test']);
+                md.firstChild().firstChild().title.should.be.equal('Child');
+                md.firstChild().firstChild().lines.should.be.eql(['This is a child.']);
+            },
+            '#Hello\n\nThis is a test\n\n##Child\n\nThis is a child.',
+            function (name) {
+                name.should.be.equal('README.md');
+            });
     });
 });

@@ -50,14 +50,14 @@ assert.isPromise = function (p, done, message) {
  * New test function just for promises
  *
  * @param {string} message
- * @param {Function} callback
+ * @param {function} callback
  */
 promise = function (message, callback) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
     }
     it('a promise that ' + message, function (done) {
-        assert.ok(typeof callback === 'function');
+        callback.should.be.a.Function();
         var p = callback.call(this, done);
         assert.isPromise(p, done);
     });
@@ -72,14 +72,14 @@ promise.skip = function (message) {
 
 /**
  * @param {string} message
- * @param {Function} callback
+ * @param {function} callback
  */
 throws = function (message, callback) {
     if (typeof message !== 'string') {
         throw Error('invalid message argument');
     }
     it('throws ' + message, function () {
-        assert.ok(typeof callback === 'function');
+        callback.should.be.a.Function();
         (function () {
             callback.call(this);
         }).should.throw(message);
@@ -88,7 +88,7 @@ throws = function (message, callback) {
 
 /**
  * @param {string=} message
- * @param {Function=} callback
+ * @param {function=} callback
  */
 throws.skip = function (message, callback) {
     it.skip('throws ' + message, _.noop);
@@ -96,23 +96,29 @@ throws.skip = function (message, callback) {
 
 /**
  * @param {string} message
- * @param {Function} callback
+ * @param {function} callback
+ * @param {function(string,*,string,number)} verify
  */
-writes = function (message, callback) {
+writes = function (message, callback, verify) {
     it('writes ' + message, function () {
+        callback.should.be.a.Function();
+        verify.should.be.a.Function();
+
         var self = this;
         self.count = 0;
         var l = new Loader();
         l.replace('fs', {
             writeFileSync: function (name, value, type) {
                 self.name = name;
-                self.value = value;
+                self.output = value;
                 self.type = type;
                 self.count++;
             }
         });
+
         callback.call(this, l);
-        self.count.should.be.equal(1);
+        self.count.should.be.equal(1, 'fs.writeFileSync was not called');
+        verify(self.name, self.output, self.type, self.count);
     });
 };
 
@@ -126,10 +132,18 @@ writes.skip = function (message, callback) {
 
 /**
  * @param {string} message
- * @param {Function} callback
+ * @param {function} callback
+ * @param {function|string} input
+ * @param {function(string,string,number)=} verify
  */
-reads = function (message, callback) {
+reads = function (message, callback, input, verify) {
     it('reads ' + message, function () {
+
+        callback.should.be.a.Function();
+        if (verify) {
+            verify.should.be.a.Function();
+        }
+
         var self = this;
         self.count = 0;
         var l = new Loader();
@@ -138,17 +152,19 @@ reads = function (message, callback) {
                 self.name = name;
                 self.type = type;
                 self.count++;
-                return self.input;
+                return _.isFunction(input) ? input() : input;
             }
         });
+
         callback.call(this, l);
-        self.count.should.be.equal(1);
+        self.count.should.be.equal(1, 'fs.readFileSync was not called');
+        verify && verify(self.name, self.type, self.count);
     });
 };
 
 /**
  * @param {string} message
- * @param {Function} callback
+ * @param {function} callback
  */
 reads.skip = function (message, callback) {
     it.skip('reads ' + message, _.noop);
@@ -158,7 +174,7 @@ reads.skip = function (message, callback) {
  * Creates nested describe and loads the module being tested.
  *
  * @param {string[]|string} names
- * @param {Function} callback
+ * @param {function} callback
  */
 load = function (names, callback) {
     names = _.isArray(names) ? names : [names];
