@@ -84,7 +84,7 @@ function Module(_, fs, Cache) {
             }
             result.caches.push({
                 name: key,
-                expires: expires.toJSON(),
+                expires: expires.toGMTString(),
                 ttl: value.getTTL(),
                 data: value.toObject()
             });

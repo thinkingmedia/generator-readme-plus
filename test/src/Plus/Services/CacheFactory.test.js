@@ -71,7 +71,7 @@ load([
                 obj.caches.should.be.length(1);
                 obj.caches[0].should.be.eql({
                     name: 'Test',
-                    expires: '2015-02-01T06:00:00.000Z',
+                    expires: 'Sun, 01 Feb 2015 06:00:00 GMT',
                     ttl: 60,
                     data: {}
                 });
@@ -119,7 +119,7 @@ load([
                     caches: [
                         {
                             name: 'Test',
-                            expires: (new Date(2099, 1, 1)).toJSON(),
+                            expires: (new Date(2099, 1, 1)).toGMTString(),
                             ttl: 60,
                             data: {
                                 name: 'ThinkingMedia'
@@ -138,14 +138,14 @@ load([
                     caches: [
                         {
                             name: 'Test',
-                            expires: (new Date(1999, 1, 1)).toJSON(),
+                            expires: (new Date(1999, 1, 1)).toGMTString(),
                             ttl: 60,
                             data: {
                                 name: 'ThinkingMedia'
                             }
                         }, {
                             name: 'Smith',
-                            expires: (new Date(2099, 1, 1)).toJSON(),
+                            expires: (new Date(2099, 1, 1)).toGMTString(),
                             ttl: 60,
                             data: {
                                 name: 'House'
@@ -185,7 +185,7 @@ load([
                 factory.save('readme.json');
             }, function (name, value) {
                 name.should.be.equal('readme.json');
-                value.should.be.equal('{"version":1,"caches":[{"name":"Test","expires":"2015-02-01T06:00:00.000Z","ttl":60,"data":{"name":"thinkingmedia"}}]}');
+                value.should.be.equal('{"version":1,"caches":[{"name":"Test","expires":"Sun, 01 Feb 2015 06:00:00 GMT","ttl":60,"data":{"name":"thinkingmedia"}}]}');
             });
         });
 
@@ -211,7 +211,7 @@ load([
                 // @todo why does this fail?
                 //c.should.be.an.instanceOf(Cache);
                 c.get('name').should.be.equal('thinkingmedia');
-            }, '{"version":1,"caches":[{"name":"Test","expires":"2099-02-01T06:00:00.000Z","ttl":60,"data":{"name":"thinkingmedia"}}]}', function (name) {
+            }, '{"version":1,"caches":[{"name":"Test","expires":"Sun, 01 Feb 2099 06:00:00 GMT","ttl":60,"data":{"name":"thinkingmedia"}}]}', function (name) {
                 name.should.be.equal('readme.json');
             });
 
