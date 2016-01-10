@@ -10,6 +10,6 @@ engines:
          - javascript
  ratings:
    paths:
-     src/**
-     tasks/**
-     test/**
+     - src/**
+     - tasks/**
+     - test/**
