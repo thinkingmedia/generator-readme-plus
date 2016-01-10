@@ -182,11 +182,11 @@ load([
                  * @type {Plus.Services.CacheFactory}
                  */
                 var factory = loader.resolve('Plus/Services/CacheFactory');
-                factory.create('Test', new Date(2015, 1, 1), 60).put('name', 'thinkingmedia');
+                factory.create('Test', new Date(Date.UTC(2015, 1, 1)), 60).put('name', 'thinkingmedia');
                 factory.save('readme.json');
             }, function (name, value) {
                 name.should.be.equal('readme.json');
-                value.should.be.equal('{"version":1,"caches":[{"name":"Test","expires":"Sun, 01 Feb 2015 06:00:00 GMT","ttl":60,"data":{"name":"thinkingmedia"}}]}');
+                value.should.be.equal('{"version":1,"caches":[{"name":"Test","expires":"Sun, 01 Feb 2015 01:00:00 GMT","ttl":60,"data":{"name":"thinkingmedia"}}]}');
             });
         });
 
