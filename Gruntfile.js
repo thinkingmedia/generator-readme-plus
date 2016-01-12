@@ -22,8 +22,8 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     destination: 'doc',
-                    template: "node_modules/ink-docstrap/template",
-                    configure: "jsdoc.json"
+                    template: "node_modules/jaguarjs-jsdoc",
+                    configure: "node_modules/jaguarjs-jsdoc/conf.json"
                 },
                 src: [
                     'src/**/*.js'
