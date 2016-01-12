@@ -1,80 +1,845 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>grunt-readme-plus Source: Plus/Filters/project_path.js</title>
-
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
-
-	<link type="text/css" rel="stylesheet" href="styles/site.united.css">
-
-</head>
-
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
-<div class="container">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="index.html">grunt-readme-plus</a>
-		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-        </button>
-	</div>
-	<div class="navbar-collapse collapse" id="topNavigation">
-		<ul class="nav navbar-nav">
-			
-			<li class="dropdown">
-				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="Comment.html">Comment</a></li><li><a href="Line.html">Line</a></li><li><a href="global.html#Module">Module</a></li><li><a href="Module-LinkedList.Node.html">Module~LinkedList.Node</a></li><li><a href="Module-Plugin.html">Module~Plugin</a></li><li><a href="Plus.html">Plus</a></li><li><a href="Plus.Collections.html">Plus.Collections</a></li><li><a href="Plus.Collections.Arrays.html">Plus.Collections.Arrays</a></li><li><a href="Plus.Collections.LinkedList.html">Plus.Collections.LinkedList</a></li><li><a href="Plus.Engine.html">Plus.Engine</a></li><li><a href="Plus.Engine.Filter.html">Plus.Engine.Filter</a></li><li><a href="Plus.Engine.Filters.html">Plus.Engine.Filters</a></li><li><a href="Plus.Engine.Section%250D%250DSections%2520are%2520used%2520to%2520pre-define%2520the%2520structure%2520of%2520the%2520Markdown%2520document.%2520These%2520objects%2520define%2520both%2520the%250Dtree%2520hierarchy%2520and%2520creation%2520order%2520for%2520each%2520section..html">Plus.Engine.SectionSections are used to pre-define the structure of the Markdown document. These objects define both thetree hierarchy and creation order for each section.</a></li><li><a href="Plus.Engine.Sections.html">Plus.Engine.Sections</a></li><li><a href="Plus.Files.html">Plus.Files</a></li><li><a href="Plus.Files.Logger.html">Plus.Files.Logger</a></li><li><a href="Plus.Files.Markdown%250D%250DDefines%2520a%2520section%2520in%2520the%2520readme%2520file..html">Plus.Files.MarkdownDefines a section in the readme file.</a></li><li><a href="Plus.Loader%250D_.html">Plus.Loader*</a></li><li><a href="Plus.Plugins.html">Plus.Plugins</a></li><li><a href="Plus.ReadMe.html">Plus.ReadMe</a></li><li><a href="Plus.Services.html">Plus.Services</a></li><li><a href="Plus.Services.Badges.html">Plus.Services.Badges</a></li><li><a href="Plus.Services.Cache.html">Plus.Services.Cache</a></li><li><a href="Plus.Services.CacheFactory.html">Plus.Services.CacheFactory</a></li><li><a href="Plus.Services.Git.html">Plus.Services.Git</a></li><li><a href="Plus.Services.GitHub.html">Plus.Services.GitHub</a></li><li><a href="Plus.Services.Licenses.html">Plus.Services.Licenses</a></li><li><a href="Plus.Services.PackageJSON.html">Plus.Services.PackageJSON</a></li><li><a href="Plus.Services.Similarity.html">Plus.Services.Similarity</a></li><li><a href="Plus.Services.Strings.html">Plus.Services.Strings</a></li><li><a href="SourceCode.html">SourceCode</a></li><li><a href="Tag.html">Tag</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
-				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="global.html#_cache">_cache</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#getName">getName</a></li><li><a href="global.html#getTitle">getTitle</a></li><li><a href="global.html#logger">logger</a></li><li><a href="global.html#Plus.Files.Markdown#loadLoadsastringbuffer">Plus.Files.Markdown#loadLoads a string buffer</a></li><li><a href="global.html#trim">trim</a></li>
-				</ul>
-			</li>
-			
-		</ul>
-		<div class="col-sm-3 col-md-3">
-            <form class="navbar-form" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
-	</div>
-
-</div>
-</div>
-
-
-<div class="container" id="toc-content">
-<div class="row">
-
-	
-	<div class="col-md-12">
-	
-		<div id="main">
-			
-
-		<h1 class="page-title">Source: Plus/Filters/project_path.js</h1>
+    <meta charset="utf-8">
+    <title>Source: Plus/Filters/project_path.js</title>
     
-<section>
-    <article>
-        <pre
-            class="sunlight-highlight-javascript linenums">/**
+    
+    
+    
+    
+    <meta property="og:title" content=""/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content=""/>
+    
+    <meta property="og:url" content=""/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/jaguar.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":true,"cleverLinks":true,"default":{"outputSourceFiles":true},"applicationName":"Demo","disqus":"","googleAnalytics":"","openGraph":{"title":"","type":"website","image":"","site_name":"","url":""},"meta":{"title":"","description":"","keyword":""},"linenums":false};
+    </script>
+    
+
+    
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html">Demo</a></h3>
+
+    <div class="search">
+        <input id="search" type="text" class="form-control input-sm" placeholder="Search Documentations">
+    </div>
+    <ul class="list">
+    
+        <li class="item" data-name="Comment">
+            <span class="title">
+                <a href="Comment.html">Comment</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Comment#append"><a href="Comment.html#append">append</a></li>
+            
+                <li data-name="Comment#getFile"><a href="Comment.html#getFile">getFile</a></li>
+            
+                <li data-name="Comment#getLines"><a href="Comment.html#getLines">getLines</a></li>
+            
+                <li data-name="Comment#setLines"><a href="Comment.html#setLines">setLines</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Line">
+            <span class="title">
+                <a href="Line.html">Line</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Line#clone"><a href="Line.html#clone">clone</a></li>
+            
+                <li data-name="Line#getNum"><a href="Line.html#getNum">getNum</a></li>
+            
+                <li data-name="Line#getText"><a href="Line.html#getText">getText</a></li>
+            
+                <li data-name="Line#setText"><a href="Line.html#setText">setText</a></li>
+            
+                <li data-name="Line#unescape"><a href="Line.html#unescape">unescape</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module">
+            <span class="title">
+                <a href="global.html#Module">Module</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Module#child"><a href="global.html#Module#child">child</a></li>
+            
+                <li data-name="Module#depth"><a href="global.html#Module#depth">depth</a></li>
+            
+                <li data-name="Module#lines"><a href="global.html#Module#lines">lines</a></li>
+            
+                <li data-name="Module#parent"><a href="global.html#Module#parent">parent</a></li>
+            
+                <li data-name="Module#root"><a href="global.html#Module#root">root</a></li>
+            
+                <li data-name="Module#title"><a href="global.html#Module#title">title</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~getFiles"><a href="global.html#Module#~getFiles">getFiles</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module">
+            <span class="title">
+                <a href="global.html#Module">Module</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Module#child"><a href="global.html#Module#child">child</a></li>
+            
+                <li data-name="Module#depth"><a href="global.html#Module#depth">depth</a></li>
+            
+                <li data-name="Module#lines"><a href="global.html#Module#lines">lines</a></li>
+            
+                <li data-name="Module#parent"><a href="global.html#Module#parent">parent</a></li>
+            
+                <li data-name="Module#root"><a href="global.html#Module#root">root</a></li>
+            
+                <li data-name="Module#title"><a href="global.html#Module#title">title</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~getFiles"><a href="global.html#Module#~getFiles">getFiles</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module~LinkedList.Node">
+            <span class="title">
+                <a href="Module-LinkedList.Node.html">Module~LinkedList.Node</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Module~LinkedList.Node#next"><a href="Module-LinkedList.Node.html#next">next</a></li>
+            
+                <li data-name="Module~LinkedList.Node#prev"><a href="Module-LinkedList.Node.html#prev">prev</a></li>
+            
+                <li data-name="Module~LinkedList.Node#value"><a href="Module-LinkedList.Node.html#value">value</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module~Plugin">
+            <span class="title">
+                <a href="Module-Plugin.html">Module~Plugin</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~Plugin#getLicence"><a href="Module-Plugin.html#getLicence">getLicence</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module~Plugin">
+            <span class="title">
+                <a href="Module-Plugin.html">Module~Plugin</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~Plugin#getLicence"><a href="Module-Plugin.html#getLicence">getLicence</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module~Plugin">
+            <span class="title">
+                <a href="Module-Plugin.html">Module~Plugin</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~Plugin#getLicence"><a href="Module-Plugin.html#getLicence">getLicence</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Module~Plugin">
+            <span class="title">
+                <a href="Module-Plugin.html">Module~Plugin</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Module~Plugin#getLicence"><a href="Module-Plugin.html#getLicence">getLicence</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus">
+            <span class="title">
+                <a href="Plus.html">Plus</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Collections">
+            <span class="title">
+                <a href="Plus.Collections.html">Plus.Collections</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Collections.Arrays">
+            <span class="title">
+                <a href="Plus.Collections.Arrays.html">Plus.Collections.Arrays</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Collections.LinkedList">
+            <span class="title">
+                <a href="Plus.Collections.LinkedList.html">Plus.Collections.LinkedList</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Engine">
+            <span class="title">
+                <a href="Plus.Engine.html">Plus.Engine</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Engine.Filter">
+            <span class="title">
+                <a href="Plus.Engine.Filter.html">Plus.Engine.Filter</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Engine.Filters">
+            <span class="title">
+                <a href="Plus.Engine.Filters.html">Plus.Engine.Filters</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Engine.SectionSections are used to pre-define the structure of the Markdown document. These objects define both thetree hierarchy and creation order for each section.">
+            <span class="title">
+                <a href="Plus.Engine.Section%250D%250DSections%2520are%2520used%2520to%2520pre-define%2520the%2520structure%2520of%2520the%2520Markdown%2520document.%2520These%2520objects%2520define%2520both%2520the%250Dtree%2520hierarchy%2520and%2520creation%2520order%2520for%2520each%2520section..html">Plus.Engine.SectionSections are used to pre-define the structure of the Markdown document. These objects define both thetree hierarchy and creation order for each section.</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Engine.Sections">
+            <span class="title">
+                <a href="Plus.Engine.Sections.html">Plus.Engine.Sections</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Files">
+            <span class="title">
+                <a href="Plus.Files.html">Plus.Files</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Files.Logger">
+            <span class="title">
+                <a href="Plus.Files.Logger.html">Plus.Files.Logger</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Files.MarkdownDefines a section in the readme file.">
+            <span class="title">
+                <a href="Plus.Files.Markdown%250D%250DDefines%2520a%2520section%2520in%2520the%2520readme%2520file..html">Plus.Files.MarkdownDefines a section in the readme file.</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Loader*">
+            <span class="title">
+                <a href="Plus.Loader%250D_.html">Plus.Loader*</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Plugins">
+            <span class="title">
+                <a href="Plus.Plugins.html">Plus.Plugins</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.ReadMe">
+            <span class="title">
+                <a href="Plus.ReadMe.html">Plus.ReadMe</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services">
+            <span class="title">
+                <a href="Plus.Services.html">Plus.Services</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            <span class="subtitle">Typedefs</span>
+            
+                <li data-name="Plus.Services.Print"><a href="Plus.Services.html#.Print">Print</a></li>
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Badges">
+            <span class="title">
+                <a href="Plus.Services.Badges.html">Plus.Services.Badges</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Cache">
+            <span class="title">
+                <a href="Plus.Services.Cache.html">Plus.Services.Cache</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.CacheFactory">
+            <span class="title">
+                <a href="Plus.Services.CacheFactory.html">Plus.Services.CacheFactory</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Git">
+            <span class="title">
+                <a href="Plus.Services.Git.html">Plus.Services.Git</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.GitHub">
+            <span class="title">
+                <a href="Plus.Services.GitHub.html">Plus.Services.GitHub</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Licenses">
+            <span class="title">
+                <a href="Plus.Services.Licenses.html">Plus.Services.Licenses</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.PackageJSON">
+            <span class="title">
+                <a href="Plus.Services.PackageJSON.html">Plus.Services.PackageJSON</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Similarity">
+            <span class="title">
+                <a href="Plus.Services.Similarity.html">Plus.Services.Similarity</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Plus.Services.Strings">
+            <span class="title">
+                <a href="Plus.Services.Strings.html">Plus.Services.Strings</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="SourceCode">
+            <span class="title">
+                <a href="SourceCode.html">SourceCode</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="SourceCode#getComments"><a href="SourceCode.html#getComments">getComments</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+        <li class="item" data-name="Tag">
+            <span class="title">
+                <a href="Tag.html">Tag</a>
+                
+            </span>
+            <ul class="members itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Tag#getFile"><a href="Tag.html#getFile">getFile</a></li>
+            
+                <li data-name="Tag#getLines"><a href="Tag.html#getLines">getLines</a></li>
+            
+                <li data-name="Tag#getName"><a href="Tag.html#getName">getName</a></li>
+            
+                <li data-name="Tag#getNum"><a href="Tag.html#getNum">getNum</a></li>
+            
+                <li data-name="Tag#getTitle"><a href="Tag.html#getTitle">getTitle</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="Plus_Filters_project_path.js.html">Source: Plus/Filters/project_path.js</h1>
+        
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source "><code>/**
  * @returns {Function}
  */
 function Module(path) {
@@ -92,135 +857,24 @@ function Module(path) {
 module.exports = [
     'path',
     Module
-];</pre>
-    </article>
-</section>
+];</code></pre>
+        </article>
+    </section>
 
 
 
 
 
-		</div>
-	</div>
 
-	<div class="clearfix"></div>
+        
 
-	
-
+        <footer>
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 17:04:59 GMT-0500 (Eastern Standard Time)
+        </footer>
+    </div>
 </div>
-</div>
-
-<div class="modal fade" id="searchResults">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Search results</h4>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
-
-<footer>
-
-
-	<span class="copyright">
-	DocStrap Copyright © 2012-2015 The contributors to the JSDoc3 and DocStrap projects.
-	</span>
-
-<span class="jsdoc-message">
-	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	
-		on Tue Jan 12th 2016
-	
-	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
-</span>
-</footer>
-
-<script src="scripts/docstrap.lib.js"></script>
-<script src="scripts/toc.js"></script>
-<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
-
-<script>
-$( function () {
-	$( "[id*='$']" ).each( function () {
-		var $this = $( this );
-
-		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
-	} );
-
-	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-		var $this = $( this );
-
-		var example = $this.find( "code" );
-		exampleText = example.html();
-		var lang = /{@lang (.*?)}/.exec( exampleText );
-		if ( lang && lang[1] ) {
-			exampleText = exampleText.replace( lang[0], "" );
-			example.html( exampleText );
-			lang = lang[1];
-		} else {
-			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
-			lang = langClassMatch ? langClassMatch[1] : "javascript";
-		}
-
-		if ( lang ) {
-
-			$this
-			.addClass( "sunlight-highlight-" + lang )
-			.addClass( "linenums" )
-			.html( example.html() );
-
-		}
-	} );
-
-	Sunlight.highlightAll( {
-		lineNumbers : true,
-		showMenu : true,
-		enableDoclinks : true
-	} );
-
-	$.catchAnchorLinks( {
-        navbarOffset: 10
-	} );
-	$( "#toc" ).toc( {
-		anchorName  : function ( i, heading, prefix ) {
-			var id = $( heading ).attr( "id" );
-			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
-		},
-		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
-		showAndHide : false,
-		smoothScrolling: true
-	} );
-
-	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-	$( '.dropdown-toggle' ).dropdown();
-
-    $( "table" ).each( function () {
-      var $this = $( this );
-      $this.addClass('table');
-    } );
-
-} );
-</script>
-
-
-
-<!--Navigation and Symbol Display-->
-
-
-<!--Google Analytics-->
-
-
-<script type="text/javascript">
-	$(document).ready(function() {
-		SearcherDisplay.init();
-	});
-</script>
-
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>
