@@ -1,0 +1,7 @@
+{#authors}
+## Author{@if cond="authors.length > 1"}s{/if}{~n}
+{#authors}{name} {#email}- <{email}>{/email} {#url}- <{url}>{/url}{~n}{/authors}
+{~n}
+See also the list of [contributors]({github-url}/contributors) which participated in this project.{~n}
+{~n}
+{/authors}
