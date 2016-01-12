@@ -1,20 +1,18 @@
 /**
  * @param {Plus.Files.Markdown} Markdown
- *
  * @returns {Plus.Engine.Section}
+ * @ignore
  */
 function Module(Markdown) {
 
     /**
-     * @name Plus.Engine.Section
-     *
      * Sections are used to pre-define the structure of the Markdown document. These objects define both the
      * tree hierarchy and creation order for each section.
      *
+     * @memberof Plus.Engine
      * @param {string} name
      * @param {number=} order
      * @param {number=} creationOrder
-     *
      * @constructor
      */
     var Section = function(name, order, creationOrder) {

@@ -1,11 +1,10 @@
 var _ = require('lodash');
 
 /**
- * @name Plus.Loader
- **
+ * @memberof Plus
  * @constructor
  */
-function Loader() {
+var Loader = function() {
     /**
      * @type {Object.<string,Object>}
      */
@@ -15,7 +14,7 @@ function Loader() {
      * @type {Plus.Files.Logger|null}
      */
     this.logger = null;
-}
+};
 
 /**
  * Allows attachment of a logger after the loader has been created. So that the loader can be used to load the

@@ -1,6 +1,7 @@
 /**
  * @param {Plus.Services.GitHub} GitHub
  * @returns {Function}
+ * @ignore
  */
 function Module(GitHub) {
 
@@ -11,8 +12,6 @@ function Module(GitHub) {
      *
      * It supports the following filters.
      *
-     * - image:url string Rewrites the URL as a github.com URL
-     * - git:desc string The description assigned to the repository by the owner.
      *
      * @param {Plus.Engine} engine
      * @constructor

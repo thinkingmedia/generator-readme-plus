@@ -1,19 +1,4 @@
 /**
- * @returns {Plus.Package}
+ * @memberof Plus
+ * @namespace Writers
  */
-function Module(){
-
-    /**
-     * @name Plus.Plugins
-     * @constructor
-     */
-    function Package() {
-
-    }
-
-    return Package;
-}
-
-module.exports = [
-    Module
-];

@@ -2,17 +2,14 @@
  * @param Q
  * @param _
  * @param {Plus.Engine.Sections} Sections
- *
- * @returns {Plus.Engine}
+ * @ignore
  */
 function Module(Q, _, Sections) {
 
     /**
-     * @name Plus.Engine
-     *
+     * @memberof Plus
      * @param {Plus.Engine.Filters} filters
      * @param {Plus.Engine.Sections} sections
-     *
      * @constructor
      */
     var Engine = function (filters, sections) {
@@ -37,7 +34,7 @@ function Module(Q, _, Sections) {
     /**
      * Filter each section by it's creationOrder
      *
-     * @returns {Promise<Plus.Engine.Section>[]}
+     * @returns {Array.<Promise<Plus.Engine.Section>>}
      * @private
      */
     Engine.prototype._filterSections = function () {
@@ -48,7 +45,6 @@ function Module(Q, _, Sections) {
 
     /**
      * Call this method to create the output Markdown.
-     *
      * @returns {Promise<Plus.Files.Markdown>}
      */
     Engine.prototype.render = function () {

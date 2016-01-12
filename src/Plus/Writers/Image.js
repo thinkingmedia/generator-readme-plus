@@ -3,7 +3,7 @@
  * @param fs
  * @param Print
  * @param {Plus.Files.Logger} Logger
- * @returns {Plugin}
+ * @ignore
  */
 function Module(_, fs, Print, /**Plus.Files.Logger*/Logger) {
 
@@ -23,13 +23,16 @@ function Module(_, fs, Print, /**Plus.Files.Logger*/Logger) {
      *        }
      *    });
      * ```
+     *
+     * @memberof Plus.Writers
+     *
      * @param {Plus.Engine} engine
      * @param {string} section
      * @param {Object<string,*>} options
      *
      * @constructor
      */
-    var Plugin = function (engine, section, options) {
+    var Image = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'Image', section);
 
         options = _.merge({}, {image: true}, options);
@@ -63,7 +66,7 @@ function Module(_, fs, Print, /**Plus.Files.Logger*/Logger) {
         });
     };
 
-    return Plugin;
+    return Image;
 }
 
 module.exports = [

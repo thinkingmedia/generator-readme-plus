@@ -8,11 +8,12 @@
  * @param {Plus.Services.Strings} Strings
  * @param {Array} LicenseTypes
  * @returns {Plus.Services.Licenses}
+ * @ignore
  */
 function Module(module, path, fs, _, Similarity, Logger, Strings, LicenseTypes) {
 
     /**
-     * @name Plus.Services.Licenses
+     * @memberof Plus.Services
      * @constructor
      */
     var Licenses = function () {

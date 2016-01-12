@@ -1,7 +1,14 @@
+/**
+ * @param module
+ * @param path
+ * @param fs
+ * @returns {Plus.Services.PackageJSON}
+ * @ignore
+ */
 function Module(module, path, fs) {
 
     /**
-     * @name Plus.Services.PackageJSON
+     * @memberof Plus.Services
      * @param {string} fileName
      * @constructor
      */

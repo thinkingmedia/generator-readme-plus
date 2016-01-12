@@ -1,26 +1,21 @@
 /**
  * @param {Plus.Services.Git} Git
- * @returns {Function}
+ * @ignore
  */
 function Module(Git) {
 
     /**
-     * @readme plugins.Git
-     *
      * This plugin uses the Git status of the current working folder to update properties like repository name,
      * current branch and username.
      *
-     * It supports the following filters.
-     *
-     * - git:repo string The repository name.
-     * - git:branch string The current branch.
-     * - git:user string The current username (if configured).
-     *
-     * @param {Plus.Engine} engine
+     * @memberof Plus.Filters
+     * @param {string} repo
      */
-    return function (/**string*/repo) {
+    var git_repo = function (repo) {
         return Git.getRepo() || repo || null;
     };
+
+    return [git_repo];
 }
 
 module.exports = [

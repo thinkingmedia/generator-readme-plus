@@ -6,25 +6,33 @@
     "plugins/markdown"
   ],
   "templates": {
-    "logoFile": "",
-    "cleverLinks": false,
-    "monospaceLinks": false,
-    "dateFormat": "ddd MMM Do YYYY",
-    "outputSourceFiles": true,
-    "outputSourcePath": true,
-    "systemName": "grunt-readme-plus",
-    "footer": "",
-    "copyright": "DocStrap Copyright © 2012-2015 The contributors to the JSDoc3 and DocStrap projects.",
-    "navType": "vertical",
-    "theme": "united",
-    "linenums": true,
-    "collapseSymbols": false,
-    "inverseNav": true,
-    "protocol": "html://",
-    "methodHeadingReturns": false
+    "cleverLinks": true,
+    "monospaceLinks": true,
+    "default": {
+      "outputSourceFiles": true
+    },
+    "applicationName": "grunt-readme-plus",
+    "disqus": "",
+    "googleAnalytics": "",
+    "openGraph": {
+      "title": "",
+      "type": "website",
+      "image": "",
+      "site_name": "",
+      "url": ""
+    },
+    "meta": {
+      "title": "grunt-readme-plus",
+      "description": "",
+      "keyword": ""
+    },
+    "linenums": true
   },
   "markdown": {
     "parser": "gfm",
-    "hardwrap": true
+    "hardwrap": true,
+    "tags": [
+      "examples"
+    ]
   }
 }

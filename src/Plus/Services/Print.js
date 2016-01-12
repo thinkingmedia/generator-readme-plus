@@ -1,5 +1,5 @@
 /**
- * @name Plus.Services.Print
+ * @memberof Plus.Services
  * @typedef {Function}
  */
 function Module(sprintfJs) {

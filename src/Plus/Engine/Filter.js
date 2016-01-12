@@ -2,13 +2,13 @@
  * @param Q
  * @param _
  * @param {Plus.Collections.Arrays} Arrays
- *
  * @returns {Plus.Engine.Filter}
+ * @ignore
  */
 function Module(Q, _, Arrays) {
 
     /**
-     * @name Plus.Engine.Filter
+     * @memberof Plus.Engine
      *
      * @param {string} name
      * @param {Function|Array} filter

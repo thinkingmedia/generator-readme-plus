@@ -1,11 +1,12 @@
 /**
  * @param _
  * @returns {Plus.Services.Similarity}
+ * @ignore
  */
 function Module(_) {
 
     /**
-     * @name Plus.Services.Similarity
+     * @memberof Plus.Services
      * @constructor
      */
     var Similarity = function () {

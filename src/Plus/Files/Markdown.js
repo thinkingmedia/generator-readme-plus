@@ -6,17 +6,16 @@
  * @param {Plus.Files.Logger} Logger
  * @param {Plus.Collections.Arrays} Arrays
  * @returns {Plus.Files.Markdown}
- * @constructor
+ * @ignore
  */
 function Module(_, fs, os, LinkedList, Logger, Arrays) {
 
     /**
-     * @name Plus.Files.Markdown
      *
      * Defines a section in the readme file.
      *
+     * @memberof Plus.Files
      * @param {string=} title
-     *
      * @constructor
      */
     var Markdown = function (title) {

@@ -1,18 +1,15 @@
 /**
  * @param {Plus.Engine.Section} Section
  * @param {Plus.Files.Logger} Logger
- *
  * @returns {Plus.Engine.Sections}
+ * @ignore
  */
 function Module(Section, Logger) {
 
     /**
-     * @name Plus.Engine.Sections
-     *
-     * @param {Plus.Engine.Section[]=} items
-     *
+     * @memberof Plus.Engine
+     * @param {Array.<Plus.Engine.Section>=} items
      * @property {Plus.Engine.Section[]} items
-     *
      * @constructor
      */
     var Sections = function (items) {

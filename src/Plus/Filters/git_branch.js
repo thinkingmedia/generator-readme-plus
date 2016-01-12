@@ -1,12 +1,20 @@
+/**
+ * @param Q
+ * @param path
+ * @param Git
+ * @ignore
+ */
 function Module(Q, path, Git) {
 
     /**
-     * @readme filters.GitBranch
+     * git:branch returns the current working branch of the current working Git folder.
      *
-     * `git:branch` returns the current working branch of the current working Git folder.
+     * @memberof Plus.Filters
+     * @param {string} branch
+     * @param {string} path
+     * @returns {string}
      */
-    return ['project:path', function (branch, path) {
-        return 'chicken';
+    var git_branch = function (branch, path) {
         if (branch) {
             return branch;
         }
@@ -17,7 +25,9 @@ function Module(Q, path, Git) {
             });
         });
         return def.promise;
-    }];
+    };
+
+    return ['project:path', git_branch];
 }
 
 module.exports = [

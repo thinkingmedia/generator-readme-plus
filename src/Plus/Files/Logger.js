@@ -4,12 +4,12 @@
  * @param {Plus.Services.Print} print
  * @returns {Plus.Files.Logger}
  * @constructor
+ * @ignore
  */
 function Module(_, chalk, print) {
 
     /**
-     * @name Plus.Files.Logger
-     *
+     * @memberof Plus.Files
      * @constructor
      */
     var Logger = function () {

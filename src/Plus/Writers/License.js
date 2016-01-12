@@ -5,7 +5,7 @@
  * @param {Plus.Services.PackageJSON} PackageJSON
  * @param {Plus.Files.Logger} Logger
  * @param Print
- * @returns {Plugin}
+ * @ignore
  */
 function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
 
@@ -14,13 +14,15 @@ function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
      *
      * License plugin adds the footer to the README for the current license.
      *
+     * @memberof Plus.Writers
+     *
      * @param {Plus.Engine} engine
      * @param {string} section
      * @param {Object<string,*>} options
      *
      * @constructor
      */
-    var Plugin = function (engine, section, options) {
+    var License = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'License', section);
 
         var self = this;
@@ -59,7 +61,7 @@ function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
     /**
      * @returns {{name: string, url: string, file: string}|null}
      */
-    Plugin.prototype.getLicence = function () {
+    License.prototype.getLicence = function () {
         var fileName = Licenses.getFileName();
         if (!fileName) {
             Logger.error('Project has no licence file. You should disable the licence section.');
@@ -80,7 +82,7 @@ function Module(Q, _, Licenses, PackageJSON, Logger, Print) {
             : null;
     };
 
-    return Plugin;
+    return License;
 }
 
 module.exports = [

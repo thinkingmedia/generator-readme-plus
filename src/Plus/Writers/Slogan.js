@@ -1,7 +1,7 @@
 /**
  * @param _
  * @param {Plus.Files.Logger} Logger
- * @returns {Plugin}
+ * @ignore
  */
 function Module(_, Logger) {
 
@@ -26,13 +26,15 @@ function Module(_, Logger) {
      *    });
      * ```
      *
+     * @memberof Plus.Writers
+     *
      * @param {Plus.Engine} engine
      * @param {string} section
      * @param {Object<string,*>} options
      *
      * @constructor
      */
-    var Plugin = function (engine, section, options) {
+    var Slogan = function (engine, section, options) {
         Logger.debug('Plugin %s: %s', 'Slogan', section);
 
         options = _.merge({}, {slogan: true}, options);
@@ -56,7 +58,7 @@ function Module(_, Logger) {
         });
     };
 
-    return Plugin;
+    return Slogan;
 }
 
 module.exports = [

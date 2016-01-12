@@ -5,7 +5,7 @@
  * @param {Plus.Engine} Engine
  * @param {Plus.Files.Markdown} Markdown
  * @param {Plus.Collections.Array} Arrays
- * @returns {Plus.ReadMe}
+ * @ignore
  */
 function Module(module, _, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*/Markdown, /**Plus.Collections.Arrays*/Arrays) {
 
@@ -21,7 +21,7 @@ function Module(module, _, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*
     }
 
     /**
-     * @name Plus.ReadMe
+     * @memberof Plus
      * @param {string} fileName
      * @param {Object<string,*>} options
      * @constructor
@@ -60,7 +60,7 @@ function Module(module, _, fs, /** Plus.Engine */Engine, /**Plus.Files.Markdown*
     ReadMe.prototype.render = function (fileName) {
 
         /**
-         * @type {Plus.Files.Markdown/null}
+         * @type {Plus.Files.Markdown|null}
          */
         var original = fs.existsSync(this.fileName)
             ? Markdown.load(this.fileName)

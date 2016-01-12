@@ -2,14 +2,13 @@
  * @param _
  * @param fs
  * @param {Plus.Services.Cache} Cache
- *
  * @returns {Plus.Services.CacheFactory}
+ * @ignore
  */
 function Module(_, fs, Cache) {
 
     /**
-     * @name Plus.Services.CacheFactory
-     *
+     * @memberof Plus.Services
      * @constructor
      */
     var CacheFactory = function () {
@@ -42,7 +41,6 @@ function Module(_, fs, Cache) {
      * @param {string} name
      * @param {Date=} when
      * @param {number=} ttl
-     *
      * @returns {Plus.Services.Cache}
      */
     CacheFactory.prototype.create = function (name, when, ttl) {
@@ -58,7 +56,6 @@ function Module(_, fs, Cache) {
 
     /**
      * @param {string} name
-     *
      * @returns {Plus.Services.Cache}
      */
     CacheFactory.prototype.get = function (name) {

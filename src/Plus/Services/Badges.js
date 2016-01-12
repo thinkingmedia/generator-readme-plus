@@ -1,12 +1,12 @@
 /**
  * @param _
  * @returns {Plus.Services.Badges}
+ * @ignore
  */
 function Module(_) {
 
     /**
-     * @name Plus.Services.Badges
-     *
+     * @memberof Plus.Services
      * @constructor
      */
     var Badges = function () {

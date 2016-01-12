@@ -1,6 +1,7 @@
 /**
  * @param _
  * @param path
+ * @ignore
  */
 function Module(_, path) {
 

@@ -3,12 +3,12 @@
  * @param GitHubApi
  * @param {Plus.Services.Git} Git
  * @returns {Plus.Services.GitHub}
+ * @ignore
  */
 function Module(Q, GitHubApi, Git) {
 
     /**
-     * @name Plus.Services.GitHub
-     *
+     * @memberof Plus.Services
      * @constructor
      */
     var GitHub = function () {

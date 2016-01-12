@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 options: {
                     destination: 'doc',
                     template: "node_modules/jaguarjs-jsdoc",
-                    configure: "node_modules/jaguarjs-jsdoc/conf.json"
+                    configure: "jsdoc.json"
                 },
                 src: [
                     'src/**/*.js'

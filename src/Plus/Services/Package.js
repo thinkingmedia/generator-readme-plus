@@ -1,19 +1,4 @@
 /**
- * @returns {Plus.Package}
+ * @memberof Plus
+ * @namespace Services
  */
-function Module(){
-
-    /**
-     * @name Plus.Services
-     * @constructor
-     */
-    function Package() {
-
-    }
-
-    return Package;
-}
-
-module.exports = [
-    Module
-];

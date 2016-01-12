@@ -1,10 +1,11 @@
 /**
  * @returns {Plus.Collections.LinkedList}
+ * @ignore
  */
 function Module() {
     /**
-     * @name Plus.Collections.LinkedList
-     *
+     * @memberof Plus.Collections
+    *
      * @template T
      * @constructor
      */
@@ -72,7 +73,7 @@ function Module() {
     };
 
     /**
-     * @returns {LinkedList.Node<T>[]}
+     * @returns {Array.<LinkedList.Node<T>>}
      */
     LinkedList.prototype.toArray = function () {
         var items = [];

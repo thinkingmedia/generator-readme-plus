@@ -1,11 +1,12 @@
 /**
  * @param _
  * @returns {Plus.Collections.Arrays}
+ * @ignore
  */
 function Module(_) {
 
     /**
-     * @name Plus.Collections.Arrays
+     * @memberof Plus.Collections
      * @constructor
      */
     var Arrays = function () {
@@ -55,8 +56,8 @@ function Module(_) {
     /**
      * Converts the parameter to an array.
      *
-     * @param {*[]|*} value
-     * @returns {*[]}
+     * @param {*} value
+     * @returns {*}
      */
     Arrays.prototype.toArray = function (value) {
         if (value === null || typeof value === 'undefined') {
@@ -70,7 +71,7 @@ function Module(_) {
     /**
      * Returns the first element of an array or the value if it is not an array.
      *
-     * @param {*[]|*} value
+     * @param {*} value
      * @returns {*}
      */
     Arrays.prototype.first = function (value) {

@@ -1,11 +1,12 @@
 /**
  * @param _
  * @returns {Plus.Services.Strings}
+ * @ignore
  */
 function Module(_) {
 
     /**
-     * @name Plus.Services.Strings
+     * @memberof Plus.Services
      * @constructor
      */
     var Strings = function () {

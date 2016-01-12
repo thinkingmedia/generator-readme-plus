@@ -6,13 +6,14 @@
  * @param MultiMap
  * @param {Plus.Engine.Section} Section
  * @param {Plus.Collections.Arrays} Arrays
- *
  * @returns {Plus.Engine.Filters}
+ * @ignore
  */
 function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
-     * @name Plus.Engine.Filters
+     * @memberof Plus.Engine
+     *
      * @constructor
      */
     var Filters = function () {

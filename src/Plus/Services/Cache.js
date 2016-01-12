@@ -1,11 +1,13 @@
+/**
+ * @returns {Plus.Services.Cache}
+ * @ignore
+ */
 function Module() {
 
     /**
-     * @name Plus.Services.Cache
-     *
+     * @memberof Plus.Services
      * @param {Date=} when The date/time when this instance was created.
      * @param {number=} ttl Numeric to persist the cache to disk.
-     *
      * @constructor
      */
     var Cache = function (when, ttl) {

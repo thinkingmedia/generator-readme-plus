@@ -2,17 +2,15 @@
  * @param _
  * @param shell
  * @param {Plus.Files.Logger} Logger
- *
  * @returns {Plus.Services.Git}
+ * @ignore
  */
 function Module(_, shell, Logger) {
 
     /**
-     * @name Plus.Services.Git
-     *
-     * @constructor
-     *
      * @todo this should be made lazy so it's run only when needed.
+     * @memberof Plus.Services
+     * @constructor
      */
     var Git = function () {
         if (!shell.which('git')) {
