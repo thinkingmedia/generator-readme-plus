@@ -35,7 +35,7 @@ function Module(Q, _, Arrays) {
     };
 
     /**
-     * Throws an error is block is called more than once on the same filter instance.
+     * Throws an error if this function is called more than once on the same filter instance.
      *
      * @param {Function} func
      */
