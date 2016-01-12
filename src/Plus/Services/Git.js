@@ -2,6 +2,7 @@
  * @param _
  * @param shell
  * @param {Plus.Files.Logger} Logger
+ *
  * @returns {Plus.Services.Git}
  */
 function Module(_, shell, Logger) {
@@ -100,5 +101,6 @@ module.exports = [
     'lodash',
     'shelljs',
     'Plus/Files/Logger',
+    'nodegit',
     Module
 ];

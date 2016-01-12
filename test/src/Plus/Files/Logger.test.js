@@ -1,4 +1,4 @@
-describe('Logger', function () {
+load('Plus/Files/Logger', function (/**Plus.Files.Logger*/Logger) {
 
     describe('constructor', function () {
         it.skip('sets defaults', function () {

@@ -37,6 +37,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @param {string} name
+     *
      * @returns {boolean}
      */
     Filters.prototype.contains = function (name) {
@@ -68,6 +69,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @param {string} name
+     *
      * @returns {Plus.Engine.Filter[]}
      */
     Filters.prototype.byPriority = function (name) {
@@ -80,6 +82,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     /**
      * @param {string} name
      * @param {*=} value
+     *
      * @returns {promise}
      */
     Filters.prototype.apply = function (name, value) {
@@ -101,6 +104,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @param {string[]|string} names
+     *
      * @returns {Promise[]}
      */
     Filters.prototype.promises = function (names) {
@@ -132,6 +136,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @param {string} name
+     *
      * @returns {string}
      * @private
      */

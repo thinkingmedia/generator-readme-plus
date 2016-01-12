@@ -1,28 +1,28 @@
-/**
- * @param {Plus.Services.Git} Git
- *
- * @returns {Function}
- */
-function Module(Git) {
+function Module(Q, path, Git) {
 
     /**
-     * @readme plugins.Git
+     * @readme filters.GitBranch
      *
-     * This plugin uses the Git status of the current working folder to update properties like repository name,
-     * current branch and username.
-     *
-     * It supports the following filters.
-     *
-     * - git:repo string The repository name.
-     * - git:branch string The current branch.
-     * - git:user string The current username (if configured).
+     * `git:branch` returns the current working branch of the current working Git folder.
      */
-    return function (/**string*/branch) {
-        return Git.getBranch() || branch || 'master';
-    };
+    return ['project:path', function (branch, path) {
+        return 'chicken';
+        if (branch) {
+            return branch;
+        }
+        var def = Q.defer();
+        Git.Repository.open(path).then(function (repo) {
+            repo.config().then(function (config) {
+                def.resolve(config);
+            });
+        });
+        return def.promise;
+    }];
 }
 
 module.exports = [
-    'Plus/Services/Git',
+    'q',
+    'path',
+    'nodegit',
     Module
 ];

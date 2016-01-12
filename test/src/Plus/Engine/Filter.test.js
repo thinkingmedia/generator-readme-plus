@@ -1,14 +1,4 @@
-describe('Filter', function () {
-
-    /**
-     * @type {Plus.Engine.Filter}
-     */
-    var Filter;
-
-    before(function () {
-        var loader = new Loader();
-        Filter = loader.resolve('Plus/Engine/Filter');
-    });
+load('Plus/Engine/Filter', function (/**Plus.Engine.Filter*/Filter) {
 
     describe('constructor', function () {
         throws('Filter must have a name.', function () {

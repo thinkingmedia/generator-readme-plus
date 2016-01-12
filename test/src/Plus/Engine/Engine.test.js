@@ -1,80 +1,64 @@
-describe('Engine', function () {
-
+load([
+        'Plus/Engine/Engine',
+        'Plus/Engine/Filters',
+        'Plus/Engine/Sections',
+        'Plus/Files/Markdown'
+    ],
     /**
-     * @type {Plus.Engine}
+     * @param {Plus.Engine} Engine
+     * @param {Plus.Engine.Filters} Filters
+     * @param {Plus.Engine.Sections} Sections
+     * @param {Plus.Files.Markdown} Markdown
      */
-    var Engine;
+    function (Engine, Filters, Sections, Markdown) {
 
-    /**
-     * @type {Plus.Engine.Filters}
-     */
-    var Filters;
+        /**
+         * Creates a test engine with data.
+         *
+         * @returns {Plus.Engine}
+         */
+        function CreateEngine() {
+            var f = new Filters();
+            f.add('test', _.noop);
 
-    /**
-     * @type {Plus.Engine.Sections}
-     */
-    var Sections;
+            var s = new Sections();
+            s.append('root');
+            s.append('root/header');
 
-    /**
-     * @type {Plus.Files.Markdown}
-     */
-    var Markdown;
+            return new Engine(f, s);
+        }
 
-    before(function () {
-        var loader = new Loader();
-        Engine = loader.resolve('Plus/Engine/Engine');
-        Filters = loader.resolve('Plus/Engine/Filters');
-        Sections = loader.resolve('Plus/Engine/Sections');
-        Markdown = loader.resolve('Plus/Files/Markdown');
-    });
-
-    /**
-     * Creates a test engine with data.
-     *
-     * @returns {Plus.Engine}
-     */
-    function CreateEngine() {
-        var f = new Filters();
-        f.add('test', _.noop);
-
-        var s = new Sections();
-        s.append('root');
-        s.append('root/header');
-
-        return new Engine(f, s);
-    }
-
-    describe('constructor', function () {
-        throws('invalid filters', function () {
-            var e = new Engine(null, new Sections());
+        describe('constructor', function () {
+            throws('invalid filters', function () {
+                var e = new Engine(null, new Sections());
+            });
+            throws('invalid sections', function () {
+                var e = new Engine(new Filters(), null);
+            });
         });
-        throws('invalid sections', function () {
-            var e = new Engine(new Filters(), null);
-        });
-    });
 
-    describe('_filterSections', function () {
-        it('returns an array of promises', function () {
-            var e = CreateEngine();
-            var arr = e._filterSections();
-            arr.should.be.an.Array();
-            arr.should.be.length(2);
-            _.each(arr, function (item) {
-                item.should.be.a.Promise();
+        describe('_filterSections', function () {
+            it('returns an array of promises', function () {
+                var e = CreateEngine();
+                var arr = e._filterSections();
+                arr.should.be.an.Array();
+                arr.should.be.length(2);
+                _.each(arr, function (item) {
+                    item.should.be.a.Promise();
+                });
+            });
+        });
+
+        describe('engine', function () {
+            promise('returns a promise that resolves to Markdown', function () {
+                var e = CreateEngine();
+                var p = e.render();
+                p.should.be.a.Promise();
+                return p.then(function (/**Plus.Files.Markdown*/md) {
+                    md.should.be.an.instanceOf(Markdown);
+                    var str = md.toString();
+                    str.should.be.equal('');
+                });
             });
         });
     });
-
-    describe('engine', function () {
-        promise('returns a promise that resolves to Markdown', function () {
-            var e = CreateEngine();
-            var p = e.render();
-            p.should.be.a.Promise();
-            return p.then(function (/**Plus.Files.Markdown*/md) {
-                md.should.be.an.instanceOf(Markdown);
-                var str = md.toString();
-                str.should.be.equal('');
-            });
-        });
-    });
-});

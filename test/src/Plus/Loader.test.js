@@ -1,4 +1,4 @@
-describe('Loader', function () {
+describe('Plus/Loader', function () {
     var Loader;
     /**
      * @type {Plus.Loader}
