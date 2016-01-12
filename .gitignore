@@ -1,5 +1,8 @@
 .idea
 
+# gh-pages
+doc
+
 # Logs
 logs
 *.log
