@@ -1,10 +1,9 @@
 /**
  * @param Q
  * @param path
- * @param Git
  * @ignore
  */
-function Module(Q, path, Git) {
+function Module(Q, path) {
 
     /**
      * git:branch returns the current working branch of the current working Git folder.
@@ -33,6 +32,5 @@ function Module(Q, path, Git) {
 module.exports = [
     'q',
     'path',
-    'nodegit',
     Module
 ];
