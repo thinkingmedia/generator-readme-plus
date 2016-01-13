@@ -9,7 +9,7 @@ filter('git:branch', function () {
         }
     };
 
-    filter.apply('something', 'returns that value', function (value) {
+    filter.apply('something', 'returns default value', function (value) {
         value.should.be.equal('something');
     });
 

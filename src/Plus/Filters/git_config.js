@@ -13,10 +13,10 @@ function Module(_, Shell) {
      * @returns {Object.<string,string>}
      */
     var git_config = function (config) {
-        if(config) {
+        if (config) {
             return config;
         }
-        var output = Shell.has('git').exec('git config --local --list');
+        var output = Shell.has('git').exec('git config --local --list').replace(/\r/g, '');
         return _.zipObject(_.map(_.compact(output.split("\n")), function (line) {
             return line.split("=");
         }));
