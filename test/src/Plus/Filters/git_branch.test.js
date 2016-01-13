@@ -1,10 +1,21 @@
 filter('git:branch', function () {
 
-    apply('something', 'returns that value', function (value) {
-        //value.should.be.equal('something');
+    var shell = {
+        has: function () {
+            return this;
+        },
+        exec: function () {
+            return 'turkey';
+        }
+    };
+
+    filter.apply('something', 'returns that value', function (value) {
+        value.should.be.equal('something');
     });
 
-    //apply('', function (value) {
-    //    value.should.be.equal('trunk');
-    //});
+    mock('Plus/Services/Shell', shell, function () {
+        filter.apply('', 'returns the branch', function (value) {
+            value.should.be.equal('turkey');
+        });
+    });
 });

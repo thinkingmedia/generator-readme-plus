@@ -1,9 +1,18 @@
 /**
- * @memberof Plus.Services
- * @typedef {Function}
+ * @ignore
  */
 function Module(sprintfJs) {
-    return sprintfJs.sprintf;
+
+    /**
+     * This is a string format function that uses sprintf style parameters.
+     *
+     * @memberof Plus.Services
+     * @method
+     * @static
+     */
+    var Print = sprintfJs.sprintf;
+
+    return Print;
 }
 
 module.exports = [

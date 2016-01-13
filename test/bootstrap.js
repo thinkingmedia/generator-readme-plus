@@ -56,9 +56,9 @@ load = require('./lib/load');
  */
 filter = require('./lib/filter');
 
-/**
- * @param {*} input
- * @param {string} message
- * @param callback
+/***
+ * @param {string} name
+ * @param {Object} obj
+ * @param {function} callback
  */
-apply = require('./lib/apply');
+mock = require('./lib/mock');

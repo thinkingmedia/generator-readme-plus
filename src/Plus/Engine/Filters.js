@@ -63,6 +63,9 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
      * @param {number=} priority
      */
     Filters.prototype.add = function (name, hook, priority) {
+        if(!_.isString(name) || name === '') {
+            throw Error('invalid name');
+        }
 
         Logger.debug('Filters::add %s %s', name, priority);
 
@@ -95,6 +98,10 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
         }
 
         Logger.debug('Filters::apply %s', name);
+
+        if (typeof value === 'undefined' && !this.contains(name)) {
+            throw Error('Filters does not contain ' + name);
+        }
 
         var self = this;
         var promise = Q(value);

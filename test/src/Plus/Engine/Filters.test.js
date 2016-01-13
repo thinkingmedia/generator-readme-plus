@@ -48,6 +48,7 @@ load([
         describe('contains', function () {
             it('returns true for found filter group', function () {
                 target.add('foo', _.noop);
+
                 target.contains('foo').should.be.ok();
             });
             it('returns false for missing filter group', function () {
@@ -56,12 +57,22 @@ load([
         });
 
         describe('add', function () {
+            throws('invalid name', function () {
+                target.add(['foo'], _.noop);
+            });
+            throws('invalid name', function () {
+                target.add('', _.noop);
+            });
             it('each filter is grouped by name', function () {
                 target.add('foo', _.noop);
                 target.add('bar', _.noop);
                 target.items.keys().should.be.eql(['foo', 'bar']);
                 _.first(target.items.get('foo')).should.be.instanceOf(Filter);
                 _.first(target.items.get('bar')).should.be.instanceOf(Filter);
+            });
+            it('filter is added', function () {
+                target.add('foo', _.noop);
+                target.contains('foo').should.be.True();
             });
         });
 
@@ -89,7 +100,11 @@ load([
             throws('invalid argument', function () {
                 target.apply(null, null);
             });
+            throws('Filters does not contain foo', function () {
+                return target.apply('foo');
+            });
             promise('returns a promise', function () {
+                target.add('foo', _.noop);
                 return target.apply('foo');
             });
             promise('returns a promise that resolves to default value for missing filters', function () {

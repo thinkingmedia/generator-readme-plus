@@ -45,14 +45,14 @@ load('Plus/Engine/Filter', function (/**Plus.Engine.Filter*/Filter) {
     describe('block', function () {
         throws('Filter has circular dependency.', function () {
             var f = new Filter('foo', _.noop);
-            f.block(function () {
-                f.block(_.noop);
+            f._block(function () {
+                f._block(_.noop);
             })
         });
         it('executes the callback', function () {
             var f = new Filter('foo', _.noop);
             var count = 0;
-            f.block(function () {
+            f._block(function () {
                 count++;
             });
             count.should.be.equal(1);
@@ -60,6 +60,19 @@ load('Plus/Engine/Filter', function (/**Plus.Engine.Filter*/Filter) {
     });
 
     describe('getResolved', function () {
+        promise('resolves an empty array', function () {
+            var f = new Filter('foo', _.noop);
+            var p = f.getResolved({
+                apply: function () {
+                    throw Error('should not be called');
+                }
+            });
+            p.then(function (arr) {
+                // this should fail!
+                arr.should.be.equal('asdasd');
+            });
+            return p;
+        });
         promise('calls apply for all dependencies', function () {
             var f = new Filter('foo', ['one', 'two', _.noop]);
             var count = 0;
@@ -67,12 +80,12 @@ load('Plus/Engine/Filter', function (/**Plus.Engine.Filter*/Filter) {
                 apply: function (name) {
                     (name === 'one' || name === 'two').should.be.True();
                     count++;
-                    return 'three';
+                    return count;
                 }
             };
             var p = f.getResolved(mock);
             p.then(function (arr) {
-                arr.should.be.an.Array().and.be.eql(['three', 'three']);
+                arr.should.be.an.Array().and.be.eql([1, 2]);
                 count.should.be.equal(2);
             });
             return p;

@@ -6,13 +6,21 @@ if (typeof assert.isPromise === 'function') {
     throw Error('isPromise is already defined!');
 }
 
-// add a new method to the assert module, we can use this in our tests
+/**
+ * add a new method to the assert module, we can use this in our tests
+ *
+ * @param {promise} p
+ * @param {function} done
+ * @param {string=} message
+ */
 assert.isPromise = function (p, done, message) {
     assert.ok(typeof done === 'function', 'isPromise requires you to pass done as second parameter');
     assert.ok((p instanceof Promise) || (typeof p === "object" && typeof p.done === "function"), message || 'is not a promise');
     p.done(function () {
         done();
-    }, done);
+    }, function(err) {
+        done(err);
+    });
 };
 
 /**
