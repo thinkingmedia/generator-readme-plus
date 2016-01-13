@@ -22,7 +22,9 @@ function Module(_, chalk, print) {
     };
 
     /**
-     * @param options
+     * Configure how this logger writes messages.
+     *
+     * @param {{color:boolean,info:function,debug:function,error:function}} options
      */
     Logger.prototype.config = function (options) {
         var defaults = {
@@ -55,14 +57,23 @@ function Module(_, chalk, print) {
         return print.apply(this, args);
     };
 
+    /**
+     * Writes out logging messages.
+     */
     Logger.prototype.info = function () {
         this.options.info(this._format(arguments));
     };
 
+    /**
+     * Writes out debug messages.
+     */
     Logger.prototype.debug = function () {
         this.options.debug(this._format(arguments));
     };
 
+    /**
+     * Writes out an error message.
+     */
     Logger.prototype.error = function () {
         this.options.error(this._format(arguments));
     };

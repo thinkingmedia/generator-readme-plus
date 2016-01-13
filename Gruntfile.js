@@ -22,6 +22,7 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     destination: 'doc',
+                    readme: 'README.md',
                     template: "node_modules/jaguarjs-jsdoc",
                     configure: "jsdoc.json"
                 },

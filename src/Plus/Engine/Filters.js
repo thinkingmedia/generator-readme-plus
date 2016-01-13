@@ -186,7 +186,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
             var lines = self.apply(section.name + ":lines", md.lines);
             // return a promise that resolves to a section
             return Q.spread([title, lines], function (title, lines) {
-                section.markdown = md.clone();
+                section.markdown = md.deepCopy();
                 section.markdown.title = title.trim();
                 section.markdown.lines = Arrays.trim(lines);
                 return section;

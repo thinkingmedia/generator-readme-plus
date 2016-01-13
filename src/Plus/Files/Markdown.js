@@ -73,6 +73,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Makes a deep copy of this instance.
+     *
      * @param {Plus.Files.Markdown=} parent
      * @returns {Plus.Files.Markdown}
      */
@@ -87,16 +89,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
-     * @param {Plus.Files.Markdown=} parent
-     * @returns {Plus.Files.Markdown}
-     * @deprecated
-     */
-    Markdown.prototype.clone = function (parent) {
-        console.error('Markdown::clone is deprecated use deepCopy instead');
-        return this.deepCopy(parent);
-    };
-
-    /**
+     * Removes all children.
+     *
      * @returns {Plus.Files.Markdown}
      */
     Markdown.prototype.dropChildren = function () {
@@ -105,6 +99,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Converts the title to kebab-case. This is used an ID for this instance.
+     *
      * @returns {string}
      */
     Markdown.prototype.getID = function () {
@@ -137,6 +133,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Inserts a child to the bottom of the list.
+     *
      * @param {Plus.Files.Markdown} section
      * @returns {Plus.Files.Markdown}
      */
@@ -150,6 +148,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Inserts a child at the top of the list.
+     *
      * @param {Plus.Files.Markdown} section
      * @returns {Plus.Files.Markdown}
      */
@@ -170,6 +170,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Finds a child by it's ID.
+     *
      * @param {string} name
      * @returns {Plus.Files.Markdown|null}
      */
@@ -181,6 +183,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Finds a child by it's ID and removes it.
+     *
      * @param {string} name
      * @returns {Plus.Files.Markdown}
      */
@@ -214,6 +218,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Renders this instance as Markdown text.
+     *
      * @returns {string}
      */
     Markdown.prototype.toString = function () {
@@ -225,6 +231,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
+     * Writes this instance to disk as Markdown text.
+     *
      * @param {string} fileName
      */
     Markdown.prototype.save = function (fileName) {
@@ -290,9 +298,8 @@ function Module(_, fs, os, LinkedList, Logger, Arrays) {
     };
 
     /**
-     * @name Plus.Files.Markdown#load
-     *
-     * Loads a string buffer
+     * Reads a file from disk as Markdown text. Parses that text converting it into a
+     * hierarchy of Markdown objects.
      *
      * @param {string} fileName
      * @returns {Plus.Files.Markdown}
