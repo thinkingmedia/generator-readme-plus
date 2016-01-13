@@ -11,7 +11,6 @@
 function Module(_, fs, os, LinkedList, Logger, Arrays) {
 
     /**
-     *
      * Defines a section in the readme file.
      *
      * @memberof Plus.Files

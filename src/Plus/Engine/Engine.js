@@ -7,6 +7,8 @@
 function Module(Q, _, Sections) {
 
     /**
+     * Engine takes take of rendering the final Markdown.
+     *
      * @memberof Plus
      * @param {Plus.Engine.Filters} filters
      * @param {Plus.Engine.Sections} sections
@@ -45,6 +47,7 @@ function Module(Q, _, Sections) {
 
     /**
      * Call this method to create the output Markdown.
+     *
      * @returns {Promise<Plus.Files.Markdown>}
      */
     Engine.prototype.render = function () {

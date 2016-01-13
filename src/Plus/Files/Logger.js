@@ -9,6 +9,11 @@
 function Module(_, chalk, print) {
 
     /**
+     * An injectable logging class that allows the code to write output using the logging method of the parent
+     * application.
+     *
+     * For example, when using ReadMe with Grunt this class is configured to use the Grunt logging functions.
+     *
      * @memberof Plus.Files
      * @constructor
      */

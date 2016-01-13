@@ -21,6 +21,8 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
+     * Returns the number of filters registered.
+     *
      * @returns {number}
      */
     Filters.prototype.count = function () {
@@ -28,7 +30,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * Validate this collection
+     * Called before the Engine performs a render. Verifies that there are filters in this container.
      */
     Filters.prototype.beforeRender = function () {
         if (this.count() == 0) {
@@ -37,8 +39,9 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * @param {string} name
+     * Checks if a filter has been registered.
      *
+     * @param {string} name
      * @returns {boolean}
      */
     Filters.prototype.contains = function (name) {
@@ -49,8 +52,6 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * @readme filters."Add Filter"
-     *
      * Hook a function to a specific filter action. ReadMe offers filters to allow Writers to modify various types
      * of data at writing time.
      *
@@ -69,8 +70,9 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * @param {string} name
+     * Sorts the collection of filters by their priority.
      *
+     * @param {string} name
      * @returns {Plus.Engine.Filter[]}
      */
     Filters.prototype.byPriority = function (name) {
@@ -81,9 +83,10 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
+     * Executes a filter and returns a promise that resolves to the final value.
+     *
      * @param {string} name
      * @param {*=} value
-     *
      * @returns {promise}
      */
     Filters.prototype.apply = function (name, value) {
@@ -104,8 +107,9 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
-     * @param {string[]|string} names
+     * Resolves all the filters in the array.
      *
+     * @param {string[]|string} names
      * @returns {Promise[]}
      */
     Filters.prototype.promises = function (names) {
@@ -120,9 +124,10 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
     };
 
     /**
+     * Used to inject the values of filters into a function as arguments.
+     *
      * @param {string|string[]} names
      * @param {Function} callback
-     *
      * @returns {Promise}
      */
     Filters.prototype.resolve = function (names, callback) {
@@ -137,7 +142,6 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
 
     /**
      * @param {string} name
-     *
      * @returns {string}
      * @private
      */

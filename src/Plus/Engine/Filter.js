@@ -8,12 +8,12 @@
 function Module(Q, _, Arrays) {
 
     /**
-     * @memberof Plus.Engine
+     * An instance of this class is created for each filter that is loaded.
      *
+     * @memberof Plus.Engine
      * @param {string} name
      * @param {Function|Array} filter
      * @param {number=} priority
-     *
      * @constructor
      */
     var Filter = function (name, filter, priority) {
@@ -53,7 +53,6 @@ function Module(Q, _, Arrays) {
 
     /**
      * @param {Plus.Engine.Filters} Filters
-     *
      * @returns {Promise<Array>}
      */
     Filter.prototype.getResolved = function (Filters) {

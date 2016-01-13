@@ -7,6 +7,8 @@
 function Module(Section, Logger) {
 
     /**
+     * A collections container for instances of Plus.Engine.Section objects.
+     *
      * @memberof Plus.Engine
      * @param {Array.<Plus.Engine.Section>=} items
      * @property {Plus.Engine.Section[]} items
@@ -20,6 +22,8 @@ function Module(Section, Logger) {
     };
 
     /**
+     * Returns the number of items in this collection.
+     *
      * @returns {Number}
      */
     Sections.prototype.count = function () {
@@ -97,7 +101,6 @@ function Module(Section, Logger) {
      * @param {string} name Use forward slash to define hierarchy.
      * @param {number=} order The order is relative to parent. The default is 50.
      * @param {number=} creationOrder The default is 50
-     *
      * @returns {Plus.Engine.Section}
      */
     Sections.prototype.append = function (name, order, creationOrder) {
@@ -115,7 +118,6 @@ function Module(Section, Logger) {
 
     /**
      * @todo this should create the main Markdown without having to append to Markdown objects owned by sections.
-     *
      * @returns {Plus.Files.Markdown}
      */
     Sections.prototype.getMarkdown = function () {
