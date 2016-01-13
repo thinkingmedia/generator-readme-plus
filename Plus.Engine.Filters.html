@@ -450,6 +450,12 @@
             
                 <li data-name="Plus.Files.Logger#config"><a href="Plus.Files.Logger.html#config">config</a></li>
             
+                <li data-name="Plus.Files.Logger#debug"><a href="Plus.Files.Logger.html#debug">debug</a></li>
+            
+                <li data-name="Plus.Files.Logger#error"><a href="Plus.Files.Logger.html#error">error</a></li>
+            
+                <li data-name="Plus.Files.Logger#info"><a href="Plus.Files.Logger.html#info">info</a></li>
+            
             </ul>
             <ul class="events itemMembers">
             
@@ -491,11 +497,11 @@
             
                 <li data-name="Plus.Files.Markdown._toMarkdown"><a href="Plus.Files.Markdown.html#._toMarkdown">_toMarkdown</a></li>
             
+                <li data-name="Plus.Files.Markdown.load"><a href="Plus.Files.Markdown.html#.load">load</a></li>
+            
                 <li data-name="Plus.Files.Markdown#_collapse"><a href="Plus.Files.Markdown.html#_collapse">_collapse</a></li>
             
                 <li data-name="Plus.Files.Markdown#appendChild"><a href="Plus.Files.Markdown.html#appendChild">appendChild</a></li>
-            
-                <li data-name="Plus.Files.Markdown#clone"><a href="Plus.Files.Markdown.html#clone">clone</a></li>
             
                 <li data-name="Plus.Files.Markdown#deepCopy"><a href="Plus.Files.Markdown.html#deepCopy">deepCopy</a></li>
             
@@ -1073,7 +1079,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line144">line 144</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line148">line 148</a>
         </div>
         
     </div>
@@ -1190,7 +1196,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line64">line 64</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line65">line 65</a>
         </div>
         
     </div>
@@ -1199,6 +1205,11 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Hook a function to a specific filter action. ReadMe offers filters to allow Writers to modify various types<br>of data at writing time.</p>
+<p>A writer can modify data by binding a callback to a filter hook. When the filter is later applied, each bound<br>callback is run in order of priority, and given the opportunity to modify a value by returning a new value.</p>
+    </div>
     
 
     
@@ -1365,7 +1376,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line89">line 89</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line92">line 92</a>
         </div>
         
     </div>
@@ -1374,6 +1385,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Executes a filter and returns a promise that resolves to the final value.</p>
+    </div>
     
 
     
@@ -1517,7 +1532,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line33">line 33</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line35">line 35</a>
         </div>
         
     </div>
@@ -1528,7 +1543,7 @@
     
     
     <div class="description">
-        <p>Validate this collection</p>
+        <p>Called before the Engine performs a render. Verifies that there are filters in this container.</p>
     </div>
     
 
@@ -1588,7 +1603,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line76">line 76</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line78">line 78</a>
         </div>
         
     </div>
@@ -1597,6 +1612,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Sorts the collection of filters by their priority.</p>
+    </div>
     
 
     
@@ -1705,7 +1724,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line44">line 44</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line47">line 47</a>
         </div>
         
     </div>
@@ -1714,6 +1733,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Checks if a filter has been registered.</p>
+    </div>
     
 
     
@@ -1822,7 +1845,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line26">line 26</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line28">line 28</a>
         </div>
         
     </div>
@@ -1831,6 +1854,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Returns the number of filters registered.</p>
+    </div>
     
 
     
@@ -1894,7 +1921,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line153">line 153</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line157">line 157</a>
         </div>
         
     </div>
@@ -2010,7 +2037,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line111">line 111</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line115">line 115</a>
         </div>
         
     </div>
@@ -2019,6 +2046,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Resolves all the filters in the array.</p>
+    </div>
     
 
     
@@ -2130,7 +2161,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line173">line 173</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line177">line 177</a>
         </div>
         
     </div>
@@ -2254,7 +2285,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line128">line 128</a>
+            <a href="Engine_Filters.js.html">Engine/Filters.js</a>, <a href="Engine_Filters.js.html#line133">line 133</a>
         </div>
         
     </div>
@@ -2263,6 +2294,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Used to inject the values of filters into a function as arguments.</p>
+    </div>
     
 
     
@@ -2403,7 +2438,7 @@
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 18:56:13 GMT-0500 (Eastern Standard Time)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 19:50:11 GMT-0500 (Eastern Standard Time)
         </footer>
     </div>
 </div>

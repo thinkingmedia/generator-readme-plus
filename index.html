@@ -450,6 +450,12 @@
             
                 <li data-name="Plus.Files.Logger#config"><a href="Plus.Files.Logger.html#config">config</a></li>
             
+                <li data-name="Plus.Files.Logger#debug"><a href="Plus.Files.Logger.html#debug">debug</a></li>
+            
+                <li data-name="Plus.Files.Logger#error"><a href="Plus.Files.Logger.html#error">error</a></li>
+            
+                <li data-name="Plus.Files.Logger#info"><a href="Plus.Files.Logger.html#info">info</a></li>
+            
             </ul>
             <ul class="events itemMembers">
             
@@ -491,11 +497,11 @@
             
                 <li data-name="Plus.Files.Markdown._toMarkdown"><a href="Plus.Files.Markdown.html#._toMarkdown">_toMarkdown</a></li>
             
+                <li data-name="Plus.Files.Markdown.load"><a href="Plus.Files.Markdown.html#.load">load</a></li>
+            
                 <li data-name="Plus.Files.Markdown#_collapse"><a href="Plus.Files.Markdown.html#_collapse">_collapse</a></li>
             
                 <li data-name="Plus.Files.Markdown#appendChild"><a href="Plus.Files.Markdown.html#appendChild">appendChild</a></li>
-            
-                <li data-name="Plus.Files.Markdown#clone"><a href="Plus.Files.Markdown.html#clone">clone</a></li>
             
                 <li data-name="Plus.Files.Markdown#deepCopy"><a href="Plus.Files.Markdown.html#deepCopy">deepCopy</a></li>
             
@@ -978,6 +984,56 @@
 
 
 
+    <section>
+        <article class="readme"><h1>readme-plus <a href="https://travis-ci.org/thinkingmedia/grunt-readme-plus"><img src="https://travis-ci.org/thinkingmedia/grunt-readme-plus.svg?branch=master" alt="Build Status"></a> <a href="https://codeclimate.com/github/thinkingmedia/grunt-readme-plus"><img src="https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/badges/gpa.svg" alt="Code Climate"></a> <a href="https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/coverage"><img src="https://codeclimate.com/github/thinkingmedia/grunt-readme-plus/badges/coverage.svg" alt="Test Coverage"></a></h1><p><a href="https://gitter.im/thinkingmedia/grunt-readme-plus?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/thinkingmedia/grunt-readme-plus"></a></p>
+<div><img title="readme-plus" src="https://raw.githubusercontent.com/thinkingmedia/grunt-readme-plus/master/grunt-readme-plus.png" style="margin: 0 auto;"></div>
+
+<p>Readme+ uses the contents of the current work folder to generate a <code>README.md</code> file for the project. Most of your<br>time is spent in the source code and this is where you can add notes to be included in the output <code>README.md</code>.</p>
+<p>Readme+ searches for <code>@readme</code> markers in the source code comments.</p>
+<h2>Naming The Sections</h2><p>Each heading in a readme file is defined by a section of source code comments that use the <code>@readme</code> indicator. The<br>first word after the <code>@readme</code> indicator is the name and default title of the section.</p>
+<pre class="prettyprint source"><code>/**
+* \@readme Install
+*
+*  Use `npm` to install the `foobar` module.
+*
+*  ```shell
+*  $ npm install foobar
+*</code></pre><p>*\/</p>
+<pre class="prettyprint source"><code>
+In the above example a heading labelled `Installations` will be added under the root section with the markdown text
+found in the comment.
+
+
+## Changing The Section Title
+
+
+You can customize the heading used for each section by providing title text after declaring the section.</code></pre><p>/**</p>
+<ul>
+<li>\@readme Install Installation Instructions<br>*</li>
+<li>Use <code>npm</code> to install the <code>foobar</code> module.<br>*</li>
+<li>```shell</li>
+<li>$ npm install foobar</li>
+<li><pre class="prettyprint source"><code>*\/</code></pre>In the above example the default heading <code>Install</code> is replaced with <code>Installation Instructions</code>.</li>
+</ul>
+<h2>Usage</h2><p>Run <code>readme</code> on the command line in the working folder where you want to generate a README.md file.</p>
+<pre class="prettyprint source lang-shell"><code>$ cd /home/user/work
+$ readme</code></pre><p>The default options assume your working folder contains a sub-folder named <code>src</code> that contains<br>the source code for your project.</p>
+<pre class="prettyprint source"><code>Usage: readme [options] &lt;path>
+
+Example: readme --source=./www/js /home/mathew/thinkingmedia/readme
+
+Options:
+-h, --help       shows this usage message
+-v, --version    print version number
+-s, --silent     hides copyright message
+-d, --debug      show debug message
+-t, --trace      write source code references in README.md
+--verbose        send README.md output to console
+--source         path to source folder (default: ./src)
+--trace          write source code references in README.md
+--file           name of output file (default: README.md)</code></pre></article>
+    </section>
+
 
 
 
@@ -986,7 +1042,7 @@
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 18:56:12 GMT-0500 (Eastern Standard Time)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 19:50:11 GMT-0500 (Eastern Standard Time)
         </footer>
     </div>
 </div>
