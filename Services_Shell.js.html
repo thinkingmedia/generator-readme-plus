@@ -983,7 +983,7 @@
     </ul>
 </div>
     <div class="main">
-        <h1 class="page-title" data-filename="Services_Strings.js.html">Source: Services/Strings.js</h1>
+        <h1 class="page-title" data-filename="Services_Shell.js.html">Source: Services/Shell.js</h1>
         
 
 
@@ -991,55 +991,50 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @param _
- * @returns {Plus.Services.Strings}
+ * @param shell
  * @ignore
  */
-function Module(_) {
+function Module(shell) {
 
     /**
-     * @memberof Plus.Services
-     * @constructor
-     */
-    var Strings = function () {
-
-    };
-
-    /**
-     * I'm not sure why this is needed?
+     * This is a simple service that makes executing shell commands easier to test. It's just a simple function that
+     * takes a single argument, and returns the shell output.
      *
-     * @param {string|undefined} value
-     * @param {*} _default
-     * @return {string|*}
+     * @memberof Plus.Services
+     * @param {string} cmd
+     * @returns {string}
      */
-    Strings.prototype.get = function (value, _default) {
-        if (_.isString(value) &amp;&amp; value.trim() === '') {
-            return _default;
+    var Shell = function (cmd) {
+        return shell.exec(cmd, {silent: true}).output.trim();
+    };
+
+    /**
+     * This function verifies that a command line tool exists on the executable path.
+     *
+     * @memberof Plus.Services
+     * @param {string} cmd
+     * @returns {Plus.Services.Shell}
+     */
+    Shell.has = function (cmd) {
+        if (!shell.which(cmd)) {
+            throw Error(cmd + ' command line tool was not found.');
         }
-        return !!value ? value : _default;
+        return this;
     };
 
     /**
-     * @param {string} str
-     * @returns {string}
+     * This is an alias method for Shell()
+     *
+     * @memberof Plus.Services
+     * @type {Plus.Services.Shell}
      */
-    Strings.prototype.stripTags = function (str) {
-        return str.replace(new RegExp('&lt;\/?[^&lt;>]*>', 'gi'), '');
-    };
+    Shell.exec = Shell;
 
-    /**
-     * @param {string} str
-     * @returns {string}
-     */
-    Strings.prototype.stripPunctuation = function (str) {
-        return str.replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ");
-    };
-
-    return new Strings();
+    return Shell;
 }
 
 module.exports = [
-    'lodash',
+    'shelljs',
     Module
 ];</code></pre>
         </article>

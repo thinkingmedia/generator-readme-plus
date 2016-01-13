@@ -125,6 +125,8 @@
             
                 <li data-name="Plus.Filters.git_branch"><a href="Plus.Filters.html#.git_branch">git_branch</a></li>
             
+                <li data-name="Plus.Filters.git_config"><a href="Plus.Filters.html#.git_config">git_config</a></li>
+            
                 <li data-name="Plus.Filters.git_repo"><a href="Plus.Filters.html#.git_repo">git_repo</a></li>
             
             </ul>
@@ -142,15 +144,23 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Services.Shell.exec"><a href="Plus.Services.html#.Shell.exec">Shell.exec</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
-            <span class="subtitle">Typedefs</span>
-            
-                <li data-name="Plus.Services.Module"><a href="Plus.Services.html#.Module">Module</a></li>
-            
             </ul>
             <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Plus.Services.Print"><a href="Plus.Services.html#.Print">Print</a></li>
+            
+                <li data-name="Plus.Services.Shell"><a href="Plus.Services.html#.Shell">Shell</a></li>
+            
+                <li data-name="Plus.Services.Shell.has"><a href="Plus.Services.html#.Shell.has">Shell.has</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -306,6 +316,16 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Engine.Filter#_hook"><a href="Plus.Engine.Filter.html#_hook">_hook</a></li>
+            
+                <li data-name="Plus.Engine.Filter#_resolve"><a href="Plus.Engine.Filter.html#_resolve">_resolve</a></li>
+            
+                <li data-name="Plus.Engine.Filter#name"><a href="Plus.Engine.Filter.html#name">name</a></li>
+            
+                <li data-name="Plus.Engine.Filter#priority"><a href="Plus.Engine.Filter.html#priority">priority</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -314,7 +334,7 @@
             
             <span class="subtitle">Methods</span>
             
-                <li data-name="Plus.Engine.Filter#block"><a href="Plus.Engine.Filter.html#block">block</a></li>
+                <li data-name="Plus.Engine.Filter#_block"><a href="Plus.Engine.Filter.html#_block">_block</a></li>
             
                 <li data-name="Plus.Engine.Filter#getResolved"><a href="Plus.Engine.Filter.html#getResolved">getResolved</a></li>
             
@@ -1058,24 +1078,71 @@
     
     
     
-    
-    
-    
-    
-        <h3 class="subsection-title">Type Definitions</h3>
+        <h3 class="subsection-title">Members</h3>
         
         <dl>
-                
+            
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id=".Module">
+        <h4 class="name" id=".Shell.exec"><span class="type-signature static">static</span>Plus.Services.Shell.exec<span class="type-signature type plus.services.shell"><a href="Plus.Services.html#.Shell">Plus.Services.Shell</a></span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>This is an alias method for Shell()</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
             
-            Plus.Services.Module<span class="signature">()</span>
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".Print">
+            
+            <span class="type-signature static">static</span>Plus.Services.Print<span class="signature">()</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Services_Print.js.html">Services/Print.js</a>, <a href="Services_Print.js.html#line5">line 5</a>
+            <a href="Services_Print.js.html">Services/Print.js</a>, <a href="Services_Print.js.html#line13">line 13</a>
         </div>
         
     </div>
@@ -1084,6 +1151,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>This is a string format function that uses sprintf style parameters.</p>
+    </div>
     
 
     
@@ -1131,7 +1202,251 @@
     
 </dd>
 
-            </dl>
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".Shell">
+            
+            <span class="type-signature static">static</span>Plus.Services.Shell<span class="signature">(cmd)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{string}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Services_Shell.js.html">Services/Shell.js</a>, <a href="Services_Shell.js.html#line15">line 15</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This is a simple service that makes executing shell commands easier to test. It's just a simple function that<br>takes a single argument, and returns the shell output.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".Shell.has">
+            
+            <span class="type-signature static">static</span>Plus.Services.Shell.has<span class="signature">(cmd)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{<a href="Plus.Services.html#.Shell">Plus.Services.Shell</a>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Services_Shell.js.html">Services/Shell.js</a>, <a href="Services_Shell.js.html#line26">line 26</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This function verifies that a command line tool exists on the executable path.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+</dd>
+
+        </dl>
+    
+    
     
     
     
@@ -1146,7 +1461,7 @@
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 19:50:11 GMT-0500 (Eastern Standard Time)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:15:44 GMT-0500 (Eastern Standard Time)
         </footer>
     </div>
 </div>

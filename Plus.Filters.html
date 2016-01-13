@@ -125,6 +125,8 @@
             
                 <li data-name="Plus.Filters.git_branch"><a href="Plus.Filters.html#.git_branch">git_branch</a></li>
             
+                <li data-name="Plus.Filters.git_config"><a href="Plus.Filters.html#.git_config">git_config</a></li>
+            
                 <li data-name="Plus.Filters.git_repo"><a href="Plus.Filters.html#.git_repo">git_repo</a></li>
             
             </ul>
@@ -142,15 +144,23 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Services.Shell.exec"><a href="Plus.Services.html#.Shell.exec">Shell.exec</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
-            <span class="subtitle">Typedefs</span>
-            
-                <li data-name="Plus.Services.Module"><a href="Plus.Services.html#.Module">Module</a></li>
-            
             </ul>
             <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Plus.Services.Print"><a href="Plus.Services.html#.Print">Print</a></li>
+            
+                <li data-name="Plus.Services.Shell"><a href="Plus.Services.html#.Shell">Shell</a></li>
+            
+                <li data-name="Plus.Services.Shell.has"><a href="Plus.Services.html#.Shell.has">Shell.has</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -306,6 +316,16 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Engine.Filter#_hook"><a href="Plus.Engine.Filter.html#_hook">_hook</a></li>
+            
+                <li data-name="Plus.Engine.Filter#_resolve"><a href="Plus.Engine.Filter.html#_resolve">_resolve</a></li>
+            
+                <li data-name="Plus.Engine.Filter#name"><a href="Plus.Engine.Filter.html#name">name</a></li>
+            
+                <li data-name="Plus.Engine.Filter#priority"><a href="Plus.Engine.Filter.html#priority">priority</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -314,7 +334,7 @@
             
             <span class="subtitle">Methods</span>
             
-                <li data-name="Plus.Engine.Filter#block"><a href="Plus.Engine.Filter.html#block">block</a></li>
+                <li data-name="Plus.Engine.Filter#_block"><a href="Plus.Engine.Filter.html#_block">_block</a></li>
             
                 <li data-name="Plus.Engine.Filter#getResolved"><a href="Plus.Engine.Filter.html#getResolved">getResolved</a></li>
             
@@ -1037,12 +1057,12 @@
     <div class="nameContainer">
         <h4 class="name" id=".git_branch">
             
-            <span class="type-signature static">static</span>Plus.Filters.git_branch<span class="signature">(branch, path)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{string}</span>
+            <span class="type-signature static">static</span>Plus.Filters.git_branch<span class="signature">(branch)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{string}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Filters_git_branch.js.html">Filters/git_branch.js</a>, <a href="Filters_git_branch.js.html#line17">line 17</a>
+            <a href="Filters_git_branch.js.html">Filters/git_branch.js</a>, <a href="Filters_git_branch.js.html#line14">line 14</a>
         </div>
         
     </div>
@@ -1104,16 +1124,114 @@
         </tr>
 	
 	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id=".git_config">
+            
+            <span class="type-signature static">static</span>Plus.Filters.git_config<span class="signature">(<span class="optional">config</span>)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Object.&lt;string, string>}</span>
+        </h4>
+    
+        
+        <div class="tag-source">
+            <a href="Filters_git_config.js.html">Filters/git_config.js</a>, <a href="Filters_git_config.js.html#line15">line 15</a>
+        </div>
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>git:config returns the config options for the current working directory.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
 	
         <tr>
             
-                <td class="name"><code>path</code></td>
+                <td class="name"><code>config</code></td>
             
             
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object.&lt;string, string></span>
 
 
             
@@ -1122,6 +1240,13 @@
             
             
             <td class="description last">
+                
+                    
+                        <span class="optional">optional</span>
+                    
+                    
+                        
+                    
                 
                 </td>
         </tr>
@@ -1308,7 +1433,7 @@
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 19:50:11 GMT-0500 (Eastern Standard Time)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:15:44 GMT-0500 (Eastern Standard Time)
         </footer>
     </div>
 </div>

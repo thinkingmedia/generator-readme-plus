@@ -125,6 +125,8 @@
             
                 <li data-name="Plus.Filters.git_branch"><a href="Plus.Filters.html#.git_branch">git_branch</a></li>
             
+                <li data-name="Plus.Filters.git_config"><a href="Plus.Filters.html#.git_config">git_config</a></li>
+            
                 <li data-name="Plus.Filters.git_repo"><a href="Plus.Filters.html#.git_repo">git_repo</a></li>
             
             </ul>
@@ -142,15 +144,23 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Services.Shell.exec"><a href="Plus.Services.html#.Shell.exec">Shell.exec</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
-            <span class="subtitle">Typedefs</span>
-            
-                <li data-name="Plus.Services.Module"><a href="Plus.Services.html#.Module">Module</a></li>
-            
             </ul>
             <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li data-name="Plus.Services.Print"><a href="Plus.Services.html#.Print">Print</a></li>
+            
+                <li data-name="Plus.Services.Shell"><a href="Plus.Services.html#.Shell">Shell</a></li>
+            
+                <li data-name="Plus.Services.Shell.has"><a href="Plus.Services.html#.Shell.has">Shell.has</a></li>
             
             </ul>
             <ul class="events itemMembers">
@@ -306,6 +316,16 @@
             </span>
             <ul class="members itemMembers">
             
+            <span class="subtitle">Members</span>
+            
+                <li data-name="Plus.Engine.Filter#_hook"><a href="Plus.Engine.Filter.html#_hook">_hook</a></li>
+            
+                <li data-name="Plus.Engine.Filter#_resolve"><a href="Plus.Engine.Filter.html#_resolve">_resolve</a></li>
+            
+                <li data-name="Plus.Engine.Filter#name"><a href="Plus.Engine.Filter.html#name">name</a></li>
+            
+                <li data-name="Plus.Engine.Filter#priority"><a href="Plus.Engine.Filter.html#priority">priority</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -314,7 +334,7 @@
             
             <span class="subtitle">Methods</span>
             
-                <li data-name="Plus.Engine.Filter#block"><a href="Plus.Engine.Filter.html#block">block</a></li>
+                <li data-name="Plus.Engine.Filter#_block"><a href="Plus.Engine.Filter.html#_block">_block</a></li>
             
                 <li data-name="Plus.Engine.Filter#getResolved"><a href="Plus.Engine.Filter.html#getResolved">getResolved</a></li>
             
@@ -994,7 +1014,7 @@
     
         
         <div class="tag-source">
-            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line19">line 19</a>
+            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line21">line 21</a>
         </div>
         
     </div>
@@ -1005,7 +1025,7 @@
     
     
     <div class="description">
-        <p>An instance of this class is created for each filter that is loaded.</p>
+        <p>An instance of this class is created for each filter that is loaded. The responsibility of this class is to<br>manage the values that will be injected into the filter hook function. These are passed as extra pamaters to<br>the hook when the filter executes.</p>
     </div>
     
 
@@ -1179,6 +1199,190 @@
     
     
     
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="_hook"><span class="type-signature ">private</span>_hook<span class="type-signature type function">function</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>This is the hook function that is executed. The first parameter is the value from the previous filter. Each<br>additional parameter is the value of a filter that was injected.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="_resolve"><span class="type-signature ">private</span>_resolve<span class="type-signature type array.<string>">Array.&lt;string></span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>These are the names of other filters to inject as extra parameters into the hook function.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="name">name<span class="type-signature type string">string</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The name of this filter.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="priority">priority<span class="type-signature type number">number</span> </h4>
+    </div>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The priority value defines the order this instance will be executed compared to other filters for the same<br>name.</p>
+    </div>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
     
     
         <h3 class="subsection-title">Methods</h3>
@@ -1187,14 +1391,14 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="block">
+        <h4 class="name" id="_block">
             
-            block<span class="signature">(func)</span>
+            <span class="type-signature ">private</span>_block<span class="signature">(func)</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line42">line 42</a>
+            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line72">line 72</a>
         </div>
         
     </div>
@@ -1205,7 +1409,7 @@
     
     
     <div class="description">
-        <p>Throws an error if this function is called more than once on the same filter instance.</p>
+        <p>To prevent circular references of filters. This function will throws an error if this called more than once on<br>the same instance.</p>
     </div>
     
 
@@ -1305,12 +1509,12 @@
     <div class="nameContainer">
         <h4 class="name" id="getResolved">
             
-            getResolved<span class="signature">(Filters)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Promise.&lt;Array>}</span>
+            getResolved<span class="signature">(Filters)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{promise}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line58">line 58</a>
+            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line90">line 90</a>
         </div>
         
     </div>
@@ -1319,6 +1523,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>This is called by the Filters object to resolve the values that need to be injected into the hook function.</p>
+    </div>
     
 
     
@@ -1422,12 +1630,12 @@
     <div class="nameContainer">
         <h4 class="name" id="getValue">
             
-            getValue<span class="signature">(Filters, value)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{Promise}</span>
+            getValue<span class="signature">(Filters, value)</span><span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">{promise}</span>
         </h4>
     
         
         <div class="tag-source">
-            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line71">line 71</a>
+            <a href="Engine_Filter.js.html">Engine/Filter.js</a>, <a href="Engine_Filter.js.html#line103">line 103</a>
         </div>
         
     </div>
@@ -1436,6 +1644,10 @@
 </dt>
 <dd>
     
+    
+    <div class="description">
+        <p>Executes this filter and returns the value as a promise.</p>
+    </div>
     
 
     
@@ -1535,13 +1747,6 @@
     
     
     
-    <dt class="tag-todo">TODO</dt>
-    <dd class="tag-todo">
-        <ul>
-            <li>this could be cached.</li>
-        </ul>
-    </dd>
-    
 </dl>
 
     
@@ -1580,7 +1785,7 @@
         
 
         <footer>
-            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 19:50:11 GMT-0500 (Eastern Standard Time)
+            Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Jan 12 2016 23:15:44 GMT-0500 (Eastern Standard Time)
         </footer>
     </div>
 </div>
