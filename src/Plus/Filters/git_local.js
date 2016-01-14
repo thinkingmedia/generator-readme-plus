@@ -6,13 +6,13 @@
 function Module(_, Shell) {
 
     /**
-     * git:config returns the config options for the current working directory.
+     * git:local returns the config options for the current working directory.
      *
      * @memberof Plus.Filters
      * @param {Object.<string,string>=} config
      * @returns {Object.<string,string>}
      */
-    var git_config = function (config) {
+    var git_local = function (config) {
         if (config) {
             return config;
         }
@@ -22,7 +22,7 @@ function Module(_, Shell) {
         }));
     };
 
-    return git_config;
+    return git_local;
 }
 
 module.exports = [

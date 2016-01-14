@@ -1,4 +1,4 @@
-filter('git:config', function () {
+filter('git:local', function () {
 
     var shell = {
         has: function () {

@@ -1,24 +1,28 @@
 /**
- * @param {Plus.Services.Git} Git
  * @ignore
  */
-function Module(Git) {
+function Module() {
 
     /**
-     * This plugin uses the Git status of the current working folder to update properties like repository name,
-     * current branch and username.
+     * It is difficult to name of a Git repository actually. This filter will only return a value if the remote
+     * origin URL is from Github.
      *
      * @memberof Plus.Filters
-     * @param {string} repo
+     * @param {string} value
+     * @param {Object.<string,string>} git_local
      */
-    var git_repo = function (repo) {
-        return Git.getRepo() || repo || null;
+    var git_repo = function (value, git_local) {
+        if (value) {
+            return value;
+        }
+        if(!git_local) {
+            return undefined;
+        }
     };
 
-    return [git_repo];
+    return ['git:local', git_repo];
 }
 
 module.exports = [
-    'Plus/Services/Git',
     Module
 ];
