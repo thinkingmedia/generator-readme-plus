@@ -105,7 +105,7 @@ module.exports = [
     'module',
     'lodash',
     'fs',
-    'Plus/Engine',
+    'Plus/Engine/Engine',
     'Plus/Files/Markdown',
     'Plus/Collections/Arrays',
     Module
