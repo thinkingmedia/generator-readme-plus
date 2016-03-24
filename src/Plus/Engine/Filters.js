@@ -82,7 +82,7 @@ function Module(Q, _, Logger, Filter, MultiMap, Section, Arrays) {
         if (!_.isString(name) && name !== '') {
             throw Error('invalid argument');
         }
-        return _.sortByOrder(this.items.get(name) || [], 'priority', ['desc']);
+        return _.orderBy(this.items.get(name) || [], 'priority', ['desc']);
     };
 
     /**

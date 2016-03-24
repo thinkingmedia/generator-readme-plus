@@ -17,9 +17,12 @@ function Module(_, shell, Logger) {
             return;
         }
         var output = shell.exec('git config --local --list', {silent: true}).output.trim();
-        this.cache = _.zipObject(_.map(_.compact(output.split("\n")), function (line) {
-            return line.split("=");
-        }));
+
+        this.cache = _.fromPairs(_.compact(_.map(output.split("\n"), function (line) {
+            return line.indexOf("=") > 0 ? line.split("=") : undefined;
+        })));
+
+        console.log(this.cache);
 
         if (!this.cache['remote.origin.url']) {
             throw Error('"remote.origin.url" is missing from Git info.');
@@ -29,21 +32,21 @@ function Module(_, shell, Logger) {
     /**
      * @returns {string}
      */
-    Git.prototype.getBranch = function() {
+    Git.prototype.getBranch = function () {
         return this.getInfo().branch;
     };
 
     /**
      * @returns {string}
      */
-    Git.prototype.getUser = function() {
+    Git.prototype.getUser = function () {
         return this.getInfo().user;
     };
 
     /**
      * @returns {string}
      */
-    Git.prototype.getRepo = function() {
+    Git.prototype.getRepo = function () {
         return this.getInfo().repo;
     };
 

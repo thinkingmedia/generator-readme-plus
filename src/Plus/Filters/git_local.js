@@ -17,9 +17,9 @@ function Module(_, Shell) {
             return config;
         }
         var output = Shell.has('git').exec('git config --local --list').replace(/\r/g, '');
-        return _.zipObject(_.map(_.compact(output.split("\n")), function (line) {
-            return line.split("=");
-        }));
+        return _.fromPairs(_.compact(_.map(output.split("\n"), function (line) {
+            return line.indexOf("=") > 0 ? line.split("=") : undefined;
+        })));
     };
 
     return git_local;
